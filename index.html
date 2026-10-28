@@ -67,17 +67,65 @@
     const contactForm = document.querySelector('.contact-form');
     if (contactForm) {
       contactForm.addEventListener('submit', function(e) {
+        e.preventDefault();
         const email = document.getElementById('form-email').value.trim();
         const phone = document.getElementById('form-phone').value.trim();
         const err = document.getElementById('contact-error');
+        const successMsg = document.getElementById('contact-success');
+        if (successMsg) successMsg.style.display = 'none';
+
         if (!email && !phone) {
-          e.preventDefault();
           if (err) err.style.display = 'block';
           document.getElementById('form-phone').focus();
-        } else {
-          if (err) err.style.display = 'none';
+          return;
         }
+        if (err) err.style.display = 'none';
+
+        const submitBtn = contactForm.querySelector('button[type="submit"]');
+        const origBtnText = submitBtn.innerHTML;
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = 'Gönderiliyor... ⏳';
+
+        const formData = {
+          _subject: 'MÜLK Spor Kulübü - Web Sitesi Yeni Mesaj',
+          _template: 'table',
+          _captcha: 'false',
+          Ad_Soyad: contactForm.querySelector('input[name="Ad_Soyad"]').value.trim(),
+          E_posta: email || 'Belirtilmedi',
+          Telefon: phone || 'Belirtilmedi',
+          Mesaj: contactForm.querySelector('textarea[name="Mesaj"]').value.trim()
+        };
+
+        fetch('https://formsubmit.co/ajax/1dfd135db29b9e0647e96c657a0d788f', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify(formData)
+        })
+        .then(res => res.json())
+        .then(data => {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = origBtnText;
+          contactForm.reset();
+          let sEl = document.getElementById('contact-success');
+          if (!sEl) {
+            sEl = document.createElement('div');
+            sEl.id = 'contact-success';
+            sEl.style.cssText = 'background:#eaf7ee;color:#1e7e34;padding:12px 14px;border-radius:4px;border:1px solid #c3e6cb;font-weight:700;font-size:13px;margin-top:12px;text-align:center;line-height:1.5;';
+            submitBtn.parentNode.insertBefore(sEl, submitBtn.nextSibling);
+          }
+          sEl.innerHTML = '✓ Mesajınız başarıyla iletildi! En kısa sürede sizinle iletişime geçeceğiz.';
+          sEl.style.display = 'block';
+        })
+        .catch(err => {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = origBtnText;
+          alert('Mesaj iletilirken bir sorun oluştu. Lütfen doğrudan info@mulksporkulubu.com adresine yazınız.');
+        });
       });
+
       ['form-email', 'form-phone'].forEach(id => {
         const input = document.getElementById(id);
         if (input) input.addEventListener('input', () => {
