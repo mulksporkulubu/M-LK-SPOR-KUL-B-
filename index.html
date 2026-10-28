@@ -86,11 +86,13 @@
         submitBtn.disabled = true;
         submitBtn.innerHTML = 'Gönderiliyor... ⏳';
 
+        const senderName = contactForm.querySelector('input[name="Ad_Soyad"]').value.trim();
+        const sendTime = new Date().toLocaleTimeString('tr-TR', {hour: '2-digit', minute:'2-digit'});
         const formData = {
-          _subject: 'MÜLK Spor Kulübü - Web Sitesi Yeni Mesaj',
+          _subject: 'MÜLK SK Mesajı: ' + (senderName || 'Ziyaretçi') + ' (' + sendTime + ')',
           _template: 'table',
           _captcha: 'false',
-          Ad_Soyad: contactForm.querySelector('input[name="Ad_Soyad"]').value.trim(),
+          Ad_Soyad: senderName,
           E_posta: email || 'Belirtilmedi',
           Telefon: phone || 'Belirtilmedi',
           Mesaj: contactForm.querySelector('textarea[name="Mesaj"]').value.trim()
