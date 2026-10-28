@@ -30,20 +30,293 @@
     @media(max-width:1000px){.sports-grid{grid-template-columns:repeat(2,1fr)}.schedule-grid{grid-template-columns:1fr 1fr}.wrap.nav{height:70px;padding-inline:18px}.links{display:none;position:absolute;top:100%;left:0;right:0;padding:22px;background:var(--paper);flex-direction:column;gap:20px;border-bottom:1px solid var(--line);box-shadow:0 12px 18px #172b2714}.links.open{display:flex}.nav-cta{display:none}.menu{display:block}}
     @media(max-width:800px){.wrap{width:min(100% - 36px,600px)}.topbar .wrap{justify-content:center}.topbar span:last-child{display:none}.nav{height:70px}.links{display:none;position:absolute;z-index:5;top:100%;left:0;right:0;padding:22px;background:var(--paper);flex-direction:column;gap:22px;border-bottom:1px solid var(--line)}.links.open{display:flex}.nav-cta{display:none}.menu{display:block}.hero{padding:15px 0 50px}.hero-grid{grid-template-columns:1fr;gap:30px}.hero-visual{height:350px;grid-row:1}.hero-copy{font-size:14px}h1{font-size:55px;letter-spacing:-3px}.hero-proof{margin-top:30px}.stats-grid{grid-template-columns:1fr 1fr;gap:23px 8px}.stat{padding:0 12px;border:0}.stat:nth-child(odd){padding-left:0}.stat strong{font-size:24px}.section{padding:70px 0}.schedule{padding:65px 0}.schedule-grid{grid-template-columns:1fr}.schedule-panel{padding:20px}.schedule-tab{padding:10px 16px}.faq{padding:70px 0}.faq-grid{grid-template-columns:1fr}.section-head{display:block}.section-head p{margin-top:15px}.sports-grid{grid-template-columns:1fr}.sport{min-height:220px}.sport-icon{margin-bottom:24px}.about{padding:70px 0}.about-grid{grid-template-columns:1fr;gap:44px}.about-photo{height:340px;margin-right:12px}.about-copy h2{font-size:39px}.school-logos{grid-template-columns:1fr 1fr}.gallery-grid{grid-template-columns:1fr 1fr;grid-template-rows:200px 150px 150px}.gallery-item:first-child{grid-row:span 2}.gallery-item:last-child{grid-column:span 2}.review-grid{grid-template-columns:1fr;gap:24px}.reviews{padding:70px 0}.review-card{padding:24px}.contact{padding:70px 0}.contact-panel{grid-template-columns:1fr;padding:32px 25px;gap:30px}.contact-panel h2{font-size:36px}.contact-info{gap:16px}.footer-top{display:block}.footer-links{margin-top:28px;flex-wrap:wrap;gap:18px}.footer-bottom{gap:10px;flex-wrap:wrap}}
     @media(max-width:390px){h1{font-size:47px}.hero-actions{gap:14px}.button{padding:13px 14px}.contact-info{grid-template-columns:1fr}.gallery-grid{grid-template-rows:170px 130px 130px}}
+  
+    /* ================= GİRİŞ TANITIM VİDEOSU STİLLERİ ================= */
+    .video-intro {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      min-height: 560px;
+      max-height: 980px;
+      background: #08080a;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    #introCanvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      cursor: pointer;
+    }
+    .intro-header {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      padding: 24px 36px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 10;
+      background: linear-gradient(180deg, rgba(8,8,10,0.88) 0%, rgba(8,8,10,0.4) 65%, rgba(8,8,10,0) 100%);
+      pointer-events: none;
+    }
+    .intro-brand, .intro-actions {
+      pointer-events: auto;
+    }
+    .intro-brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .intro-badge {
+      width: 46px;
+      height: 46px;
+      border-radius: 9px;
+      object-fit: cover;
+      box-shadow: 0 4px 16px rgba(200, 16, 46, 0.45);
+      border: 1.5px solid rgba(255,255,255,0.25);
+      background: #111;
+    }
+    .intro-title {
+      font-family: 'Manrope', sans-serif;
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      color: #ffffff;
+      line-height: 1.2;
+    }
+    .intro-subtitle {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      color: #c8102e;
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+    .intro-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .intro-pill-btn, .intro-skip-btn {
+      border: 1px solid rgba(255,255,255,0.22);
+      background: rgba(18, 18, 22, 0.7);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      color: #ffffff;
+      padding: 9px 18px;
+      border-radius: 22px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      transition: all 0.25s ease;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+    .intro-pill-btn:hover, .intro-skip-btn:hover {
+      background: #c8102e;
+      border-color: #c8102e;
+      color: #ffffff;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(200, 16, 46, 0.5);
+    }
+    .intro-skip-btn span {
+      font-size: 14px;
+      transition: transform 0.2s ease;
+      display: inline-block;
+    }
+    .intro-skip-btn:hover span {
+      transform: translateY(2px);
+    }
+
+    .intro-bottom-bar {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 30px 24px 22px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      z-index: 10;
+      background: linear-gradient(0deg, rgba(8,8,10,0.92) 0%, rgba(8,8,10,0.4) 65%, rgba(8,8,10,0) 100%);
+      pointer-events: none;
+    }
+    .intro-branches-pills {
+      pointer-events: auto;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .intro-bp-item {
+      padding: 6px 14px;
+      border-radius: 16px;
+      font-size: 12px;
+      font-weight: 700;
+      color: rgba(255,255,255,0.75);
+      background: rgba(25, 25, 32, 0.65);
+      border: 1px solid rgba(255,255,255,0.14);
+      cursor: pointer;
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      transition: all 0.25s ease;
+      user-select: none;
+    }
+    .intro-bp-item:hover {
+      color: #ffffff;
+      background: rgba(200, 16, 46, 0.45);
+      border-color: rgba(200, 16, 46, 0.7);
+    }
+    .intro-bp-item.active {
+      background: #c8102e;
+      color: #ffffff;
+      border-color: #c8102e;
+      box-shadow: 0 0 14px rgba(200, 16, 46, 0.75);
+    }
+
+    .intro-scroll-indicator {
+      pointer-events: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 7px;
+      cursor: pointer;
+      animation: bounceSlow 2.2s infinite ease-in-out;
+      user-select: none;
+      padding: 4px 16px;
+    }
+    .scroll-mouse-icon {
+      width: 24px;
+      height: 38px;
+      border: 2px solid rgba(255,255,255,0.85);
+      border-radius: 13px;
+      display: flex;
+      justify-content: center;
+      padding-top: 6px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    }
+    .scroll-mouse-wheel {
+      width: 3.5px;
+      height: 7px;
+      background: #c8102e;
+      border-radius: 2px;
+      animation: wheelScroll 1.6s infinite;
+    }
+    .scroll-cta-text {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-family: 'Manrope', sans-serif;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 1.8px;
+      color: #ffffff;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.9);
+    }
+    .scroll-chevron {
+      width: 16px;
+      height: 16px;
+      fill: #c8102e;
+      animation: bounceChevron 1.6s infinite ease-in-out;
+    }
+    @keyframes bounceSlow {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(7px); }
+    }
+    @keyframes bounceChevron {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(3px); }
+    }
+    @keyframes wheelScroll {
+      0% { transform: translateY(0); opacity: 1; }
+      100% { transform: translateY(11px); opacity: 0; }
+    }
+
+    @media(max-width: 768px) {
+      .video-intro { height: 85vh; min-height: 480px; }
+      .intro-header { padding: 16px 20px; }
+      .intro-title { font-size: 14px; }
+      .intro-subtitle { display: none; }
+      .intro-bp-item { font-size: 10px; padding: 4px 10px; }
+      .intro-bottom-bar { padding-bottom: 16px; gap: 12px; }
+      .scroll-cta-text { font-size: 11px; }
+    }
+    @media(max-width: 480px) {
+      .intro-branches-pills { display: none; }
+    }
+
   </style>
 </head>
 <body>
+  <!-- ================= GİRİŞ TANITIM FİLMİ & BRANŞ REEL ================= -->
+  <section id="video-intro" class="video-intro" aria-label="MÜLK Spor Kulübü Tanıtım Filmi">
+    <canvas id="introCanvas"></canvas>
+
+    <div class="intro-header">
+      <div class="intro-brand">
+        <img src="amblem.jpg" alt="MÜLK SK Amblem" class="intro-badge">
+        <div>
+          <div class="intro-title">MÜLK SPOR KULÜBÜ</div>
+          <div class="intro-subtitle">RESMİ TANITIM FİLMİ · 5 BRANŞ</div>
+        </div>
+      </div>
+      <div class="intro-actions">
+        <button id="introSoundBtn" class="intro-pill-btn" aria-label="Sesi Aç veya Kapat">
+          <span id="introSoundIcon">🔇</span> <span id="introSoundLabel">Ses Aç</span>
+        </button>
+        <button class="intro-skip-btn" onclick="scrollToMainContent()">
+          Sayfaya Geç <span>⌄</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="intro-bottom-bar">
+      <div class="intro-branches-pills" id="introBranchPills">
+        <span class="intro-bp-item active" data-branch="intro">Giriş</span>
+        <span class="intro-bp-item" data-branch="futbol">⚽ Futbol</span>
+        <span class="intro-bp-item" data-branch="basketbol">🏀 Basketbol</span>
+        <span class="intro-bp-item" data-branch="voleybol">🏐 Voleybol</span>
+        <span class="intro-bp-item" data-branch="yuzme">🏊 Yüzme</span>
+        <span class="intro-bp-item" data-branch="jimnastik">🤸 Jimnastik</span>
+        <span class="intro-bp-item" data-branch="outro">🔴 Kulüp</span>
+      </div>
+
+      <div class="intro-scroll-indicator" onclick="scrollToMainContent()" role="button" tabindex="0" title="Kulübü Keşfet">
+        <div class="scroll-mouse-icon">
+          <div class="scroll-mouse-wheel"></div>
+        </div>
+        <div class="scroll-cta-text">
+          <span>KULÜBÜ KEŞFET</span>
+          <svg viewBox="0 0 24 24" class="scroll-chevron"><path d="M7 10l5 5 5-5z"/></svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= WEB SİTESİ ANA AKIŞI ================= -->
+  <div id="ana-icerik">
   <div class="topbar"><div class="wrap"><span>Ankara’da öğrenciler için hareket, takım ruhu ve özgüven.</span><span>Okullarla spor iş birlikleri</span></div></div>
   <header class="wrap nav">
     <a class="brand" href="#anasayfa" aria-label="MÜLK Spor Kulübü ana sayfa"><img class="brandmark" src="amblem.jpg" alt="MÜLK Spor Kulübü amblemi"><span>MÜLK SPOR KULÜBÜ</span></a>
-    <nav class="links" id="navlinks"><a href="#hakkimizda">Hakkımızda</a><a href="#branşlar">Branşlarımız</a><a href="#program">Antrenman Programı</a><a href="#okullar">Okullarımız</a><a href="#galeri">Galeri</a><a href="#sss">SSS</a></nav>
+    <nav class="links" id="navlinks"><a href="#hakkimizda">Hakkımızda</a><a href="#branşlar">Branşlarımız</a><a href="#program">Antrenman Programı</a><a href="#okullar">Okullarımız</a><a href="#galeri">Galeri</a><a href="#video-intro" onclick="event.preventDefault(); replayIntroVideo();" style="color:var(--green);display:inline-flex;align-items:center;gap:4px">🎬 Video</a><a href="#sss">SSS</a></nav>
     <a class="nav-cta" href="#iletisim">Bize ulaşın <span>↗</span></a><button class="menu" aria-label="Menüyü aç" onclick="document.getElementById('navlinks').classList.toggle('open')">☰</button>
   </header>
   <main>
     <section class="hero" id="anasayfa"><div class="wrap hero-grid"><div>
       <div class="eyebrow">Ankara’da sporla büyüyen nesiller</div><h1>Ankara’da<br><em>birlikte güçlüyüz.</em></h1>
       <p class="hero-copy">MÜLK Spor Kulübü, Ankara’da çocukları ve gençleri futbol, basketbol, voleybol, yüzme ve jimnastikle buluşturmayı hedefliyor. Okul salonlarında hareketi, takım ruhunu ve özgüveni birlikte büyütüyoruz.</p>
-      <div class="hero-actions"><a class="button" href="#iletisim">Bizi tanıyın <span>↗</span></a><a class="text-link" href="#branşlar">Branşları keşfet</a></div>
+      <div class="hero-actions"><a class="button" href="#iletisim">Bizi tanıyın <span>↗</span></a><a class="text-link" href="#branşlar">Branşları keşfet</a><a class="text-link" href="#video-intro" onclick="event.preventDefault(); replayIntroVideo();" style="display:inline-flex;align-items:center;gap:6px;color:var(--green)">🎬 <span>Tanıtım Videosu</span></a></div>
       <div class="hero-proof"><div class="proof-icons"><i>⚽</i><i>🏀</i><i>🏐</i><i>🏊</i><i>🤸</i></div><span>Her öğrenci için yeni bir başlangıç</span></div>
     </div><div class="hero-visual"><img src="hero.jpg" alt="MÜLK Spor Kulübü sporcuları antrenmanda"><div class="visual-label"><div><strong>Bir takımın parçası ol</strong><small>Hareket et · Öğren · Geliş</small></div><div class="circle-tag">↗</div></div></div></div></section>
     <div class="stats"><div class="wrap stats-grid"><div class="stat"><strong>5</strong><span>Farklı branşta spor eğitimi</span></div><div class="stat"><strong>Birlikte</strong><span>Öğrenme ve gelişim</span></div><div class="stat"><strong>Okulda</strong><span>Güvenli spor alanları</span></div><div class="stat"><strong>Her yaşa</strong><span>Hareketli bir başlangıç</span></div></div></div>
@@ -53,11 +326,12 @@
     <section class="schedule" id="program"><div class="wrap"><div class="section-head"><div><div class="eyebrow">Antrenman programı</div><h2>Programımız<br>çok yakında.</h2></div><p>Antrenman günleri, saatleri ve salon bilgileri henüz netleşmedi. Program kesinleştiğinde bu sayfada duyuracağız.</p></div><div class="schedule-panel"><div class="schedule-tabs" role="tablist" aria-label="Programı görüntülenecek branş"><button class="schedule-tab active" type="button" role="tab" id="tab-futbol" aria-controls="panel-futbol" aria-selected="true" data-program="futbol">Futbol</button><button class="schedule-tab" type="button" role="tab" id="tab-basketbol" aria-controls="panel-basketbol" aria-selected="false" data-program="basketbol">Basketbol</button><button class="schedule-tab" type="button" role="tab" id="tab-voleybol" aria-controls="panel-voleybol" aria-selected="false" data-program="voleybol">Voleybol</button><button class="schedule-tab" type="button" role="tab" id="tab-yuzme" aria-controls="panel-yuzme" aria-selected="false" data-program="yuzme">Yüzme</button><button class="schedule-tab" type="button" role="tab" id="tab-jimnastik" aria-controls="panel-jimnastik" aria-selected="false" data-program="jimnastik">Jimnastik</button></div><div class="schedule-grid" id="panel-futbol" role="tabpanel" aria-labelledby="tab-futbol"><article class="schedule-card"><h3>Futbol programı</h3><strong>Çok yakında</strong><p>Antrenman günleri, saatleri ve salon bilgisi netleştiğinde paylaşılacaktır.</p></article></div><div class="schedule-grid" id="panel-basketbol" role="tabpanel" aria-labelledby="tab-basketbol" hidden><article class="schedule-card"><h3>Basketbol programı</h3><strong>Çok yakında</strong><p>Antrenman günleri, saatleri ve salon bilgisi netleştiğinde paylaşılacaktır.</p></article></div><div class="schedule-grid" id="panel-voleybol" role="tabpanel" aria-labelledby="tab-voleybol" hidden><article class="schedule-card"><h3>Voleybol programı</h3><strong>Çok yakında</strong><p>Antrenman günleri, saatleri ve salon bilgisi netleştiğinde paylaşılacaktır.</p></article></div><div class="schedule-grid" id="panel-yuzme" role="tabpanel" aria-labelledby="tab-yuzme" hidden><article class="schedule-card"><h3>Yüzme programı</h3><strong>Çok yakında</strong><p>Antrenman günleri, saatleri ve salon bilgisi netleştiğinde paylaşılacaktır.</p></article></div><div class="schedule-grid" id="panel-jimnastik" role="tabpanel" aria-labelledby="tab-jimnastik" hidden><article class="schedule-card"><h3>Jimnastik programı</h3><strong>Çok yakında</strong><p>Antrenman günleri, saatleri ve salon bilgisi netleştiğinde paylaşılacaktır.</p></article></div><p class="schedule-note">Güncel bilgi almak için iletişim bölümünden bize ulaşabilirsiniz.</p></div></div></section>
     <section class="about" id="hakkimizda"><div class="wrap about-grid"><div class="about-photo"><img src="about.jpg" alt="MÜLK Spor Kulübü antrenör ve sporcuları"><div class="photo-note">Sahada kazanılan beceriler, hayat boyu yanında.</div></div><div class="about-copy"><div class="eyebrow">MÜLK Spor Kulübü</div><h2>Sporun iyi gelen tarafı, birlikte olmak.</h2><p>İnanıyoruz ki spor, çocukların yalnızca fiziksel gelişimini değil; paylaşmayı, emek vermeyi ve kendine güvenmeyi de destekler. Okullarla iş birliği içinde, öğrencilerin sporla düzenli ve keyifli biçimde buluşmasına alan açıyoruz.</p><div class="values"><div class="value"><span class="check">✓</span><div><strong>Öğrenci odaklı</strong><small>Her seviyeye uygun yaklaşım</small></div></div><div class="value"><span class="check">✓</span><div><strong>Takım ruhu</strong><small>Birlikte öğrenme ve saygı</small></div></div><div class="value"><span class="check">✓</span><div><strong>Güvenli ortam</strong><small>Okul salonlarında eğitim</small></div></div><div class="value"><span class="check">✓</span><div><strong>Aktif yaşam</strong><small>Harekete teşvik eden program</small></div></div></div><a class="text-link" href="#iletisim">Kulübümüzle tanışın ↗</a></div></div></section>
     <section class="schools" id="okullar"><div class="wrap"><div class="school-head"><div class="eyebrow" style="justify-content:center">Birlikte çalışıyoruz</div><h2>Okul iş birliklerimiz</h2><p>Öğrenciler için daha fazla spor fırsatı sunan okul topluluğumuza katılın.</p></div><div class="school-logos"><div class="school">Okul adı eklenecek<small>İlçe / Şehir</small></div><div class="school">Okul adı eklenecek<small>İlçe / Şehir</small></div><div class="school">Okul adı eklenecek<small>İlçe / Şehir</small></div><div class="school">Okul adı eklenecek<small>İlçe / Şehir</small></div></div></div></section>
-    <section class="gallery" id="galeri"><div class="wrap"><div class="section-head"><div><div class="eyebrow">Sahadan kareler</div><h2>Birlikte geçen<br>güzel anlar.</h2></div><p>Antrenmanlardan, etkinliklerden ve takımca yaşadığımız güzel anlardan fotoğraflar.</p></div><div class="gallery-grid"><div class="gallery-item"><img src="hero.jpg" alt="Takım olmanın keyfi" loading="lazy"><span>Takım Ruhu</span></div><div class="gallery-item"><img src="basketbol.jpg" alt="MÜLK Spor Kulübü Basketbol antrenmanı" loading="lazy"><span>Basketbol</span></div><div class="gallery-item"><img src="voleybol.jpg" alt="MÜLK Spor Kulübü Voleybol antrenmanı" loading="lazy"><span>Voleybol</span></div><div class="gallery-item"><img src="futbol.jpg" alt="MÜLK Spor Kulübü Futbol antrenmanı" loading="lazy"><span>Futbol</span></div><div class="gallery-item"><img src="yuzme.jpg" alt="MÜLK Spor Kulübü Yüzme eğitimi" loading="lazy"><span>Yüzme</span></div><div class="gallery-item"><img src="jimnastik.jpg" alt="MÜLK Spor Kulübü Jimnastik eğitimi" loading="lazy"><span>Jimnastik</span></div></div></div></section>
+    <section class="gallery" id="galeri"><div class="wrap"><div class="section-head"><div><div class="eyebrow">Sahadan kareler</div><h2>Birlikte geçen<br>güzel anlar.</h2></div><p>Antrenmanlardan, etkinliklerden ve takımca yaşadığımız güzel anlardan fotoğraflar.</p></div><div class="gallery-grid"><div class="gallery-item"><img src="hero.jpg" alt="Takım olmanın keyfi" loading="lazy"><span>Takım Ruhu</span></div><div class="gallery-item"><img src="basketbol.jpg" alt="MÜLK Spor Kulübü Basketbol antrenmanı" loading="lazy"><span>Basketbol</span></div><div class="gallery-item"><img src="voleybol.jpg" alt="MÜLK Spor Kulübü Voleybol antrenmanı" loading="lazy"><span>Voleybol</span></div><div class="gallery-item"><img src="futbol.jpg" alt="MÜLK Spor Kulübü Futbol antrenmanı" loading="lazy"><span>Futbol</span></div><div class="gallery-item"><img src="yuzme.jpg" alt="MÜLK Spor Kulübü Yüzme eğitimi" loading="lazy"><span>Yüzme</span></div><div class="gallery-item"><img src="jimnastik.jpg" alt="MÜLK Spor Kulübü Jimnastik eğitimi" loading="lazy"><span>Jimnastik</span></div></div><div style="margin-top:28px;background:linear-gradient(135deg,#19191b 0%,#2a1015 100%);color:white;padding:26px 30px;border-radius:6px;border:1px solid #c8102e50;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:18px;box-shadow:0 12px 32px rgba(0,0,0,0.08)"><div><span style="color:#c8102e;font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;display:block;margin-bottom:6px">Dinamik Medya</span><h3 style="margin:0;font-size:20px;font-family:Manrope,sans-serif;font-weight:800">5 Branş Tanıtım Videosu & Hareketli Grafikler</h3><p style="margin:6px 0 0;font-size:13px;color:#b0b0b8;max-width:560px">Futbol, basketbol, voleybol, yüzme ve jimnastik branşlarımızın tempolu geçişli tanıtım videosunu izleyin veya sosyal medya (Reels / Hikaye) için tek tıkla indirin.</p></div><a class="button" href="brans_videolari.html" target="_blank" style="background:#c8102e;padding:14px 22px">Videoyu İzle & İndir 🎬</a></div></div></section>
     <section class="faq" id="sss"><div class="wrap"><div class="section-head"><div><div class="eyebrow">Merak edilenler</div><h2>Sıkça sorulan<br>sorular.</h2></div><p>Antrenmanlara başlamadan önce en çok merak edilenler.</p></div><div class="faq-grid"><details class="faq-item"><summary>Hangi branşlarda eğitim veriliyor?</summary><p>Futbol, basketbol, voleybol, yüzme ve jimnastik branşlarımız bulunuyor. Okula ve dönem programına göre açılan branşlar değişebilir.</p></details><details class="faq-item"><summary>Antrenmanlar nerede yapılıyor?</summary><p>Antrenmanlar iş birliği yapılan okulların salonlarında düzenlenir. Okul ve salon bilgisi ilgili program duyurusunda paylaşılır.</p></details><details class="faq-item"><summary>Gün ve saatleri nasıl öğrenebilirim?</summary><p>Antrenman günleri ve saatleri henüz netleşmedi. Program belli olduğunda bu sayfada duyurulacak; bilgi almak için iletişim bölümünden bize ulaşabilirsiniz.</p></details><details class="faq-item"><summary>Ücret ve kayıt hakkında nasıl bilgi alırım?</summary><p>Kayıt dönemi ve ücret bilgisi ilgili okul ve branşın programı netleştiğinde duyurulur. Ödeme site üzerinden alınmaz; kayıt ve ödeme detayları için kulüple doğrudan iletişime geçin.</p></details><details class="faq-item"><summary>Antrenmana gelirken ne getirmeliyim?</summary><p>Rahat spor kıyafeti, salona uygun spor ayakkabısı ve su matarası getirebilirsiniz. Okulun salon kuralları varsa ayrıca duyurulur.</p></details><details class="faq-item"><summary>Yaş grupları nasıl belirleniyor?</summary><p>Yaş grupları branş, okul ve açılan gruplara göre belirlenir. Uygun grup bilgisi kayıt döneminde paylaşılır.</p></details></div></div></section>
     <section class="contact" id="iletisim"><div class="wrap"><div class="contact-panel"><div><div class="eyebrow">İletişime geçin</div><h2>Birlikte<br>harekete geçelim.</h2><p>Branşlarımız, kayıt dönemi veya okul iş birlikleri hakkında bilgi almak için bize ulaşın.</p><div class="contact-info" style="margin-top:24px"><div><strong>E-posta</strong><a href="mailto:info@mulksporkulubu.com">info@mulksporkulubu.com</a></div><div><strong>Instagram</strong><a href="https://www.instagram.com/mulksporkulubu/" target="_blank" rel="noopener noreferrer">@mulksporkulubu</a></div><div><strong>Facebook</strong><a href="https://www.facebook.com/profile.php?id=61595650091129" target="_blank" rel="noopener noreferrer">Mülk SK</a></div><div><strong>Çalışma alanı</strong><span>Okul salonları · Türkiye</span></div></div></div><form class="contact-form" action="https://formsubmit.co/1dfd135db29b9e0647e96c657a0d788f" method="POST"><input type="hidden" name="_subject" value="MÜLK Spor Kulübü - Web Sitesi Yeni Mesaj"><input type="hidden" name="_captcha" value="false"><input type="hidden" name="_template" value="table"><input type="hidden" name="_next" value="https://mulksporkulubu.com/#iletisim"><h3>Bize Ulaşın</h3><p>Branşlarımız, antrenman programlarımız veya okul salonu iş birlikleri hakkında sorularınız için formu doldurabilirsiniz. Mesajınız doğrudan kulüp e-postamıza iletilecektir.</p><label>Adınız Soyadınız<input type="text" name="Ad_Soyad" placeholder="Adınız Soyadınız" required></label><label>E-posta Adresiniz<input type="email" name="E_posta" id="form-email" placeholder="ornek@email.com"></label><label>Telefon Numaranız<input type="tel" name="Telefon" id="form-phone" placeholder="05XX XXX XX XX"></label><span id="contact-error" style="display:none;color:#c8102e;font-size:12px;font-weight:700;margin:6px 0;background:#fff0f2;padding:6px 10px;border-radius:4px;border:1px solid #ffd0d6">* Lütfen size ulaşabilmemiz için e-posta adresi veya telefon numaranızdan en az birini yazınız.</span><label>Mesajınız<textarea name="Mesaj" placeholder="Hangi branş veya okul hakkında bilgi almak istiyorsunuz?" required></textarea></label><button class="button" type="submit" style="width:100%;justify-content:center;margin-top:12px;cursor:pointer;border:none">Mesajı Gönder <span>↗</span></button></form></div></div></section>
   </main>
-  <footer><div class="wrap"><div class="footer-top"><div class="footer-brand"><a class="brand" href="#anasayfa"><img class="brandmark" src="amblem.jpg" alt="MÜLK Spor Kulübü amblemi"><span>MÜLK SPOR KULÜBÜ</span></a><p>Öğrencileri sporla buluşturuyor, birlikte daha güçlü bir gelecek için hareket ediyoruz.</p></div><nav class="footer-links"><a href="#hakkimizda">Hakkımızda</a><a href="#branşlar">Branşlarımız</a><a href="#program">Antrenman Programı</a><a href="#okullar">Okullarımız</a><a href="#sss">SSS</a><a href="#galeri">Galeri</a><a href="#iletisim">İletişim</a></nav></div><div class="footer-bottom"><span>© 2026 MÜLK Spor Kulübü. Tüm hakları saklıdır.</span><span>Birlikte daha güçlüyüz. ↗</span></div></div></footer>
+  <footer><div class="wrap"><div class="footer-top"><div class="footer-brand"><a class="brand" href="#anasayfa"><img class="brandmark" src="amblem.jpg" alt="MÜLK Spor Kulübü amblemi"><span>MÜLK SPOR KULÜBÜ</span></a><p>Öğrencileri sporla buluşturuyor, birlikte daha güçlü bir gelecek için hareket ediyoruz.</p></div><nav class="footer-links"><a href="#hakkimizda">Hakkımızda</a><a href="#branşlar">Branşlarımız</a><a href="#program">Antrenman Programı</a><a href="#okullar">Okullarımız</a><a href="#sss">SSS</a><a href="#galeri">Galeri</a><a href="brans_videolari.html" target="_blank" style="color:#c8102e">Tanıtım Videosu 🎬</a><a href="#iletisim">İletişim</a></nav></div><div class="footer-bottom"><span>© 2026 MÜLK Spor Kulübü. Tüm hakları saklıdır.</span><span>Birlikte daha güçlüyüz. ↗</span></div></div></footer>
+  </div><!-- /#ana-icerik -->
   <script>
     document.querySelectorAll('#navlinks a').forEach(a=>a.addEventListener('click',()=>document.getElementById('navlinks').classList.remove('open')));
     const programTabs=[...document.querySelectorAll('.schedule-tab')];
@@ -136,5 +410,466 @@
         });
       });
     }
+  
+  // ================= GİRİŞ TANITIM FİLMİ MOTORU =================
+  (function() {
+    const canvas = document.getElementById('introCanvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+
+    const imagePaths = {
+      amblem: 'amblem.png',
+      hero: 'hero.jpg',
+      futbol: 'futbol.jpg',
+      basketbol: 'basketbol.jpg',
+      voleybol: 'voleybol.jpg',
+      yuzme: 'yuzme.jpg',
+      jimnastik: 'jimnastik.jpg'
+    };
+
+    const loadedImages = {};
+    let imagesLoadedCount = 0;
+    const totalImages = Object.keys(imagePaths).length;
+    let imagesReady = false;
+
+    for (const [key, path] of Object.entries(imagePaths)) {
+      const img = new Image();
+      img.onload = () => {
+        imagesLoadedCount++;
+        if (imagesLoadedCount === totalImages) {
+          imagesReady = true;
+        }
+      };
+      img.onerror = () => {
+        if (key === 'amblem') {
+          const fallback = new Image();
+          fallback.onload = () => {
+            imagesLoadedCount++;
+            if (imagesLoadedCount === totalImages) imagesReady = true;
+          };
+          fallback.src = 'amblem.jpg';
+          loadedImages[key] = fallback;
+          return;
+        }
+        imagesLoadedCount++;
+        if (imagesLoadedCount === totalImages) imagesReady = true;
+      };
+      img.src = path;
+      loadedImages[key] = img;
+    }
+
+    const scenes = [
+      { id: 'intro', start: 0.0, end: 3.2, title: 'MÜLK SPOR KULÜBÜ', sub: 'ANKARA DA GELECEĞE HAREKET', icon: '🦅', img: 'hero' },
+      { id: 'futbol', start: 3.2, end: 6.8, title: 'FUTBOL', num: '01 / BRANŞ', sub: 'Takım Ruhu · Çeviklik · Koordinasyon', icon: '⚽', img: 'futbol', loc: '📍 Güvenli Okul Spor Salonları · Ankara' },
+      { id: 'basketbol', start: 6.8, end: 10.4, title: 'BASKETBOL', num: '02 / BRANŞ', sub: 'Oyun Zekası · Dinamik Pas · Hız', icon: '🏀', img: 'basketbol', loc: '📍 Güvenli Okul Spor Salonları · Ankara' },
+      { id: 'voleybol', start: 10.4, end: 14.0, title: 'VOLEYBOL', num: '03 / BRANŞ', sub: 'Sıçrama · Yüksek Tempo · İletişim', icon: '🏐', img: 'voleybol', loc: '📍 Güvenli Okul Spor Salonları · Ankara' },
+      { id: 'yuzme', start: 14.0, end: 17.6, title: 'YÜZME', num: '04 / BRANŞ', sub: 'Suya Güven · Kondisyon · Sağlık', icon: '🏊', img: 'yuzme', loc: '📍 Yarı Olimpik Tesisler · Ankara' },
+      { id: 'jimnastik', start: 17.6, end: 21.0, title: 'JİMNASTİK', num: '05 / BRANŞ', sub: 'Esneklik · Denge · Beden Farkındalığı', icon: '🤸', img: 'jimnastik', loc: '📍 Temel Jimnastik & Koordinasyon Alanı' },
+      { id: 'outro', start: 21.0, end: 24.5, title: 'BİRLİKTE DAHA GÜÇLÜYÜZ', sub: 'www.mulksporkulubu.com · Ankara', icon: '🔴', img: 'hero' }
+    ];
+
+    const TOTAL_DURATION = 24.5;
+    let introCurrentTime = 0;
+    let lastTimestamp = performance.now();
+    let userScrolledManually = false;
+    let hasAutoScrolled = false;
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 120) {
+        userScrolledManually = true;
+      }
+    }, { passive: true });
+
+    function resizeCanvas() {
+      const rect = canvas.parentElement.getBoundingClientRect();
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = Math.round(rect.width * dpr);
+      canvas.height = Math.round(rect.height * dpr);
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    // Web Audio Synthesizer
+    let audioCtx = null;
+    let isSoundOn = false;
+    const soundBtn = document.getElementById('introSoundBtn');
+    const soundIcon = document.getElementById('introSoundIcon');
+    const soundLabel = document.getElementById('introSoundLabel');
+
+    function initAudio() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+    }
+
+    if (soundBtn) {
+      soundBtn.addEventListener('click', () => {
+        initAudio();
+        isSoundOn = !isSoundOn;
+        if (isSoundOn) {
+          soundIcon.textContent = '🔊';
+          soundLabel.textContent = 'Ses Açık';
+          soundBtn.style.background = '#c8102e';
+          soundBtn.style.borderColor = '#c8102e';
+          playWhoosh();
+        } else {
+          soundIcon.textContent = '🔇';
+          soundLabel.textContent = 'Ses Aç';
+          soundBtn.style.background = '';
+          soundBtn.style.borderColor = '';
+        }
+      });
+    }
+
+    function playWhoosh() {
+      if (!isSoundOn || !audioCtx) return;
+      try {
+        const t = audioCtx.currentTime;
+        const bufferSize = audioCtx.sampleRate * 0.3;
+        const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+        const data = buffer.getChannelData(0);
+        for (let i = 0; i < bufferSize; i++) {
+          data[i] = (Math.random() * 2 - 1) * Math.sin((i / bufferSize) * Math.PI);
+        }
+        const noise = audioCtx.createBufferSource();
+        noise.buffer = buffer;
+        const filter = audioCtx.createBiquadFilter();
+        filter.type = 'bandpass';
+        filter.frequency.setValueAtTime(400, t);
+        filter.frequency.linearRampToValueAtTime(1400, t + 0.15);
+        filter.Q.value = 1.8;
+        const gain = audioCtx.createGain();
+        gain.gain.setValueAtTime(0.25, t);
+        gain.gain.linearRampToValueAtTime(0.01, t + 0.3);
+        noise.connect(filter);
+        filter.connect(gain);
+        gain.connect(audioCtx.destination);
+        noise.start(t);
+      } catch(e){}
+    }
+
+    const pillEls = document.querySelectorAll('#introBranchPills .intro-bp-item');
+    pillEls.forEach(pill => {
+      pill.addEventListener('click', () => {
+        const b = pill.getAttribute('data-branch');
+        const targetScene = scenes.find(s => s.id === b);
+        if (targetScene) {
+          introCurrentTime = targetScene.start + 0.05;
+          if (isSoundOn) playWhoosh();
+          updateActivePill(targetScene.id);
+        }
+      });
+    });
+
+    function updateActivePill(sceneId) {
+      pillEls.forEach(p => {
+        p.classList.toggle('active', p.getAttribute('data-branch') === sceneId);
+      });
+    }
+
+    function roundRect(ctx, x, y, width, height, radius) {
+      ctx.beginPath();
+      ctx.moveTo(x + radius, y);
+      ctx.lineTo(x + width - radius, y);
+      ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+      ctx.lineTo(x + width, y + height - radius);
+      ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+      ctx.lineTo(x + radius, y + height);
+      ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+      ctx.lineTo(x, y + radius);
+      ctx.quadraticCurveTo(x, y, x + radius, y);
+      ctx.closePath();
+    }
+
+    function render(t) {
+      const W = canvas.width;
+      const H = canvas.height;
+      if (W === 0 || H === 0) return;
+
+      const isVertical = W < H;
+
+      ctx.fillStyle = '#08080a';
+      ctx.fillRect(0, 0, W, H);
+
+      if (!imagesReady) {
+        ctx.fillStyle = '#ffffff';
+        ctx.font = '600 ' + Math.max(16, Math.round(W * 0.02)) + 'px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('Tanıtım filmi yükleniyor...', W / 2, H / 2);
+        return;
+      }
+
+      let curScene = scenes[0];
+      for (const s of scenes) {
+        if (t >= s.start && t < s.end) {
+          curScene = s;
+          break;
+        }
+      }
+      if (t >= scenes[scenes.length - 1].end) {
+        curScene = scenes[scenes.length - 1];
+      }
+
+      updateActivePill(curScene.id);
+
+      const sceneLocalTime = t - curScene.start;
+      const sceneDuration = curScene.end - curScene.start;
+      const sceneProgress = Math.min(1.0, Math.max(0.0, sceneLocalTime / sceneDuration));
+
+      const bgImg = loadedImages[curScene.img];
+      if (bgImg && bgImg.complete && bgImg.naturalWidth > 0) {
+        ctx.save();
+        const zoom = 1.02 + 0.07 * sceneProgress;
+        const panX = Math.sin(sceneProgress * Math.PI * 0.8) * (W * 0.025);
+        const panY = Math.cos(sceneProgress * Math.PI * 0.6) * (H * 0.02);
+
+        const imgRatio = bgImg.naturalWidth / bgImg.naturalHeight;
+        const canvasRatio = W / H;
+        let drawW, drawH;
+
+        if (imgRatio > canvasRatio) {
+          drawH = H * zoom;
+          drawW = drawH * imgRatio;
+        } else {
+          drawW = W * zoom;
+          drawH = drawW / imgRatio;
+        }
+
+        const drawX = (W - drawW) / 2 + panX;
+        const drawY = (H - drawH) / 2 + panY;
+
+        ctx.drawImage(bgImg, drawX, drawY, drawW, drawH);
+
+        const grad = ctx.createLinearGradient(0, 0, 0, H);
+        grad.addColorStop(0, 'rgba(8, 8, 10, 0.75)');
+        grad.addColorStop(0.25, 'rgba(8, 8, 10, 0.2)');
+        grad.addColorStop(0.5, 'rgba(8, 8, 10, 0.1)');
+        grad.addColorStop(0.8, 'rgba(8, 8, 10, 0.7)');
+        grad.addColorStop(1, 'rgba(8, 8, 10, 0.95)');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, W, H);
+
+        ctx.restore();
+      }
+
+      if (sceneLocalTime < 0.4) {
+        const transProg = sceneLocalTime / 0.4;
+        ctx.save();
+        const swipeX = transProg * W * 1.5 - W * 0.25;
+        const swipeGrad = ctx.createLinearGradient(swipeX - 160, 0, swipeX + 160, 0);
+        swipeGrad.addColorStop(0, 'rgba(200, 16, 46, 0)');
+        swipeGrad.addColorStop(0.5, 'rgba(200, 16, 46, 0.6)');
+        swipeGrad.addColorStop(1, 'rgba(255, 255, 255, 0)');
+        ctx.fillStyle = swipeGrad;
+        ctx.fillRect(0, 0, W, H);
+        ctx.restore();
+      }
+
+      if (curScene.id === 'intro') {
+        renderIntro(sceneProgress, W, H, isVertical);
+      } else if (curScene.id === 'outro') {
+        renderOutro(sceneProgress, W, H, isVertical);
+      } else {
+        renderBranch(curScene, sceneProgress, sceneLocalTime, W, H, isVertical);
+      }
+    }
+
+    function renderIntro(prog, W, H, isVertical) {
+      ctx.save();
+      ctx.textAlign = 'center';
+
+      const logoImg = loadedImages['amblem'];
+      if (logoImg && logoImg.complete) {
+        const scale = 0.92 + 0.12 * Math.min(1.0, prog * 1.8);
+        const lSize = (isVertical ? Math.min(W * 0.42, 220) : Math.min(H * 0.32, 210)) * scale;
+        const ly = isVertical ? H * 0.38 : H * 0.38;
+
+        ctx.shadowColor = 'rgba(200, 16, 46, 0.85)';
+        ctx.shadowBlur = 35 + 15 * Math.sin(prog * Math.PI * 3);
+        ctx.drawImage(logoImg, W/2 - lSize/2, ly - lSize/2, lSize, lSize);
+        ctx.shadowBlur = 0;
+      }
+
+      const textAlpha = Math.min(1.0, prog * 2.2);
+      ctx.globalAlpha = textAlpha;
+
+      const titleSize = isVertical ? Math.round(W * 0.08) : Math.round(Math.min(W * 0.045, H * 0.07, 56));
+      ctx.fillStyle = '#ffffff';
+      ctx.font = '800 ' + titleSize + 'px Manrope, sans-serif';
+      const ty = isVertical ? H * 0.62 : H * 0.64;
+      ctx.fillText('MÜLK SPOR KULÜBÜ', W/2, ty);
+
+      const subSize = isVertical ? Math.round(W * 0.042) : Math.round(Math.min(W * 0.022, H * 0.035, 26));
+      ctx.fillStyle = '#c8102e';
+      ctx.font = 'bold ' + subSize + 'px Manrope, sans-serif';
+      ctx.fillText('5 BRANŞ · TEK TAKIM RUHU', W/2, ty + subSize * 1.6);
+
+      const descSize = isVertical ? Math.round(W * 0.034) : Math.round(Math.min(W * 0.016, 17));
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.85)';
+      ctx.font = '500 ' + descSize + 'px sans-serif';
+      ctx.fillText('Ankara Okullarında Geleceğe Hareket ↗', W/2, ty + subSize * 1.6 + descSize * 1.9);
+
+      ctx.restore();
+    }
+
+    function renderBranch(scene, prog, localTime, W, H, isVertical) {
+      ctx.save();
+
+      const cardMargin = isVertical ? 20 : Math.max(36, Math.round(W * 0.05));
+      const cardW = isVertical ? W - cardMargin * 2 : Math.min(760, W - cardMargin * 2);
+      const cardH = isVertical ? Math.min(H * 0.32, 240) : Math.min(H * 0.3, 210);
+      const cardX = isVertical ? cardMargin : cardMargin;
+      const cardY = isVertical ? H - cardH - 120 : H - cardH - 110;
+
+      const slideIn = Math.min(1.0, localTime * 2.5);
+      const offset = (1.0 - Math.pow(slideIn, 3)) * 40;
+
+      ctx.fillStyle = 'rgba(12, 12, 16, 0.82)';
+      ctx.strokeStyle = 'rgba(200, 16, 46, 0.55)';
+      ctx.lineWidth = 1.5;
+      roundRect(ctx, cardX - offset, cardY, cardW, cardH, 16);
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.fillStyle = '#c8102e';
+      roundRect(ctx, cardX - offset, cardY, 6, cardH, 3);
+      ctx.fill();
+
+      ctx.textAlign = 'left';
+      const padLeft = cardX + 26 - offset;
+
+      const eyeSize = isVertical ? 12 : 13;
+      ctx.fillStyle = '#c8102e';
+      ctx.font = 'bold ' + eyeSize + 'px Manrope, sans-serif';
+      ctx.fillText((scene.num || '') + '  ·  ' + (scene.icon || ''), padLeft, cardY + (isVertical ? 34 : 36));
+
+      const titleSize = isVertical ? Math.min(38, Math.round(W * 0.08)) : Math.min(46, Math.round(cardW * 0.075));
+      ctx.fillStyle = '#ffffff';
+      ctx.font = '900 ' + titleSize + 'px Manrope, sans-serif';
+      ctx.shadowColor = 'rgba(200, 16, 46, 0.6)';
+      ctx.shadowBlur = 10;
+      ctx.fillText(scene.title, padLeft, cardY + (isVertical ? 34 : 36) + titleSize * 1.15);
+      ctx.shadowBlur = 0;
+
+      const subSize = isVertical ? 14 : 17;
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+      ctx.font = '600 ' + subSize + 'px sans-serif';
+      ctx.fillText(scene.sub, padLeft, cardY + (isVertical ? 34 : 36) + titleSize * 1.15 + subSize * 1.6);
+
+      if (scene.loc) {
+        const locSize = isVertical ? 11 : 13;
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.65)';
+        ctx.font = '500 ' + locSize + 'px sans-serif';
+        ctx.fillText(scene.loc, padLeft, cardY + cardH - (isVertical ? 16 : 20));
+      }
+
+      ctx.restore();
+    }
+
+    function renderOutro(prog, W, H, isVertical) {
+      ctx.save();
+      ctx.textAlign = 'center';
+
+      const logoImg = loadedImages['amblem'];
+      if (logoImg && logoImg.complete) {
+        const lSize = isVertical ? Math.min(W * 0.42, 220) : Math.min(H * 0.32, 200);
+        const ly = isVertical ? H * 0.36 : H * 0.36;
+        ctx.shadowColor = 'rgba(200, 16, 46, 0.9)';
+        ctx.shadowBlur = 40;
+        ctx.drawImage(logoImg, W/2 - lSize/2, ly - lSize/2, lSize, lSize);
+        ctx.shadowBlur = 0;
+      }
+
+      const titleSize = isVertical ? Math.round(W * 0.075) : Math.round(Math.min(W * 0.045, 52));
+      ctx.fillStyle = '#ffffff';
+      ctx.font = '800 ' + titleSize + 'px Manrope, sans-serif';
+      const ty = isVertical ? H * 0.60 : H * 0.62;
+      ctx.fillText('BİR TAKIMIN PARÇASI OL', W/2, ty);
+
+      const subSize = isVertical ? Math.round(W * 0.045) : Math.round(Math.min(W * 0.024, 26));
+      ctx.fillStyle = '#c8102e';
+      ctx.font = 'bold ' + subSize + 'px Manrope, sans-serif';
+      ctx.fillText('MÜLK SPOR KULÜBÜ', W/2, ty + subSize * 1.5);
+
+      const ctaY = ty + subSize * 1.5 + 46;
+      const ctaW = isVertical ? Math.min(W * 0.85, 340) : 340;
+      ctx.fillStyle = '#c8102e';
+      roundRect(ctx, W/2 - ctaW/2, ctaY - 22, ctaW, 44, 22);
+      ctx.fill();
+
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 15px Manrope, sans-serif';
+      ctx.fillText('AŞAĞI KAYDIR · KULÜBÜ KEŞFET ⌄', W/2, ctaY + 6);
+
+      ctx.restore();
+    }
+
+    let lastSceneId = '';
+    function animate(now) {
+      const delta = (now - lastTimestamp) / 1000;
+      lastTimestamp = now;
+
+      if (imagesReady) {
+        introCurrentTime += delta;
+
+        // Auto-scroll smooth glide down after first intro cycle
+        if (introCurrentTime >= TOTAL_DURATION - 0.5 && !userScrolledManually && !hasAutoScrolled && window.scrollY < 120) {
+          hasAutoScrolled = true;
+          scrollToMainContent();
+        }
+
+        if (introCurrentTime >= TOTAL_DURATION) {
+          introCurrentTime = 0;
+        }
+
+        let curSceneId = '';
+        for (const s of scenes) {
+          if (introCurrentTime >= s.start && introCurrentTime < s.end) {
+            curSceneId = s.id;
+            break;
+          }
+        }
+        if (curSceneId && curSceneId !== lastSceneId) {
+          if (isSoundOn) playWhoosh();
+          lastSceneId = curSceneId;
+        }
+
+        render(introCurrentTime);
+      }
+
+      requestAnimationFrame(animate);
+    }
+    requestAnimationFrame(animate);
+
+    window.scrollToMainContent = function() {
+      const target = document.getElementById('ana-icerik');
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth' });
+      }
+    };
+
+    window.replayIntroVideo = function() {
+      introCurrentTime = 0;
+      userScrolledManually = false;
+      hasAutoScrolled = false;
+      const vIntro = document.getElementById('video-intro');
+      if (vIntro) {
+        vIntro.scrollIntoView({ behavior: 'smooth' });
+      }
+    };
+
+    canvas.addEventListener('click', (e) => {
+      const rect = canvas.getBoundingClientRect();
+      const clickY = e.clientY - rect.top;
+      if (clickY > rect.height * 0.75) {
+        scrollToMainContent();
+      }
+    });
+
+  })();
+
   </script>
 </body></html>
