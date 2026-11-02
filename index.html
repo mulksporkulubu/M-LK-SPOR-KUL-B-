@@ -1681,7 +1681,7 @@
                   <li>Seviye: <span>Temel Hareket & Gelişim</span></li>
                 </ul>
               </div>
-              <a href="#on-kayit" class="bc-btn" onclick="preselectBranch('Planlanacak Branş-1')">Ön Talep Bildir ↗</a>
+              <a href="#on-kayit" class="bc-btn" onclick="preselectBranch('Futbol')">Ön Talep Bildir ↗</a>
             </article>
 
             <!-- 2. Planlanacak Branş-2 -->
@@ -1701,7 +1701,7 @@
                   <li>Seviye: <span>Takım Dinamizmi</span></li>
                 </ul>
               </div>
-              <a href="#on-kayit" class="bc-btn" onclick="preselectBranch('Planlanacak Branş-2')">Ön Talep Bildir ↗</a>
+              <a href="#on-kayit" class="bc-btn" onclick="preselectBranch('Basketbol')">Ön Talep Bildir ↗</a>
             </article>
 
             <!-- 3. Planlanacak Branş-3 -->
@@ -1721,7 +1721,7 @@
                   <li>Seviye: <span>Refleks & Çeviklik</span></li>
                 </ul>
               </div>
-              <a href="#on-kayit" class="bc-btn" onclick="preselectBranch('Planlanacak Branş-3')">Ön Talep Bildir ↗</a>
+              <a href="#on-kayit" class="bc-btn" onclick="preselectBranch('Voleybol')">Ön Talep Bildir ↗</a>
             </article>
 
             <!-- 4. Planlanacak Branş-4 -->
@@ -1741,7 +1741,7 @@
                   <li>Seviye: <span>Denge & Esneklik</span></li>
                 </ul>
               </div>
-              <a href="#on-kayit" class="bc-btn" onclick="preselectBranch('Planlanacak Branş-4')">Ön Talep Bildir ↗</a>
+              <a href="#on-kayit" class="bc-btn" onclick="preselectBranch('Jimnastik')">Ön Talep Bildir ↗</a>
             </article>
 
             <!-- 5. Planlanacak Branş-5 -->
@@ -1761,7 +1761,7 @@
                   <li>Seviye: <span>Odak & Strateji</span></li>
                 </ul>
               </div>
-              <a href="#on-kayit" class="bc-btn" onclick="preselectBranch('Planlanacak Branş-5')">Ön Talep Bildir ↗</a>
+              <a href="#on-kayit" class="bc-btn" onclick="preselectBranch('Okçuluk')">Ön Talep Bildir ↗</a>
             </article>
           </div>
         </div>
@@ -1834,20 +1834,21 @@
 
             <form class="contact-form" action="https://formsubmit.co/1dfd135db29b9e0647e96c657a0d788f" method="POST">
               <input type="hidden" name="_subject" value="MÜLK SK - Yeni Öğrenci Ön Kayıt Başvurusu">
-              <input type="hidden" name="_captcha" value="false">
               <input type="hidden" name="_template" value="table">
+              <input type="hidden" name="_next" value="https://mulksporkulubu.com/#basarili">
+              <input type="hidden" name="_autoresponse" value="Sayın Başvuru Sahibi, MÜLK Spor Kulübü ön kayıt başvuru formunu doldurduğunuz için teşekkür ederiz. Talebiniz ve bilgileriniz koordinatörlerimize ulaşmıştır. En kısa sürede sizinle iletişime geçeceğiz. MÜLK Spor Kulübü (Sicil No: 06-01-05948) | www.mulksporkulubu.com">
 
               <div class="form-row">
                 <div class="form-group">
                   <label>Sevdiğiniz Spor Branşı *</label>
                   <select name="Sevdiginiz_Brans" id="form-branch" required>
-                    <option value="" disabled selected>Branş / Alan Seçiniz *</option>
-                    <option value="Planlanacak Branş-1">Planlanacak Branş-1</option>
-                    <option value="Planlanacak Branş-2">Planlanacak Branş-2</option>
-                    <option value="Planlanacak Branş-3">Planlanacak Branş-3</option>
-                    <option value="Planlanacak Branş-4">Planlanacak Branş-4</option>
-                    <option value="Planlanacak Branş-5">Planlanacak Branş-5</option>
-                    <option value="Genel Spor ve Hareket">Genel Spor ve Hareket Aktiviteleri</option>
+                    <option value="" disabled selected>Branş Seçiniz *</option>
+                    <option value="Voleybol">Voleybol</option>
+                    <option value="Futbol">Futbol</option>
+                    <option value="Basketbol">Basketbol</option>
+                    <option value="Okçuluk">Okçuluk</option>
+                    <option value="Jimnastik">Jimnastik</option>
+                    <option value="Diğerleri">Diğerleri</option>
                   </select>
                 </div>
                 <div class="form-group">
@@ -1857,6 +1858,7 @@
                     <option value="9-12">9–12 Yaş</option>
                     <option value="13-15">13–15 Yaş</option>
                     <option value="16-18">16–18 Yaş</option>
+                    <option value="19+">19 Yaş ve Üstü</option>
                   </select>
                 </div>
               </div>
@@ -1888,8 +1890,8 @@
               </div>
 
               <div class="form-group">
-                <label>Varsa Velinizin E-postası</label>
-                <input type="email" name="E_posta" id="form-email" placeholder="ornek@email.com">
+                <label>E-posta Adresiniz (Otomatik bilgilendirme maili için) *</label>
+                <input type="email" name="email" id="form-email" placeholder="ornek@email.com" required>
               </div>
 
               <!-- İletişim Tercihi -->
@@ -1912,8 +1914,13 @@
               </div>
 
               <div class="form-group">
-                <label>Eklemek İstediğiniz Not veya Okul Tercihi</label>
-                <textarea name="Mesaj" placeholder="Öğrencinin okulu veya belirtmek istediğiniz sağlık/gelişim detayları..."></textarea>
+                <label>Okul / Sağlık veya Ek Notlar</label>
+                <input type="text" name="Ek_Notlar" placeholder="Öğrencinin okulu veya belirtmek istediğiniz ek sağlık/gelişim detayları...">
+              </div>
+
+              <div class="form-group">
+                <label>Varsa Talep ve Önerileriniz</label>
+                <textarea name="Talep_ve_Oneriler" placeholder="Kulübümüzden beklentileriniz, çalışma gün/saat tercihleri veya belirtmek istediğiniz her türlü öneri..."></textarea>
               </div>
 
               <div class="form-check">
@@ -2106,9 +2113,10 @@
               <p style="font-size:13px;color:var(--muted);margin:0 0 20px;">Sorularınız doğrudan kulüp yönetimimize iletilecektir.</p>
 
               <form class="contact-form" action="https://formsubmit.co/1dfd135db29b9e0647e96c657a0d788f" method="POST">
-                <input type="hidden" name="_subject" value="MÜLK SK - Yeni İletişim Mesajı">
-                <input type="hidden" name="_captcha" value="false">
+                <input type="hidden" name="_subject" value="MÜLK SK - Yeni İletişim & Bilgilendirme Talebi">
                 <input type="hidden" name="_template" value="table">
+                <input type="hidden" name="_next" value="https://mulksporkulubu.com/#basarili">
+                <input type="hidden" name="_autoresponse" value="Sayın Ziyaretçimiz, MÜLK Spor Kulübü iletişim formunu doldurduğunuz için teşekkür ederiz. Mesajınız kulüp yönetimimize ulaşmıştır. En kısa sürede sizinle iletişime geçeceğiz. MÜLK Spor Kulübü (Sicil No: 06-01-05948) | www.mulksporkulubu.com">
 
                 <div class="form-group">
                   <label>Adınız Soyadınız *</label>
@@ -2117,8 +2125,8 @@
 
                 <div class="form-row">
                   <div class="form-group">
-                    <label>E-posta Adresiniz</label>
-                    <input type="email" name="E_posta" id="form-msg-email" placeholder="ornek@email.com">
+                    <label>E-posta Adresiniz (Otomatik bilgilendirme maili için) *</label>
+                    <input type="email" name="email" id="form-msg-email" placeholder="ornek@email.com" required>
                   </div>
                   <div class="form-group">
                     <label>Telefon Numaranız</label>
@@ -2253,50 +2261,32 @@
       });
     }
 
-    // FormSubmit AJAX İletimi
+    // FormSubmit Gönderimi (Otomasyon e-postası ve yönlendirme ile)
     document.querySelectorAll('.contact-form').forEach(form => {
       form.addEventListener('submit', function(e) {
-        e.preventDefault();
         const submitBtn = form.querySelector('button[type="submit"]');
-        const origText = submitBtn.innerHTML;
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = 'İletiliyor... ⏳';
-
-        const formData = new FormData(form);
-        const dataObj = {};
-        formData.forEach((value, key) => dataObj[key] = value);
-
-        fetch('https://formsubmit.co/ajax/1dfd135db29b9e0647e96c657a0d788f', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-          },
-          body: JSON.stringify(dataObj)
-        })
-        .then(res => res.json())
-        .then(data => {
-          submitBtn.disabled = false;
-          submitBtn.innerHTML = origText;
-          form.reset();
-
-          let msg = form.querySelector('.form-success-note');
-          if (!msg) {
-            msg = document.createElement('div');
-            msg.className = 'form-success-note';
-            msg.style.cssText = 'background:#eaf7ee;color:#1e7e34;padding:12px 14px;border-radius:6px;border:1px solid #c3e6cb;font-weight:700;font-size:13px;margin-top:12px;text-align:center;line-height:1.5;';
-            submitBtn.parentNode.insertBefore(msg, submitBtn.nextSibling);
-          }
-          msg.innerHTML = '✓ Başvurunuz başarıyla iletildi! Koordinatörlerimiz en kısa sürede sizinle iletişime geçecektir.';
-          msg.style.display = 'block';
-        })
-        .catch(err => {
-          submitBtn.disabled = false;
-          submitBtn.innerHTML = origText;
-          alert('Mesaj iletilirken bir sorun oluştu. Lütfen doğrudan info@mulksporkulubu.com adresine yazınız.');
-        });
+        if (submitBtn) {
+          submitBtn.innerHTML = 'İletiliyor, lütfen bekleyiniz... ⏳';
+          // Tarayıcının gönderimi başlatabilmesi için butonu kısa bir gecikmeyle devre dışı bırakıyoruz
+          setTimeout(() => { submitBtn.disabled = true; }, 100);
+        }
       });
     });
+
+    // Başarılı Form Gönderiminde Açılan Otomasyon Bildirim Modalı
+    function checkSuccessHash() {
+      if (window.location.hash === '#basarili' || window.location.hash === '#tesekkurler') {
+        const modal = document.getElementById('successModal');
+        if (modal) {
+          modal.style.display = 'flex';
+        }
+        if (history.replaceState) {
+          history.replaceState(null, '', window.location.pathname);
+        }
+      }
+    }
+    window.addEventListener('DOMContentLoaded', checkSuccessHash);
+    window.addEventListener('hashchange', checkSuccessHash);
 
     // ================= GİRİŞ TANITIM FİLMİ MOTORU =================
     (function() {
@@ -2747,6 +2737,21 @@
 
     })();
   </script>
+    <!-- ================= BAŞARILI BAŞVURU & OTOMASYON BİLDİRİM MODALI ================= -->
+  <div id="successModal" style="display:none;position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,0.7);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);align-items:center;justify-content:center;padding:20px;">
+    <div style="background:#ffffff;max-width:520px;width:100%;border-radius:16px;padding:36px 30px;text-align:center;box-shadow:0 24px 50px rgba(0,0,0,0.35);position:relative;border:1px solid #e2e8f0;animation:popIn 0.3s ease-out;">
+      <button onclick="document.getElementById('successModal').style.display='none'" style="position:absolute;top:16px;right:18px;background:none;border:none;font-size:22px;cursor:pointer;color:#64748b;line-height:1;" aria-label="Kapat">✕</button>
+      <div style="width:68px;height:68px;background:#eaf7ee;color:#1e7e34;font-size:34px;display:flex;align-items:center;justify-content:center;border-radius:50%;margin:0 auto 18px;box-shadow:0 0 0 8px #f2faf4;">✓</div>
+      <h3 style="font-family:'Manrope',sans-serif;font-size:22px;font-weight:800;color:#111114;margin:0 0 12px;">Formunuz Başarıyla Alındı!</h3>
+      <p style="font-size:14.5px;color:#475569;line-height:1.65;margin:0 0 24px;">
+        Formu doldurduğunuz için teşekkür ederiz.<br>
+        <strong>E-posta adresinize teyit ve bilgilendirme e-postası iletilmiştir.</strong><br>
+        Koordinatörlerimiz en kısa sürede sizinle iletişime geçecektir.
+      </p>
+      <button onclick="document.getElementById('successModal').style.display='none'" class="btn-primary" style="padding:12px 32px;font-size:14px;display:inline-flex;margin:0 auto;">Anladım, Teşekkürler</button>
+    </div>
+  </div>
+
   <!-- ================= KVKK AYDINLATMA METNİ MODALI ================= -->
   <div id="kvkkModal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.65);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);align-items:center;justify-content:center;padding:20px;">
     <div style="background:#ffffff;max-width:640px;width:100%;max-height:85vh;border-radius:14px;padding:32px;overflow-y:auto;position:relative;box-shadow:0 24px 48px rgba(0,0,0,0.35);border:1px solid #e2e8f0;">
