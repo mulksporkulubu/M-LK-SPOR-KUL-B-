@@ -1,94 +1,99 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="robots" content="noindex, nofollow">
-  <title>MÜLK Spor Kulübü | Kulüp Yönetim & Takip Sistemi</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MÜLK Spor Kulübü - Kulüp Yönetim & Takip Sistemi</title>
   <link rel="icon" type="image/jpeg" href="amblem.jpg">
+  
+  <!-- Modern Fontlar -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Manrope:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 
   <style>
     :root {
       --primary: #c8102e;
-      --primary-dark: #9c0a22;
+      --primary-dark: #9b0b22;
       --primary-light: #fff0f2;
-      --primary-border: #f8c8d0;
-      --ink: #111114;
-      --ink-soft: #1e1e24;
-      --sidebar-bg: #0f1015;
+      --ink: #0f172a;
       --muted: #64748b;
-      --paper: #f8fafc;
+      --bg: #f8fafc;
       --card-bg: #ffffff;
       --line: #e2e8f0;
+      --sidebar-bg: #090d16;
+      --sidebar-hover: #131b2e;
       --green: #10b981;
       --green-light: #ecfdf5;
       --yellow: #f59e0b;
       --yellow-light: #fffbeb;
-      --blue: #3b82f6;
+      --blue: #2563eb;
       --blue-light: #eff6ff;
     }
 
-    * { box-sizing: border-box; }
-    body {
+    * {
+      box-sizing: border-box;
       margin: 0;
-      background: var(--paper);
-      color: var(--ink);
-      font-family: 'DM Sans', sans-serif;
-      display: flex;
-      height: 100vh;
-      overflow: hidden;
-      -webkit-font-smoothing: antialiased;
+      padding: 0;
     }
 
-    
-    /* ================= GÜVENLİK & GİRİŞ EKRANI ================= */
+    body {
+      font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      min-height: 100vh;
+      display: flex;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    /* ================= LOGIN OVERLAY ================= */
     #loginScreen {
       position: fixed;
-      inset: 0;
-      background: radial-gradient(circle at 50% 20%, #1e1e24 0%, #0a0a0d 100%);
-      z-index: 999999;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: radial-gradient(circle at center, #1e293b 0%, #090d16 100%);
       display: flex;
       align-items: center;
       justify-content: center;
+      z-index: 999999;
       padding: 20px;
     }
     .login-card {
-      background: #ffffff;
+      background: white;
       border-radius: 20px;
-      padding: 44px 38px;
-      max-width: 440px;
+      padding: 40px 36px;
       width: 100%;
+      max-width: 440px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
       text-align: center;
-      box-shadow: 0 30px 60px rgba(0,0,0,0.45);
+      position: relative;
       border: 1px solid rgba(255,255,255,0.1);
-      animation: zoomIn 0.3s ease-out;
-    }
-    @keyframes zoomIn {
-      from { opacity: 0; transform: scale(0.95); }
-      to { opacity: 1; transform: scale(1); }
     }
     .login-logo {
-      width: 72px;
-      height: 72px;
-      border-radius: 14px;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      margin: 0 auto 16px;
+      box-shadow: 0 8px 24px rgba(200, 16, 46, 0.25);
+      border: 3px solid #c8102e;
       object-fit: cover;
-      margin-bottom: 16px;
-      box-shadow: 0 8px 20px rgba(200, 16, 46, 0.25);
     }
     .login-card h2 {
       font-family: 'Manrope', sans-serif;
       font-size: 20px;
       font-weight: 800;
-      color: #111114;
-      margin: 0 0 6px;
+      color: #0f172a;
+      letter-spacing: -0.5px;
+      margin-bottom: 4px;
     }
     .login-card p {
       font-size: 13px;
       color: #64748b;
-      margin: 0 0 26px;
+      margin-bottom: 24px;
+      line-height: 1.4;
     }
     .login-field {
       width: 100%;
@@ -96,15 +101,16 @@
       border: 1.5px solid #cbd5e1;
       border-radius: 10px;
       font-size: 14px;
+      font-family: inherit;
       outline: none;
       transition: all 0.2s ease;
-      font-family: inherit;
-      text-align: center;
-      letter-spacing: 2px;
+      background: #f8fafc;
+      color: #0f172a;
     }
     .login-field:focus {
       border-color: #c8102e;
-      box-shadow: 0 0 0 4px rgba(200, 16, 46, 0.12);
+      background: #ffffff;
+      box-shadow: 0 0 0 3px rgba(200, 16, 46, 0.12);
     }
     .login-btn {
       width: 100%;
@@ -116,31 +122,32 @@
       font-size: 14px;
       font-weight: 700;
       cursor: pointer;
-      margin-top: 16px;
-      transition: all 0.2s ease;
       font-family: inherit;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 14px rgba(200, 16, 46, 0.35);
     }
     .login-btn:hover {
-      background: #9c0a22;
+      background: #9b0b22;
       transform: translateY(-1px);
     }
     .login-error {
       color: #dc2626;
       font-size: 12.5px;
-      font-weight: 600;
       margin-top: 12px;
       display: none;
+      font-weight: 600;
+      background: #fef2f2;
+      padding: 8px 12px;
+      border-radius: 8px;
+      border: 1px solid #fecaca;
     }
     .login-hint {
-      margin-top: 22px;
-      padding-top: 18px;
-      border-top: 1px solid #f1f5f9;
-      font-size: 12px;
+      margin-top: 20px;
+      font-size: 11.5px;
       color: #94a3b8;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
+      border-top: 1px solid #f1f5f9;
+      padding-top: 16px;
+      line-height: 1.5;
     }
 
     /* ================= SIDEBAR ================= */
@@ -148,33 +155,36 @@
       width: 260px;
       background: var(--sidebar-bg);
       color: white;
+      flex-shrink: 0;
       display: flex;
       flex-direction: column;
-      flex-shrink: 0;
-      border-right: 1px solid rgba(255,255,255,0.08);
-      z-index: 20;
+      border-right: 1px solid rgba(255,255,255,0.06);
+      height: 100vh;
+      position: sticky;
+      top: 0;
+      user-select: none;
     }
     .sidebar-brand {
-      padding: 22px 20px;
+      padding: 22px 20px 18px;
       display: flex;
       align-items: center;
       gap: 12px;
       border-bottom: 1px solid rgba(255,255,255,0.08);
     }
     .sidebar-brand img {
-      width: 42px;
-      height: 42px;
-      border-radius: 8px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 2px solid var(--primary);
       object-fit: cover;
-      background: #000;
     }
     .sidebar-brand h2 {
       font-family: 'Manrope', sans-serif;
-      font-size: 15px;
+      font-size: 14.5px;
       font-weight: 800;
-      margin: 0;
+      letter-spacing: 0.5px;
       color: white;
-      letter-spacing: -0.2px;
+      line-height: 1.2;
     }
     .sidebar-brand span {
       font-size: 11px;
@@ -182,20 +192,19 @@
       display: block;
       margin-top: 2px;
     }
-
     .role-badge {
-      display: inline-flex;
+      margin: 12px 16px 6px;
+      padding: 6px 10px;
+      background: rgba(200, 16, 46, 0.2);
+      border: 1px solid rgba(200, 16, 46, 0.4);
+      border-radius: 6px;
+      font-size: 11px;
+      color: #ff8a99;
+      font-weight: 700;
+      display: flex;
       align-items: center;
       gap: 6px;
-      padding: 5px 10px;
-      border-radius: 6px;
-      background: rgba(200, 16, 46, 0.2);
-      color: #ff8a99;
-      font-size: 11px;
-      font-weight: 700;
-      margin: 14px 20px 8px;
     }
-
     .sidebar-nav {
       flex: 1;
       padding: 10px 12px;
@@ -245,7 +254,6 @@
       font-size: 11px;
       font-weight: 700;
     }
-
     .sidebar-footer {
       padding: 16px 20px;
       border-top: 1px solid rgba(255,255,255,0.08);
@@ -272,8 +280,6 @@
       overflow: hidden;
       background: #f1f5f9;
     }
-
-    /* Top bar */
     .topbar {
       height: 68px;
       background: var(--card-bg);
@@ -298,7 +304,7 @@
     .topbar-right {
       display: flex;
       align-items: center;
-      gap: 16px;
+      gap: 12px;
     }
     .btn {
       display: inline-flex;
@@ -340,13 +346,11 @@
       font-size: 12px;
     }
 
-    /* Content Area */
     .content-area {
       flex: 1;
       overflow-y: auto;
       padding: 28px 32px 40px;
     }
-
     .tab-pane {
       display: none;
       animation: fadeIn 0.2s ease-in-out;
@@ -359,7 +363,7 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* KPI Cards */
+    /* KPI Grid */
     .kpi-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -389,6 +393,7 @@
     .kpi-icon.blue { background: var(--blue-light); color: var(--blue); }
     .kpi-icon.green { background: var(--green-light); color: var(--green); }
     .kpi-icon.yellow { background: var(--yellow-light); color: var(--yellow); }
+    .kpi-icon.purple { background: #f3e8ff; color: #9333ea; }
     .kpi-val {
       font-family: 'Manrope', sans-serif;
       font-size: 24px;
@@ -403,7 +408,7 @@
       font-weight: 500;
     }
 
-    /* Tables & Cards */
+    /* Card Boxes & Tables */
     .card-box {
       background: var(--card-bg);
       border-radius: 14px;
@@ -418,6 +423,8 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
     }
     .cb-head h3 {
       font-family: 'Manrope', sans-serif;
@@ -430,6 +437,7 @@
       display: flex;
       align-items: center;
       gap: 10px;
+      flex-wrap: wrap;
     }
     .search-input {
       padding: 8px 14px;
@@ -437,8 +445,8 @@
       border-radius: 8px;
       font-size: 13px;
       font-family: inherit;
-      width: 220px;
       outline: none;
+      background: white;
     }
     .search-input:focus {
       border-color: var(--primary);
@@ -487,9 +495,10 @@
     .badge-yellow { background: #fef3c7; color: #b45309; }
     .badge-red { background: #fee2e2; color: #b91c1c; }
     .badge-blue { background: #dbeafe; color: #1d4ed8; }
+    .badge-purple { background: #f3e8ff; color: #7e22ce; }
     .badge-gray { background: #f1f5f9; color: #64748b; }
 
-    /* KVKK Box */
+    /* KVKK Alert */
     .kvkk-alert {
       background: #f0fdf4;
       border: 1px solid #bbf7d0;
@@ -517,64 +526,346 @@
       line-height: 1.5;
     }
 
-    /* Attendance Toggle Buttons */
+    /* Attendance Buttons */
     .att-btn {
-      padding: 6px 12px;
+      padding: 5px 10px;
       border-radius: 6px;
-      border: 1px solid var(--line);
-      background: white;
       font-size: 12px;
       font-weight: 700;
       cursor: pointer;
+      border: 1px solid #cbd5e1;
+      background: white;
       transition: all 0.15s ease;
     }
     .att-btn.present.active { background: #10b981; color: white; border-color: #10b981; }
     .att-btn.absent.active { background: #ef4444; color: white; border-color: #ef4444; }
     .att-btn.excused.active { background: #f59e0b; color: white; border-color: #f59e0b; }
 
-    /* Modals */
+    /* ================= OKULLAR & BRANŞLAR STILLER ================= */
+    .school-card {
+      background: var(--card-bg);
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+      margin-bottom: 24px;
+      overflow: hidden;
+    }
+    .school-header {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #ffffff;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .school-info {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .school-icon-badge {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      background: #eff6ff;
+      color: #1d4ed8;
+      display: grid;
+      place-items: center;
+      font-size: 22px;
+      border: 1px solid #bfdbfe;
+    }
+    .school-title h3 {
+      font-family: 'Manrope', sans-serif;
+      font-size: 16.5px;
+      font-weight: 800;
+      color: var(--ink);
+      margin: 0 0 4px 0;
+    }
+    .school-title p {
+      margin: 0;
+      font-size: 12px;
+      color: var(--muted);
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .school-actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .school-body {
+      padding: 22px 24px;
+      background: #fafbfc;
+    }
+    .branches-subhead {
+      font-family: 'Manrope', sans-serif;
+      font-size: 13.5px;
+      font-weight: 800;
+      color: #334155;
+      margin: 0 0 14px 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .branches-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 16px;
+    }
+    .branch-subcard {
+      background: #ffffff;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 16px 18px;
+      transition: all 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .branch-subcard:hover {
+      border-color: #cbd5e1;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      transform: translateY(-2px);
+    }
+    .branch-card-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 12px;
+    }
+    .branch-name-box {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .branch-name-box h4 {
+      margin: 0;
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--ink);
+    }
+    .branch-details {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      font-size: 12.5px;
+      color: #475569;
+      margin-bottom: 14px;
+    }
+    .branch-detail-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .branch-detail-row span.label {
+      color: var(--muted);
+      min-width: 90px;
+    }
+    .branch-card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 12px;
+      border-top: 1px dashed var(--line);
+    }
+
+    /* ================= CRM KANBAN & PIPELINE STILLERİ ================= */
+    .crm-pipeline-container {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(230px, 1fr));
+      gap: 16px;
+      overflow-x: auto;
+      padding-bottom: 16px;
+      margin-bottom: 24px;
+    }
+    .crm-column {
+      background: #f8fafc;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      min-height: 480px;
+    }
+    .crm-col-header {
+      padding: 14px 16px;
+      border-bottom: 2px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #ffffff;
+      border-top-left-radius: 12px;
+      border-top-right-radius: 12px;
+    }
+    .crm-col-title {
+      font-family: 'Manrope', sans-serif;
+      font-size: 13px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: #1e293b;
+    }
+    .crm-col-badge {
+      background: #e2e8f0;
+      color: #475569;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 10px;
+    }
+    .crm-col-cards {
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      overflow-y: auto;
+      flex: 1;
+    }
+    .crm-card {
+      background: #ffffff;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 14px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+    .crm-card:hover {
+      border-color: #cbd5e1;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+      transform: translateY(-2px);
+    }
+    .crm-card-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+    .crm-card-name {
+      font-family: 'Manrope', sans-serif;
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--ink);
+    }
+    .crm-card-branch {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .crm-card-details {
+      font-size: 12px;
+      color: #64748b;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .crm-card-notes {
+      background: #f1f5f9;
+      border-left: 3px solid #3b82f6;
+      padding: 6px 8px;
+      border-radius: 4px;
+      font-size: 11.5px;
+      color: #334155;
+      margin-top: 4px;
+      line-height: 1.4;
+    }
+    .crm-card-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 6px;
+      padding-top: 8px;
+      border-top: 1px dashed var(--line);
+      flex-wrap: wrap;
+    }
+    .btn-wa {
+      background: #25D366;
+      color: white;
+      border: none;
+      padding: 5px 9px;
+      border-radius: 6px;
+      font-size: 11.5px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.15s ease;
+    }
+    .btn-wa:hover {
+      background: #1eb857;
+      transform: translateY(-1px);
+    }
+    .crm-stage-select {
+      padding: 4px 6px;
+      font-size: 11px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: white;
+      outline: none;
+      font-weight: 600;
+    }
+
+    .crm-widgets-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-top: 12px;
+    }
+
+    /* Modal */
     .modal-overlay {
-      display: none;
       position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.65);
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(15, 23, 42, 0.65);
       backdrop-filter: blur(4px);
-      z-index: 9999;
+      display: none;
       align-items: center;
       justify-content: center;
+      z-index: 9999;
       padding: 20px;
     }
     .modal-box {
       background: white;
       border-radius: 16px;
+      padding: 28px;
       width: 100%;
       max-width: 580px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
       max-height: 90vh;
       overflow-y: auto;
-      padding: 28px 32px;
-      box-shadow: 0 24px 48px rgba(0,0,0,0.25);
-      position: relative;
     }
     .modal-head {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 20px;
-      padding-bottom: 12px;
+      padding-bottom: 14px;
       border-bottom: 1px solid var(--line);
     }
     .modal-head h3 {
       font-family: 'Manrope', sans-serif;
-      font-size: 18px;
+      font-size: 17px;
       font-weight: 800;
       margin: 0;
+      color: var(--ink);
     }
     .close-btn {
       background: none;
       border: none;
-      font-size: 22px;
+      font-size: 20px;
+      color: var(--muted);
       cursor: pointer;
-      color: #64748b;
     }
     .form-group {
       margin-bottom: 16px;
@@ -583,8 +874,8 @@
       display: block;
       font-size: 12.5px;
       font-weight: 700;
-      margin-bottom: 6px;
       color: #334155;
+      margin-bottom: 6px;
     }
     .form-group input, .form-group select, .form-group textarea {
       width: 100%;
@@ -594,6 +885,7 @@
       font-size: 13.5px;
       font-family: inherit;
       outline: none;
+      background: white;
     }
     .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
       border-color: var(--primary);
@@ -601,18 +893,25 @@
     .form-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 14px;
+      gap: 16px;
     }
 
-    @media(max-width: 900px) {
-      .kpi-grid { grid-template-columns: 1fr 1fr; }
-      body { flex-direction: column; overflow: auto; }
-      .sidebar { width: 100%; height: auto; }
-      .content-area { padding: 20px; }
+    @media (max-width: 1024px) {
+      .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+      .branches-grid { grid-template-columns: 1fr; }
+      .crm-widgets-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 768px) {
+      body { flex-direction: column; }
+      .sidebar { width: 100%; height: auto; position: static; }
+      .content-area { padding: 16px; }
+      .kpi-grid { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
+
   <!-- ================= GİZLİ YÖNETİCİ KİLİT EKRANI ================= -->
   <div id="loginScreen">
     <div class="login-card">
@@ -646,7 +945,6 @@
     </div>
   </div>
 
-
   <!-- ================= SIDEBAR ================= -->
   <aside class="sidebar">
     <div class="sidebar-brand">
@@ -667,16 +965,22 @@
         <span>Genel Bakış</span>
       </button>
 
-      <button class="nav-btn" onclick="switchTab('leads')">
-        <span class="icon">📥</span>
-        <span>Gelen Ön Kayıtlar</span>
-        <span class="count-badge" id="leadsCount">3</span>
+      <button class="nav-btn" onclick="switchTab('crm')">
+        <span class="icon">🤝</span>
+        <span>Veli CRM & Adaylar</span>
+        <span class="count-badge" id="crmCount">0</span>
+      </button>
+
+      <button class="nav-btn" onclick="switchTab('schools')">
+        <span class="icon">🏫</span>
+        <span>Okullar & Branşlar</span>
+        <span class="count-badge" id="schoolsCount">0</span>
       </button>
 
       <button class="nav-btn" onclick="switchTab('athletes')">
         <span class="icon">🏃</span>
         <span>Sporcular & Veliler</span>
-        <span class="count-badge" id="athletesCount">24</span>
+        <span class="count-badge" id="athletesCount">0</span>
       </button>
 
       <button class="nav-btn" onclick="switchTab('attendance')">
@@ -747,12 +1051,12 @@
           </div>
         </div>
 
-        <!-- KPI Kartları -->
+        <!-- KPI Kartları (Sıfırdan Gerçek Verilerle Başlar) -->
         <div class="kpi-grid">
           <div class="kpi-card">
             <div class="kpi-icon red">👥</div>
             <div>
-              <div class="kpi-val" id="statTotalAthletes">24</div>
+              <div class="kpi-val" id="statTotalAthletes">0</div>
               <div class="kpi-label">Kayıtlı Aktif Sporcu</div>
             </div>
           </div>
@@ -760,15 +1064,15 @@
           <div class="kpi-card">
             <div class="kpi-icon blue">📥</div>
             <div>
-              <div class="kpi-val" id="statNewLeads">3</div>
-              <div class="kpi-label">Yeni Ön Kayıt Başvurusu</div>
+              <div class="kpi-val" id="statNewLeads">0</div>
+              <div class="kpi-label">Yeni Aday Başvurusu</div>
             </div>
           </div>
 
           <div class="kpi-card">
             <div class="kpi-icon green">💰</div>
             <div>
-              <div class="kpi-val">₺36.500</div>
+              <div class="kpi-val" id="statTotalRevenue">₺0</div>
               <div class="kpi-label">Bu Ayki Tahsilat Tutarı</div>
             </div>
           </div>
@@ -776,7 +1080,7 @@
           <div class="kpi-card">
             <div class="kpi-icon yellow">📊</div>
             <div>
-              <div class="kpi-val">%92</div>
+              <div class="kpi-val" id="statAttendanceRate">%0</div>
               <div class="kpi-label">Ortalama Yoklama Oranı</div>
             </div>
           </div>
@@ -785,11 +1089,11 @@
         <!-- 2 Sütunlu Hızlı Tablo Görünümü -->
         <div style="display:grid;grid-template-columns:1.2fr 1fr;gap:24px;">
           
-          <!-- Sol: Son Ön Kayıtlar -->
+          <!-- Sol: Son Ön Kayıtlar & Adaylar -->
           <div class="card-box">
             <div class="cb-head">
-              <h3>Web Sitesinden Gelen Son Başvurular</h3>
-              <button class="btn btn-secondary btn-sm" onclick="switchTab('leads')">Tümünü Gör</button>
+              <h3>Web Sitesinden & Telefondan Son Adaylar</h3>
+              <button class="btn btn-secondary btn-sm" onclick="switchTab('crm')">CRM Hattına Git ↗</button>
             </div>
             <table class="data-table">
               <thead>
@@ -797,7 +1101,7 @@
                   <th>Ad Soyad</th>
                   <th>Branş</th>
                   <th>İletişim Tercihi</th>
-                  <th>Tarih</th>
+                  <th>Aşama</th>
                   <th>İşlem</th>
                 </tr>
               </thead>
@@ -813,30 +1117,8 @@
               <h3>Günün Antrenmanları</h3>
               <span class="badge badge-blue">Bugün</span>
             </div>
-            <div style="padding:16px 20px;display:flex;flex-direction:column;gap:12px;">
-              <div style="padding:12px 14px;border:1px solid var(--line);border-radius:8px;display:flex;justify-content:space-between;align-items:center;">
-                <div>
-                  <strong style="display:block;font-size:13.5px;">Spor Antrenmanları (5-8 Yaş)</strong>
-                  <span style="font-size:12px;color:var(--muted);">10:00 - 11:30 · Spor Alanı 1</span>
-                </div>
-                <button class="btn btn-primary btn-sm" onclick="switchTab('attendance')">Yoklama Al ↗</button>
-              </div>
-
-              <div style="padding:12px 14px;border:1px solid var(--line);border-radius:8px;display:flex;justify-content:space-between;align-items:center;">
-                <div>
-                  <strong style="display:block;font-size:13.5px;">Kros & Kondisyon (13-18 Yaş)</strong>
-                  <span style="font-size:12px;color:var(--muted);">14:00 - 15:30 · Açık Parkur</span>
-                </div>
-                <button class="btn btn-primary btn-sm" onclick="switchTab('attendance')">Yoklama Al ↗</button>
-              </div>
-
-              <div style="padding:12px 14px;border:1px solid var(--line);border-radius:8px;display:flex;justify-content:space-between;align-items:center;">
-                <div>
-                  <strong style="display:block;font-size:13.5px;">Branş Antrenmanı (Basketbol)</strong>
-                  <span style="font-size:12px;color:var(--muted);">16:30 - 18:00 · Kapalı Salon</span>
-                </div>
-                <button class="btn btn-primary btn-sm" onclick="switchTab('attendance')">Yoklama Al ↗</button>
-              </div>
+            <div id="dashTodaySchedules" style="padding:16px 20px;display:flex;flex-direction:column;gap:12px;">
+              <!-- Dinamik okullar/branşlardan doldurulacak -->
             </div>
           </div>
 
@@ -844,40 +1126,170 @@
 
       </section>
 
-      <!-- ================= TAB 2: GELEN ÖN KAYITLAR ================= -->
-      <section id="tab-leads" class="tab-pane">
-        <div class="card-box">
+      <!-- ================= TAB 2: VELİ CRM & ADAY TAKİP HATTI (YENİ MODÜL) ================= -->
+      <section id="tab-crm" class="tab-pane">
+        
+        <!-- CRM Başlık ve Hızlı Eylem Çubuğu -->
+        <div class="card-box" style="margin-bottom:20px;">
           <div class="cb-head">
             <div>
-              <h3>Web Sitesi Ön Kayıt Başvuru Havuzu</h3>
-              <span style="font-size:12px;color:var(--muted);">FormSubmit üzerinden kulübünüze ulaşan aday sporcu başvuruları</span>
+              <h3>🤝 Veli & Aday Sporcu CRM Yönetim Hattı</h3>
+              <span style="font-size:12px;color:var(--muted);">Aday veli görüşmeleri, deneme antrenmanı takibi, tek tıkla WhatsApp iletişimi ve veli görüşme notları</span>
             </div>
             <div class="cb-actions">
-              <input type="text" class="search-input" id="searchLeads" placeholder="İsim veya telefon ara..." onkeyup="filterLeadsTable()">
+              <button class="btn btn-secondary btn-sm" onclick="openModal('whatsappTemplatesModal')" style="border-color:#25D366;color:#128c7e;background:#f0fdf4;">
+                <span>💬</span> WhatsApp Şablonları
+              </button>
+              <button class="btn btn-primary btn-sm" onclick="openModal('newCrmLeadModal')">
+                <span>+</span> Yeni Aday Veli / Sporcu Ekle
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CRM Özet Metrikleri -->
+        <div style="display:grid;grid-template-columns:repeat(4, 1fr);gap:16px;margin-bottom:24px;">
+          <div style="background:white;padding:16px 20px;border-radius:12px;border:1px solid var(--line);">
+            <span style="font-size:11.5px;color:var(--muted);font-weight:700;text-transform:uppercase;">Toplam Aday Havuzu</span>
+            <div style="font-size:22px;font-weight:800;color:var(--ink);margin-top:2px;" id="crmTotalLeadsCount">0</div>
+            <small style="color:var(--muted);">Görüşülen & Bekleyen</small>
+          </div>
+
+          <div style="background:white;padding:16px 20px;border-radius:12px;border:1px solid var(--line);">
+            <span style="font-size:11.5px;color:var(--yellow);font-weight:700;text-transform:uppercase;">Deneme Antrenmanı</span>
+            <div style="font-size:22px;font-weight:800;color:var(--yellow);margin-top:2px;" id="crmTrialCount">0</div>
+            <small style="color:var(--muted);">İdman randevusu verildi</small>
+          </div>
+
+          <div style="background:white;padding:16px 20px;border-radius:12px;border:1px solid var(--line);">
+            <span style="font-size:11.5px;color:var(--green);font-weight:700;text-transform:uppercase;">Kayda Dönüşen</span>
+            <div style="font-size:22px;font-weight:800;color:var(--green);margin-top:2px;" id="crmWonCount">0</div>
+            <small style="color:var(--green);">Lisanslı Sporcu Oldu</small>
+          </div>
+
+          <div style="background:white;padding:16px 20px;border-radius:12px;border:1px solid var(--line);">
+            <span style="font-size:11.5px;color:#9333ea;font-weight:700;text-transform:uppercase;">Bu Ay Doğum Günü 🎂</span>
+            <div style="font-size:22px;font-weight:800;color:#9333ea;margin-top:2px;" id="crmBirthdayCount">0</div>
+            <small style="color:var(--muted);">Kutlama mesajı bekleyen</small>
+          </div>
+        </div>
+
+        <!-- 5-Aşamalı CRM Kanban Hattı -->
+        <h4 style="font-family:'Manrope',sans-serif;font-size:14px;color:#334155;margin:0 0 12px 0;">🎯 Aday Dönüşüm Hattı (Pipeline)</h4>
+        <div class="crm-pipeline-container">
+          
+          <!-- Kolon 1: Yeni Başvuru -->
+          <div class="crm-column">
+            <div class="crm-col-header">
+              <div class="crm-col-title"><span>📥</span> Yeni Başvuru</div>
+              <span class="crm-col-badge" id="badgeStageNew">0</span>
+            </div>
+            <div class="crm-col-cards" id="colStageNew">
+              <!-- Dinamik -->
             </div>
           </div>
 
-          <table class="data-table" id="leadsTable">
-            <thead>
-              <tr>
-                <th>Başvuran Adı</th>
-                <th>Yaş Grubu</th>
-                <th>Tercih Branş</th>
-                <th>Veli Adı & İletişim</th>
-                <th>İletişim Tercihi</th>
-                <th>KVKK Onayı</th>
-                <th>Durum</th>
-                <th>İşlemler</th>
-              </tr>
-            </thead>
-            <tbody id="leadsTbody">
-              <!-- Dinamik yüklenecek -->
-            </tbody>
-          </table>
+          <!-- Kolon 2: Görüşüldü / İletişimde -->
+          <div class="crm-column">
+            <div class="crm-col-header">
+              <div class="crm-col-title"><span>📞</span> Görüşüldü</div>
+              <span class="crm-col-badge" id="badgeStageContacted">0</span>
+            </div>
+            <div class="crm-col-cards" id="colStageContacted">
+              <!-- Dinamik -->
+            </div>
+          </div>
+
+          <!-- Kolon 3: Deneme Antrenmanı -->
+          <div class="crm-column">
+            <div class="crm-col-header">
+              <div class="crm-col-title"><span>🏅</span> Deneme İdmanı</div>
+              <span class="crm-col-badge" id="badgeStageTrial">0</span>
+            </div>
+            <div class="crm-col-cards" id="colStageTrial">
+              <!-- Dinamik -->
+            </div>
+          </div>
+
+          <!-- Kolon 4: Kayıt Tamamlandı -->
+          <div class="crm-column">
+            <div class="crm-col-header">
+              <div class="crm-col-title"><span>✅</span> Kayıt Yapıldı</div>
+              <span class="crm-col-badge" id="badgeStageWon">0</span>
+            </div>
+            <div class="crm-col-cards" id="colStageWon">
+              <!-- Dinamik -->
+            </div>
+          </div>
+
+          <!-- Kolon 5: Beklemede / Takip -->
+          <div class="crm-column">
+            <div class="crm-col-header">
+              <div class="crm-col-title"><span>⏳</span> Beklemede</div>
+              <span class="crm-col-badge" id="badgeStageHold">0</span>
+            </div>
+            <div class="crm-col-cards" id="colStageHold">
+              <!-- Dinamik -->
+            </div>
+          </div>
+
+        </div>
+
+        <!-- CRM Alt Ekstra Modülleri: Doğum Günleri & Devamsızlık Uyarıları -->
+        <div class="crm-widgets-grid">
+          
+          <!-- Doğum Günü Takipçisi -->
+          <div class="card-box">
+            <div class="cb-head">
+              <h3>🎂 Bu Ay Doğum Günü Olan Sporcular</h3>
+              <span class="badge badge-purple">Veli Sadakati</span>
+            </div>
+            <div style="padding:16px 20px;" id="birthdayListContainer">
+              <!-- Dinamik -->
+            </div>
+          </div>
+
+          <!-- Devamsızlık Erken Uyarı Takipçisi -->
+          <div class="card-box">
+            <div class="cb-head">
+              <h3>⚠️ Devamsızlık Erken Uyarı Sistemi</h3>
+              <span class="badge badge-yellow">Kopma Önleme</span>
+            </div>
+            <div style="padding:16px 20px;" id="absenceAlertContainer">
+              <!-- Dinamik -->
+            </div>
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- ================= TAB 3: OKULLAR & BRANŞLAR ================= -->
+      <section id="tab-schools" class="tab-pane">
+        <div class="card-box" style="margin-bottom:20px;">
+          <div class="cb-head">
+            <div>
+              <h3>Okullar ve Anlaşmalı Spor Tesisleri</h3>
+              <span style="font-size:12px;color:var(--muted);">Kulübün faaliyet gösterdiği okul ve salonların altındaki branşlar, antrenman gün/saatleri ve sorumlu antrenörler</span>
+            </div>
+            <div class="cb-actions">
+              <button class="btn btn-secondary btn-sm" onclick="openModal('newBranchScheduleModal')">
+                <span>+</span> Okula Branş Ekle
+              </button>
+              <button class="btn btn-primary btn-sm" onclick="openModal('newSchoolModal')">
+                <span>+</span> Yeni Okul / Tesis Ekle
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Okul Kartları ve Alt Başlık Branşlar Konteyneri -->
+        <div id="schoolsContainer">
+          <!-- Dinamik render edilecek -->
         </div>
       </section>
 
-      <!-- ================= TAB 3: SPORCULAR & VELİLER ================= -->
+      <!-- ================= TAB 4: SPORCULAR & VELİLER ================= -->
       <section id="tab-athletes" class="tab-pane">
         <div class="card-box">
           <div class="cb-head">
@@ -886,14 +1298,17 @@
               <span style="font-size:12px;color:var(--muted);">Kulüp bünyesindeki lisanslı ve temel hareket eğitimi alan tüm sporcular</span>
             </div>
             <div class="cb-actions">
-              <select id="filterBranch" class="search-input" style="width:160px;" onchange="filterAthletesTable()">
+              <select id="filterSchool" class="search-input" style="width:170px;" onchange="filterAthletesTable()">
+                <option value="">Tüm Okullar / Tesisler</option>
+              </select>
+              <select id="filterBranch" class="search-input" style="width:150px;" onchange="filterAthletesTable()">
                 <option value="">Tüm Branşlar</option>
-                <option value="Spor Antrenmanları">Spor Antrenmanları</option>
-                <option value="Kros Antrenmanları">Kros Antrenmanları</option>
-                <option value="Branş Antrenmanları">Branş Antrenmanları</option>
                 <option value="Voleybol">Voleybol</option>
                 <option value="Futbol">Futbol</option>
                 <option value="Basketbol">Basketbol</option>
+                <option value="Jimnastik">Jimnastik</option>
+                <option value="Okçuluk">Okçuluk</option>
+                <option value="Kros">Kros & Atletizm</option>
               </select>
               <input type="text" class="search-input" id="searchAthletes" placeholder="Sporcu veya veli ara..." onkeyup="filterAthletesTable()">
               <button class="btn btn-primary btn-sm" onclick="openModal('newAthleteModal')">+ Yeni Sporcu</button>
@@ -905,12 +1320,12 @@
               <tr>
                 <th>Sporcu No</th>
                 <th>Sporcu Ad Soyad</th>
-                <th>Yaş / Grup</th>
+                <th>Okul / Tesis</th>
                 <th>Aktif Branş</th>
                 <th>Veli Ad Soyad</th>
                 <th>Telefon</th>
                 <th>Aidat Durumu</th>
-                <th>KVKK Durumu</th>
+                <th>Hızlı WhatsApp</th>
                 <th>İşlem</th>
               </tr>
             </thead>
@@ -921,7 +1336,7 @@
         </div>
       </section>
 
-      <!-- ================= TAB 4: YOKLAMA SİSTEMİ ================= -->
+      <!-- ================= TAB 5: YOKLAMA SİSTEMİ ================= -->
       <section id="tab-attendance" class="tab-pane">
         <div class="card-box">
           <div class="cb-head">
@@ -931,18 +1346,16 @@
             </div>
             <div class="cb-actions">
               <input type="date" id="attDate" class="search-input" style="width:160px;">
-              <select id="attGroup" class="search-input" style="width:200px;" onchange="loadAttendanceList()">
-                <option value="Grup A">Spor Antrenmanları (5-8 Yaş)</option>
-                <option value="Grup B">Kros Grubu (9-12 Yaş)</option>
-                <option value="Grup C">Branş Takımı (13-18 Yaş)</option>
+              <select id="attGroup" class="search-input" style="width:220px;" onchange="loadAttendanceList()">
+                <option value="Tümü">Tüm Branşlar</option>
               </select>
               <button class="btn btn-success btn-sm" onclick="saveAttendance()">✓ Yoklamayı Kaydet</button>
             </div>
           </div>
 
-          <div style="padding:16px 24px;background:#f8fafc;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;">
+          <div style="padding:16px 24px;background:#f8fafc;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
             <div style="font-size:13px;color:#475569;">
-              Seçili Grup: <strong id="currentGroupTitle">Spor Antrenmanları (5-8 Yaş)</strong> | Toplam: <strong id="attTotalCount">8 Sporcu</strong>
+              Seçili Branş / Grup: <strong id="currentGroupTitle">Tüm Branşlar</strong> | Toplam: <strong id="attTotalCount">0 Sporcu</strong>
             </div>
             <div style="display:flex;gap:12px;">
               <button class="btn btn-secondary btn-sm" onclick="markAllAttendance('present')">Tümünü 'Geldi' Yap</button>
@@ -955,7 +1368,7 @@
               <tr>
                 <th>Sporcu No</th>
                 <th>Adı Soyadı</th>
-                <th>Yaş</th>
+                <th>Okul & Branş</th>
                 <th>Yoklama Durumu</th>
                 <th>Antrenör Notu</th>
               </tr>
@@ -967,32 +1380,32 @@
         </div>
       </section>
 
-      <!-- ================= TAB 5: AİDAT & FİNANS (BANKA & OTOMASYON ENTEGRELİ) ================= -->
+      <!-- ================= TAB 6: AİDAT & FİNANS ================= -->
       <section id="tab-finance" class="tab-pane">
         
-        <!-- Üst Finans KPI Şeridi -->
+        <!-- Finans KPI Şeridi -->
         <div style="display:grid;grid-template-columns:repeat(4, 1fr);gap:16px;margin-bottom:20px;">
           <div style="background:white;padding:16px 20px;border-radius:12px;border:1px solid var(--line);">
             <span style="font-size:11.5px;color:var(--muted);font-weight:700;text-transform:uppercase;">Toplam Beklenen</span>
-            <div style="font-size:22px;font-weight:800;color:var(--ink);margin-top:2px;" id="finTotalExpected">₺12.000</div>
-            <small style="color:var(--muted);">Kasım 2026 Dönemi</small>
+            <div style="font-size:22px;font-weight:800;color:var(--ink);margin-top:2px;" id="finTotalExpected">₺0</div>
+            <small style="color:var(--muted);" id="finMonthLabel">Bu Dönem</small>
           </div>
 
           <div style="background:white;padding:16px 20px;border-radius:12px;border:1px solid var(--line);">
             <span style="font-size:11.5px;color:var(--green);font-weight:700;text-transform:uppercase;">Tahsil Edilen</span>
-            <div style="font-size:22px;font-weight:800;color:var(--green);margin-top:2px;" id="finTotalCollected">₺9.000</div>
+            <div style="font-size:22px;font-weight:800;color:var(--green);margin-top:2px;" id="finTotalCollected">₺0</div>
             <small style="color:var(--green);">Banka & FAST ile Alınan</small>
           </div>
 
           <div style="background:white;padding:16px 20px;border-radius:12px;border:1px solid var(--line);">
             <span style="font-size:11.5px;color:var(--yellow);font-weight:700;text-transform:uppercase;">Kalan Alacak</span>
-            <div style="font-size:22px;font-weight:800;color:var(--yellow);margin-top:2px;" id="finTotalPending">₺3.000</div>
-            <small style="color:var(--muted);">2 Sporcu Bekliyor</small>
+            <div style="font-size:22px;font-weight:800;color:var(--yellow);margin-top:2px;" id="finTotalPending">₺0</div>
+            <small style="color:var(--muted);" id="finPendingCountLabel">0 Sporcu Bekliyor</small>
           </div>
 
           <div style="background:white;padding:16px 20px;border-radius:12px;border:1px solid var(--line);">
             <span style="font-size:11.5px;color:var(--blue);font-weight:700;text-transform:uppercase;">Tahsilat Oranı</span>
-            <div style="font-size:22px;font-weight:800;color:var(--blue);margin-top:2px;" id="finRate">%75</div>
+            <div style="font-size:22px;font-weight:800;color:var(--blue);margin-top:2px;" id="finRate">%0</div>
             <small style="color:var(--muted);">Otomatik Takip Aktif</small>
           </div>
         </div>
@@ -1039,7 +1452,7 @@
         </div>
       </section>
 
-      <!-- ================= TAB 6: KVKK & VERİ GÜVENLİĞİ ================= -->
+      <!-- ================= TAB 7: KVKK & VERİ GÜVENLİĞİ ================= -->
       <section id="tab-kvkk" class="tab-pane">
         <div class="card-box">
           <div class="cb-head">
@@ -1092,7 +1505,7 @@
         </div>
       </section>
 
-      <!-- ================= TAB 7: AYARLAR ================= -->
+      <!-- ================= TAB 8: AYARLAR ================= -->
       <section id="tab-settings" class="tab-pane">
         <div class="card-box" style="max-width:720px;">
           <div class="cb-head">
@@ -1121,7 +1534,7 @@
                 <option value="sheets">Google Workspace E-Tablo Entegrasyonu</option>
               </select>
             </div>
-                        <div style="margin-top:28px;padding-top:20px;border-top:1px solid var(--line);">
+            <div style="margin-top:28px;padding-top:20px;border-top:1px solid var(--line);">
               <h4 style="margin:0 0 12px;font-family:'Manrope',sans-serif;font-size:14px;color:var(--ink);">🔐 Yönetici Parolasını Değiştir</h4>
               <div class="form-row">
                 <div class="form-group">
@@ -1142,6 +1555,270 @@
       </section>
 
     </main>
+  </div>
+
+  <!-- ================= MODAL: YENİ ADAY VELİ / SPORCU (CRM) ================= -->
+  <div id="newCrmLeadModal" class="modal-overlay">
+    <div class="modal-box">
+      <div class="modal-head">
+        <h3>🤝 Yeni Aday Veli / Sporcu Kaydı</h3>
+        <button class="close-btn" onclick="closeModal('newCrmLeadModal')">✕</button>
+      </div>
+      <form id="newCrmLeadForm" onsubmit="handleNewCrmLeadSubmit(event)">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Aday Sporcu Adı Soyadı *</label>
+            <input type="text" id="crmLeadName" required placeholder="Örn: Yağız Yıldız">
+          </div>
+          <div class="form-group">
+            <label>Yaş / Doğum Yılı *</label>
+            <input type="text" id="crmLeadAge" required placeholder="Örn: 9 Yaş (2017)">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>İlgilenilen Branş *</label>
+            <select id="crmLeadBranch" required>
+              <option value="Voleybol">🏐 Voleybol</option>
+              <option value="Basketbol">🏀 Basketbol</option>
+              <option value="Futbol">⚽ Futbol</option>
+              <option value="Jimnastik">🤸 Jimnastik</option>
+              <option value="Okçuluk">🏹 Okçuluk</option>
+              <option value="Kros">🏃 Kros & Atletizm</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Tercih Edilen Tesis / Okul</label>
+            <select id="crmLeadSchool"></select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Veli Adı Soyadı *</label>
+            <input type="text" id="crmLeadParent" required placeholder="Örn: Mehmet Yıldız">
+          </div>
+          <div class="form-group">
+            <label>Veli Telefonu (WhatsApp) *</label>
+            <input type="tel" id="crmLeadPhone" required placeholder="05XX XXX XX XX">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Aday Durumu (Başlangıç Aşaması)</label>
+          <select id="crmLeadStage">
+            <option value="Yeni">📥 Yeni Başvuru</option>
+            <option value="Görüşüldü">📞 Görüşüldü / Bilgi Verildi</option>
+            <option value="Deneme">🏅 Deneme Antrenmanına Davet Edildi</option>
+            <option value="Beklemede">⏳ Beklemede / Takipte</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>İlk Görüşme Notu / Talepler</label>
+          <textarea id="crmLeadNote" rows="2" placeholder="Örn: Hafta sonu Gazi Kampüsü deneme idmanına katılmak istiyorlar..."></textarea>
+        </div>
+
+        <div style="margin-top:20px;display:flex;justify-content:flex-end;gap:12px;">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('newCrmLeadModal')">İptal</button>
+          <button type="submit" class="btn btn-primary">Adayı CRM'e Ekle</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ================= MODAL: VELİ GÖRÜŞME NOTU EKLE ================= -->
+  <div id="crmNoteModal" class="modal-overlay">
+    <div class="modal-box">
+      <div class="modal-head">
+        <h3>📝 Veli Görüşme Notu Ekle</h3>
+        <button class="close-btn" onclick="closeModal('crmNoteModal')">✕</button>
+      </div>
+      <form id="crmNoteForm" onsubmit="handleCrmNoteSubmit(event)">
+        <input type="hidden" id="crmNoteLeadId">
+        <div style="background:#f8fafc;padding:12px 16px;border-radius:8px;margin-bottom:16px;">
+          Görüşülen Veli / Aday: <strong id="crmNoteLeadTarget">-</strong>
+        </div>
+
+        <div class="form-group">
+          <label>Görüşme Tipi</label>
+          <select id="crmNoteType">
+            <option value="Telefon Görüşmesi">📞 Telefon Görüşmesi Yapıldı</option>
+            <option value="WhatsApp">💬 WhatsApp Mesajlaşması</option>
+            <option value="Yüz Yüze Görüşme">🏢 Yüz Yüze / Salonda Tanışıldı</option>
+            <option value="Deneme Antrenmanı">🏅 Deneme Antrenmanı Değerlendirmesi</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Görüşme Notunuz *</label>
+          <textarea id="crmNoteContent" rows="4" required placeholder="Veliyle ne konuşuldu? Ne zaman tekrar iletişime geçilecek?"></textarea>
+        </div>
+
+        <div style="margin-top:20px;display:flex;justify-content:flex-end;gap:12px;">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('crmNoteModal')">İptal</button>
+          <button type="submit" class="btn btn-primary">Notu Kaydet</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ================= MODAL: WHATSAPP KURUMSAL ŞABLONLARI ================= -->
+  <div id="whatsappTemplatesModal" class="modal-overlay">
+    <div class="modal-box" style="max-width:640px;">
+      <div class="modal-head">
+        <div>
+          <h3>💬 Hazır Kurumsal WhatsApp Şablonları</h3>
+          <span style="font-size:12px;color:var(--muted);">Velilere tek tıkla profesyonel ve resmi mesaj gönderebilmeniz için tasarlanmıştır.</span>
+        </div>
+        <button class="close-btn" onclick="closeModal('whatsappTemplatesModal')">✕</button>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:14px;max-height:60vh;overflow-y:auto;padding-right:4px;">
+        
+        <!-- Şablon 1: Deneme Antrenmanı Daveti -->
+        <div style="border:1px solid var(--line);border-radius:10px;padding:14px;background:#fafbfc;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+            <strong style="font-size:13px;color:#1e293b;">1. 🏅 Ücretsiz Deneme Antrenmanı Daveti</strong>
+            <button class="btn btn-secondary btn-sm" onclick="copyTemplateText('tplTrial')">📋 Metni Kopyala</button>
+          </div>
+          <div id="tplTrial" style="font-size:12px;color:#475569;background:white;padding:10px;border-radius:6px;border:1px solid #e2e8f0;white-space:pre-wrap;line-height:1.5;">Sayın Velimiz, MÜLK Spor Kulübü bünyesindeki ücretsiz deneme antrenmanınız planlanmıştır. 
+
+📍 Salon / Tesis: [Tesis Adı]
+⏰ Gün & Saat: [Antrenman Saati]
+👟 İhtiyaçlar: Rahat spor kıyafeti, temiz spor salonu ayakkabısı ve matara/su.
+
+Çocuğumuzun yetenek ve koordinasyon analizinin yapılacağı antrenmanımızda görüşmek üzere!
+MÜLK Spor Kulübü Yönetimi</div>
+        </div>
+
+        <!-- Şablon 2: Kayıt & Lisans Evrakları -->
+        <div style="border:1px solid var(--line);border-radius:10px;padding:14px;background:#fafbfc;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+            <strong style="font-size:13px;color:#1e293b;">2. 📄 Kesin Kayıt & Lisans Evrakları</strong>
+            <button class="btn btn-secondary btn-sm" onclick="copyTemplateText('tplRegister')">📋 Metni Kopyala</button>
+          </div>
+          <div id="tplRegister" style="font-size:12px;color:#475569;background:white;padding:10px;border-radius:6px;border:1px solid #e2e8f0;white-space:pre-wrap;line-height:1.5;">Sayın Velimiz, sporcumuzun MÜLK Spor Kulübü resmî kayıt ve lisans işlemlerini tamamlamak için gereken evraklar aşağıdadır:
+
+1. 1 Adet Sağlık Raporu (veya Sağlık Beyanı)
+2. 1 Adet Vesikalık Fotoğraf
+3. Sporcu ve Veli Kimlik Fotokopisi
+4. Kulüp Kayıt Sözleşmesi (Salonda teslim alınabilir)
+
+Kulübümüze ve MÜLK ailesine hoş geldiniz!
+MÜLK Spor Kulübü · Sicil: 06-01-05948</div>
+        </div>
+
+        <!-- Şablon 3: Doğum Günü Kutlaması -->
+        <div style="border:1px solid var(--line);border-radius:10px;padding:14px;background:#fafbfc;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+            <strong style="font-size:13px;color:#1e293b;">3. 🎂 Doğum Günü Tebrik Mesajı</strong>
+            <button class="btn btn-secondary btn-sm" onclick="copyTemplateText('tplBday')">📋 Metni Kopyala</button>
+          </div>
+          <div id="tplBday" style="font-size:12px;color:#475569;background:white;padding:10px;border-radius:6px;border:1px solid #e2e8f0;white-space:pre-wrap;line-height:1.5;">Sayın Velimiz, 
+MÜLK Spor Kulübü ailesi olarak değerli sporcumuzun yeni yaşını en içten dileklerimizle kutlar; sağlık, başarı, mutluluk ve spor dolu harika bir ömür dileriz! 🎉🎂
+
+Nice başarılı maçlara ve şampiyonluklara!
+MÜLK Spor Kulübü Ailesi</div>
+        </div>
+
+      </div>
+
+      <div style="margin-top:16px;text-align:right;">
+        <button type="button" class="btn btn-secondary" onclick="closeModal('whatsappTemplatesModal')">Kapat</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= MODAL: YENİ OKUL / TESİS EKLE ================= -->
+  <div id="newSchoolModal" class="modal-overlay">
+    <div class="modal-box">
+      <div class="modal-head">
+        <h3>🏫 Yeni Okul / Tesis Ekle</h3>
+        <button class="close-btn" onclick="closeModal('newSchoolModal')">✕</button>
+      </div>
+      <form id="newSchoolForm" onsubmit="handleNewSchoolSubmit(event)">
+        <div class="form-group">
+          <label>Okul / Spor Salonu Adı *</label>
+          <input type="text" id="schName" required placeholder="Örn: TED Ankara Koleji Spor Salonu">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>İlçe / Bölge *</label>
+            <input type="text" id="schDistrict" required placeholder="Örn: Çankaya / İncek">
+          </div>
+          <div class="form-group">
+            <label>Tesis İletişim / Görevli Telefonu</label>
+            <input type="tel" id="schPhone" placeholder="0312 XXX XX XX">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Açık Adres / Konum Tarifi</label>
+          <input type="text" id="schAddress" placeholder="Kampüs içi kapalı spor kompleksi...">
+        </div>
+        <div style="margin-top:20px;display:flex;justify-content:flex-end;gap:12px;">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('newSchoolModal')">İptal</button>
+          <button type="submit" class="btn btn-primary">Okulu Kaydet</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ================= MODAL: OKULA YENİ BRANŞ EKLE ================= -->
+  <div id="newBranchScheduleModal" class="modal-overlay">
+    <div class="modal-box">
+      <div class="modal-head">
+        <h3>🏅 Okula Branş ve Antrenman Programı Ekle</h3>
+        <button class="close-btn" onclick="closeModal('newBranchScheduleModal')">✕</button>
+      </div>
+      <form id="newBranchScheduleForm" onsubmit="handleNewBranchSubmit(event)">
+        <div class="form-group">
+          <label>Hangi Okul / Tesis? *</label>
+          <select id="brSchoolSelect" required></select>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Branş *</label>
+            <select id="brBranchSelect" required>
+              <option value="Voleybol">🏐 Voleybol</option>
+              <option value="Basketbol">🏀 Basketbol</option>
+              <option value="Futbol">⚽ Futbol</option>
+              <option value="Jimnastik">🤸 Jimnastik</option>
+              <option value="Okçuluk">🏹 Okçuluk</option>
+              <option value="Kros">🏃 Kros & Atletizm</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Kontenjan (Kişi)</label>
+            <input type="number" id="brQuota" value="25" min="5" max="100">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Antrenman Gün ve Saatleri *</label>
+          <input type="text" id="brSchedule" required placeholder="Örn: Salı & Perşembe 17:00 - 18:30">
+        </div>
+        <div class="form-group">
+          <label>Yaş / Kategori Grubu *</label>
+          <input type="text" id="brAgeGroup" required placeholder="Örn: 9-13 Yaş (Küçük & Yıldız)">
+        </div>
+        <div class="form-group">
+          <label>Sorumlu Antrenör</label>
+          <select id="brCoachSelect">
+            <option value="voleybol">🏐 Voleybol Antrenörü (voleybol@mulksporkulubu.com)</option>
+            <option value="basketbol">🏀 Basketbol Antrenörü (basketbol@mulksporkulubu.com)</option>
+            <option value="futbol">⚽ Futbol Antrenörü (futbol@mulksporkulubu.com)</option>
+            <option value="jimnastik">🤸 Jimnastik Antrenörü (jimnastik@mulksporkulubu.com)</option>
+            <option value="okculuk">🏹 Okçuluk Antrenörü (okculuk@mulksporkulubu.com)</option>
+            <option value="kros">🏃 Kros Antrenörü (kros@mulksporkulubu.com)</option>
+          </select>
+        </div>
+        <div style="margin-top:20px;display:flex;justify-content:flex-end;gap:12px;">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('newBranchScheduleModal')">İptal</button>
+          <button type="submit" class="btn btn-primary">Programı Kaydet</button>
+        </div>
+      </form>
+    </div>
   </div>
 
   <!-- ================= MODAL: YENİ SPORCU EKLE ================= -->
@@ -1165,19 +1842,33 @@
 
         <div class="form-row">
           <div class="form-group">
+            <label>Okul / Tesis *</label>
+            <select id="athSchool" required></select>
+          </div>
+          <div class="form-group">
             <label>Kayıt Olunan Branş *</label>
             <select id="athBranch" required>
-              <option value="Spor Antrenmanları">Spor Antrenmanları</option>
-              <option value="Kros Antrenmanları">Kros Antrenmanları</option>
-              <option value="Branş Antrenmanları">Branş Antrenmanları</option>
               <option value="Voleybol">Voleybol</option>
-              <option value="Basketbol">Basketbol</option>
               <option value="Futbol">Futbol</option>
+              <option value="Basketbol">Basketbol</option>
+              <option value="Jimnastik">Jimnastik</option>
+              <option value="Okçuluk">Okçuluk</option>
+              <option value="Kros">Kros & Atletizm</option>
             </select>
           </div>
+        </div>
+
+        <div class="form-row">
           <div class="form-group">
             <label>Aylık Aidat Tutarı (TL) *</label>
             <input type="number" id="athFee" value="1500" required>
+          </div>
+          <div class="form-group">
+            <label>Aidat Durumu *</label>
+            <select id="athStatus" required>
+              <option value="Bekliyor">Bekliyor</option>
+              <option value="Ödendi">Ödendi</option>
+            </select>
           </div>
         </div>
 
@@ -1199,7 +1890,7 @@
 
         <div class="form-group">
           <label>Sağlık / Acil Durum Notu (Varsa)</label>
-          <input type="text" id="athHealth" placeholder="Alerji, düzenli ilaç veya belirtmek istediğiniz sağlık durumu...">
+          <input type="text" id="athHealth" placeholder="Alerji, düzenli ilaç veya belirtmek istediğiniz durum...">
         </div>
 
         <div style="margin-top:20px;display:flex;justify-content:flex-end;gap:12px;">
@@ -1210,7 +1901,6 @@
     </div>
   </div>
 
-  
   <!-- ================= MODAL: BANKA EKSTRESİ İLE OTOMATİK EŞLEŞTİRME ================= -->
   <div id="bankSyncModal" class="modal-overlay">
     <div class="modal-box" style="max-width:640px;">
@@ -1226,21 +1916,14 @@
         <label style="display:block;font-size:12.5px;font-weight:700;color:#334155;margin-bottom:6px;">
           Banka Hareketleri / FAST Açıklamaları Metnini Yapıştırın:
         </label>
-        <textarea id="bankStatementText" rows="6" style="width:100%;font-family:monospace;font-size:12px;padding:10px;border:1px solid var(--line);border-radius:8px;" placeholder="Örnek:
-08.11.2026 - 1500 TL - FAST Gelen: CEM YILMAZ - Aciklama: MLK-YILMAZ-DEFNE Kasim Aidati
-09.11.2026 - 1500 TL - Havale: BULENT KOC - Aciklama: MLK-KOC-KAAN Aidat Odemesi"></textarea>
+        <textarea id="bankStatementText" rows="6" style="width:100%;font-family:monospace;font-size:12px;padding:10px;border:1px solid var(--line);border-radius:8px;" placeholder="Banka ekstresindeki havale / FAST metinlerini buraya yapıştırabilirsiniz..."></textarea>
       </div>
 
-      <div style="display:flex;justify-content:space-between;align-items:center;">
-        <button type="button" class="btn btn-secondary btn-sm" onclick="fillSampleBankData()">
-          ⚡ Örnek Banka Ekstresi Doldur (Test Et)
+      <div style="display:flex;justify-content:flex-end;gap:10px;">
+        <button type="button" class="btn btn-secondary" onclick="closeModal('bankSyncModal')">Kapat</button>
+        <button type="button" class="btn btn-primary" onclick="processBankSync()">
+          ✓ Ekstre ile Otomatik Eşleştir
         </button>
-        <div style="display:flex;gap:10px;">
-          <button type="button" class="btn btn-secondary" onclick="closeModal('bankSyncModal')">Kapat</button>
-          <button type="button" class="btn btn-primary" onclick="processBankSync()">
-            ✓ Ekstre ile Otomatik Eşleştir
-          </button>
-        </div>
       </div>
 
       <div id="bankSyncResult" style="margin-top:16px;display:none;padding:14px;border-radius:8px;font-size:13px;line-height:1.6;"></div>
@@ -1261,10 +1944,10 @@
       <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:10px;padding:14px 18px;margin-bottom:16px;">
         <strong style="color:#b45309;font-size:13px;display:block;margin-bottom:4px;">Otomatik Gönderilecek E-posta Şablonu:</strong>
         <div style="font-size:12.5px;color:#78350f;background:white;padding:12px;border-radius:6px;border:1px solid #fef3c7;font-family:monospace;white-space:pre-wrap;" id="reminderTemplatePreview">
-Konu: MÜLK Spor Kulübü - Kasım 2026 Dönemi Aidat Hatırlatması
+Konu: MÜLK Spor Kulübü - Aidat Hatırlatması
 
 Sayın Velimiz [Veli Adı],
-Sporcumuz [Sporcu Adı] için Kasım 2026 dönemi aidat ödeme gününe 3 gün kalmıştır (Son Ödeme: 15 Kasım).
+Sporcumuz [Sporcu Adı] için aylık aidat ödeme gününe 3 gün kalmıştır.
 
 Ödemenizi banka yoluyla yaparken lütfen açıklama kısmına sporcu kodunu yazınız:
 Ödeme Referans Kodu: [SPORCU-KODU]
@@ -1278,7 +1961,7 @@ MÜLK Spor Kulübü Yönetimi
       </div>
 
       <div style="font-size:13px;color:#475569;margin-bottom:18px;">
-        Alıcı Listesi: <strong id="reminderTargetCount">2 Veliye</strong> otomatik hatırlatma e-postası iletilecektir.
+        Alıcı Listesi: <strong id="reminderTargetCount">0 Veliye</strong> otomatik hatırlatma e-postası iletilecektir.
       </div>
 
       <div style="display:flex;justify-content:flex-end;gap:10px;">
@@ -1290,7 +1973,7 @@ MÜLK Spor Kulübü Yönetimi
     </div>
   </div>
 
-  <!-- ================= MODAL: DİJİTAL MAKBUZ & ONAY E-POSTASI ================= -->
+  <!-- ================= MODAL: DİJİTAL MAKBUZ ================= -->
   <div id="receiptModal" class="modal-overlay">
     <div class="modal-box" style="max-width:560px;">
       <div class="modal-head">
@@ -1306,26 +1989,26 @@ MÜLK Spor Kulübü Yönetimi
           </div>
           <div style="text-align:right;">
             <strong style="color:#0d9488;font-size:14px;">TAHSİLAT MAKBUZU</strong>
-            <span style="font-size:11px;display:block;color:var(--muted);" id="recDate">Tarih: 09.11.2026</span>
+            <span style="font-size:11px;display:block;color:var(--muted);" id="recDate">Tarih: -</span>
           </div>
         </div>
 
         <table style="width:100%;margin-bottom:16px;font-size:12.5px;">
           <tr>
             <td style="padding:4px 0;color:var(--muted);">Sporcu Adı Soyadı:</td>
-            <td style="padding:4px 0;font-weight:700;" id="recAthleteName">Eren Can Kurt</td>
+            <td style="padding:4px 0;font-weight:700;" id="recAthleteName">-</td>
           </tr>
           <tr>
             <td style="padding:4px 0;color:var(--muted);">Banka Referans Kodu:</td>
-            <td style="padding:4px 0;font-weight:700;"><code id="recAthleteCode">MLK-KURT-EREN</code></td>
+            <td style="padding:4px 0;font-weight:700;"><code id="recAthleteCode">-</code></td>
           </tr>
           <tr>
             <td style="padding:4px 0;color:var(--muted);">Veli Adı Soyadı:</td>
-            <td style="padding:4px 0;font-weight:700;" id="recParentName">Sema Kurt</td>
+            <td style="padding:4px 0;font-weight:700;" id="recParentName">-</td>
           </tr>
           <tr>
             <td style="padding:4px 0;color:var(--muted);">Dönem:</td>
-            <td style="padding:4px 0;font-weight:700;">Kasım 2026 Aidatı</td>
+            <td style="padding:4px 0;font-weight:700;" id="recPeriod">Aylık Kulüp Aidatı</td>
           </tr>
           <tr>
             <td style="padding:4px 0;color:var(--muted);">Ödeme Kanalı:</td>
@@ -1333,7 +2016,7 @@ MÜLK Spor Kulübü Yönetimi
           </tr>
           <tr style="border-top:1px dashed #cbd5e1;">
             <td style="padding:10px 0;font-size:14px;font-weight:800;">Tahsil Edilen Tutar:</td>
-            <td style="padding:10px 0;font-size:16px;font-weight:800;color:var(--primary);">1.500,00 TL</td>
+            <td style="padding:10px 0;font-size:16px;font-weight:800;color:var(--primary);" id="recAmount">1.500,00 TL</td>
           </tr>
         </table>
 
@@ -1351,26 +2034,64 @@ MÜLK Spor Kulübü Yönetimi
 
   <!-- ================= JAVASCRIPT LOGIC ================= -->
   <script>
-    // Başlangıç Verileri (LocalStorage ile kalıcı)
-    const initialLeads = [
-      { id: 1, name: "Ali Yağız Kaya", age: "5-8 Yaş", branch: "Spor Antrenmanları", parent: "Murat Kaya", phone: "0532 111 22 33", email: "murat.kaya@email.com", method: "WhatsApp", date: "2026-11-09", kvkk: true, status: "Yeni" },
-      { id: 2, name: "Zeynep Sare Yıldız", age: "9-12 Yaş", branch: "Voleybol", parent: "Elif Yıldız", phone: "0544 222 33 44", email: "elif.yildiz@email.com", method: "Telefon", date: "2026-11-08", kvkk: true, status: "Görüşüldü" },
-      { id: 3, name: "Emir Çetin", age: "13-15 Yaş", branch: "Kros Antrenmanları", parent: "Hakan Çetin", phone: "0555 333 44 55", email: "hakan.cetin@email.com", method: "E-posta", date: "2026-11-08", kvkk: true, status: "Yeni" }
-    ];
+    // ================= SIFIR BAŞLANGIÇ TEMİZLİĞİ =================
+    (function cleanupMockData() {
+      try {
+        const a = localStorage.getItem('mulk_athletes');
+        const l = localStorage.getItem('mulk_leads');
+        if ((a && (a.includes('Eren Can') || a.includes('Ali Yağız') || a.includes('M-101') || a.includes('Defne Yılmaz'))) ||
+            (l && (l.includes('Ali Yağız') || l.includes('Zeynep Sare') || l.includes('Emir Çetin')))) {
+          localStorage.removeItem('mulk_athletes');
+          localStorage.removeItem('mulk_leads');
+          localStorage.removeItem('mulk_attendance_log');
+        }
+      } catch(e) {}
+    })();
 
-    const initialAthletes = [
-      { id: "M-101", name: "Eren Can Kurt", age: "8 Yaş", branch: "Futbol", parent: "Sema Kurt", phone: "0533 456 78 90", fee: 1500, status: "Ödendi", kvkkDate: "19.10.2026" },
-      { id: "M-102", name: "Defne Yılmaz", age: "11 Yaş", branch: "Voleybol", parent: "Cem Yılmaz", phone: "0535 567 89 01", fee: 1500, status: "Bekliyor", kvkkDate: "20.10.2026" },
-      { id: "M-103", name: "Kaan Arda Koç", age: "14 Yaş", branch: "Kros Antrenmanları", parent: "Bülent Koç", phone: "0542 678 90 12", fee: 1500, status: "Gecikmede", kvkkDate: "22.10.2026" },
-      { id: "M-104", name: "Elif Naz Demir", age: "7 Yaş", branch: "Jimnastik", parent: "Gülşen Demir", phone: "0530 789 01 23", fee: 1500, status: "Ödendi", kvkkDate: "23.10.2026" },
-      { id: "M-105", name: "Mert Öztürk", age: "15 Yaş", branch: "Basketbol", parent: "Tarık Öztürk", phone: "0536 890 12 34", fee: 1500, status: "Ödendi", kvkkDate: "25.10.2026" },
-      { id: "M-106", name: "Beren Çelik", age: "12 Yaş", branch: "Okçuluk", parent: "Murat Çelik", phone: "0532 999 88 77", fee: 1500, status: "Ödendi", kvkkDate: "26.10.2026" },
-      { id: "M-107", name: "Aras Aksoy", age: "9 Yaş", branch: "Futbol", parent: "Kemal Aksoy", phone: "0533 777 66 55", fee: 1500, status: "Bekliyor", kvkkDate: "27.10.2026" },
-      { id: "M-108", name: "Selin Aydın", age: "13 Yaş", branch: "Voleybol", parent: "Derya Aydın", phone: "0544 555 44 33", fee: 1500, status: "Ödendi", kvkkDate: "28.10.2026" }
+    // Başlangıç verileri tamamen sıfırdan ve gerçekçi
+    const initialLeads = [];
+    const initialAthletes = [];
+
+    // Gerçekçi Okul & Branş Yapısı
+    const defaultSchools = [
+      {
+        id: "SCH-1",
+        name: "Gazi Kampüsü Spor Salonu",
+        district: "Beşevler / Yenimahalle",
+        address: "Gazi Üniversitesi Kampüsü Kapalı Spor Salonu",
+        phone: "0312 202 20 00",
+        branches: [
+          { id: "BR-1", name: "Voleybol", icon: "🏐", schedule: "Salı & Perşembe 17:00 - 18:30", ageGroup: "9-13 Yaş (Küçük & Yıldız)", coach: "Voleybol Antrenörü (voleybol@mulksporkulubu.com)", coachKey: "voleybol", quota: 25 },
+          { id: "BR-2", name: "Basketbol", icon: "🏀", schedule: "Çarşamba & Cuma 16:30 - 18:00", ageGroup: "7-12 Yaş (Gelişim Grubu)", coach: "Basketbol Antrenörü (basketbol@mulksporkulubu.com)", coachKey: "basketbol", quota: 20 },
+          { id: "BR-3", name: "Futbol", icon: "⚽", schedule: "Cumartesi & Pazar 09:30 - 11:00", ageGroup: "6-14 Yaş (Futbol Akademisi)", coach: "Futbol Antrenörü (futbol@mulksporkulubu.com)", coachKey: "futbol", quota: 30 }
+        ]
+      },
+      {
+        id: "SCH-2",
+        name: "Çankaya Spor Kompleksi & Parkuru",
+        district: "Çankaya / Ankara",
+        address: "Anlaşmalı Okul Kapalı Spor Salonu & Açık Kros Parkuru",
+        phone: "0312 444 06 06",
+        branches: [
+          { id: "BR-4", name: "Jimnastik", icon: "🤸", schedule: "Cumartesi & Pazar 11:30 - 13:00", ageGroup: "4-8 Yaş (Temel Hareket)", coach: "Jimnastik Antrenörü (jimnastik@mulksporkulubu.com)", coachKey: "jimnastik", quota: 15 },
+          { id: "BR-5", name: "Okçuluk", icon: "🏹", schedule: "Cumartesi & Pazar 14:00 - 15:30", ageGroup: "10-18 Yaş (Geleneksel & Modern)", coach: "Okçuluk Antrenörü (okculuk@mulksporkulubu.com)", coachKey: "okculuk", quota: 15 },
+          { id: "BR-6", name: "Kros", icon: "🏃", schedule: "Pazartesi & Çarşamba 17:30 - 19:00", ageGroup: "12-18 Yaş (Kondisyon & Atletizm)", coach: "Kros Antrenörü (kros@mulksporkulubu.com)", coachKey: "kros", quota: 20 }
+        ]
+      }
     ];
 
     let leads = JSON.parse(localStorage.getItem('mulk_leads')) || initialLeads;
     let athletes = JSON.parse(localStorage.getItem('mulk_athletes')) || initialAthletes;
+    let schools = JSON.parse(localStorage.getItem('mulk_schools')) || defaultSchools;
+
+    // Otomatik Referans Kodu (MLK-SOYAD-AD)
+    function generateBankRefCode(athleteName) {
+      if (!athleteName) return 'MLK-SPORCU';
+      const parts = athleteName.trim().toUpperCase().split(' ');
+      const firstName = parts[0].replace(/[^A-ZÇĞİÖŞÜ]/g, '');
+      const lastName = parts.length > 1 ? parts[parts.length - 1].replace(/[^A-ZÇĞİÖŞÜ]/g, '') : 'SPORCU';
+      return 'MLK-' + lastName + '-' + firstName;
+    }
 
     // Sekme Değiştirme
     function switchTab(tabId) {
@@ -1382,7 +2103,8 @@ MÜLK Spor Kulübü Yönetimi
 
       const titles = {
         'dashboard': 'Kulüp Genel Durumu',
-        'leads': 'Gelen Ön Kayıt Başvuruları',
+        'crm': 'Veli & Aday Sporcu CRM Yönetimi',
+        'schools': 'Okullar ve Branş Yönetimi',
         'athletes': 'Sporcu ve Veli Portföyü',
         'attendance': 'Günlük Antrenman Yoklama Modülü',
         'finance': 'Aidat & Tahsilat Yönetimi',
@@ -1391,7 +2113,6 @@ MÜLK Spor Kulübü Yönetimi
       };
       document.getElementById('pageTitle').innerText = titles[tabId] || 'Yönetim Paneli';
 
-      // Buton aktiflik
       const btns = document.querySelectorAll('.nav-btn');
       btns.forEach(btn => {
         if (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes(tabId)) {
@@ -1400,71 +2121,657 @@ MÜLK Spor Kulübü Yönetimi
       });
     }
 
-    // Modal Fonksiyonları
+    // Modal Aç / Kapat
     function openModal(id) {
       const el = document.getElementById(id);
       if (el) el.style.display = 'flex';
+      if (id === 'newBranchScheduleModal' || id === 'newAthleteModal' || id === 'newCrmLeadModal') {
+        populateSchoolDropdowns();
+      }
     }
     function closeModal(id) {
       const el = document.getElementById(id);
       if (el) el.style.display = 'none';
     }
 
-    // Tabloları Yükle
+    // Dropdownları doldur
+    function populateSchoolDropdowns() {
+      const brSelect = document.getElementById('brSchoolSelect');
+      const athSelect = document.getElementById('athSchool');
+      const crmSchSelect = document.getElementById('crmLeadSchool');
+      const filterSchool = document.getElementById('filterSchool');
+
+      let optionsHtml = '';
+      schools.forEach(sch => {
+        optionsHtml += `<option value="${sch.name}">${sch.name} (${sch.district})</option>`;
+      });
+
+      if (brSelect) brSelect.innerHTML = optionsHtml;
+      if (athSelect) athSelect.innerHTML = optionsHtml;
+      if (crmSchSelect) crmSchSelect.innerHTML = optionsHtml;
+      if (filterSchool) {
+        filterSchool.innerHTML = '<option value="">Tüm Okullar / Tesisler</option>' + optionsHtml;
+      }
+    }
+
+    // Tüm Tabloları Yenile
     function renderTables() {
-      // 1. Dashboard Leads
+      renderDashboard();
+      renderCrmPipeline();
+      renderSchoolsTab();
+      renderAthletesTable();
+      renderAttendanceList();
+      renderFinanceTable();
+      renderKvkkTable();
+      updateBadges();
+      populateSchoolDropdowns();
+    }
+
+    // 1. Dashboard Render
+    function renderDashboard() {
+      const totalAthletes = athletes.length;
+      const newLeadsCount = leads.filter(l => l.status === 'Yeni' || !l.status).length;
+      
+      let totalRevenue = 0;
+      athletes.forEach(a => {
+        if (a.status === 'Ödendi') {
+          totalRevenue += (Number(a.fee) || 0);
+        }
+      });
+
+      const attLogs = JSON.parse(localStorage.getItem('mulk_attendance_log')) || [];
+      let attRateStr = '%0';
+      if (attLogs.length > 0) {
+        const presentCount = attLogs.filter(l => l.status === 'Geldi').length;
+        attRateStr = '%' + Math.round((presentCount / attLogs.length) * 100);
+      }
+
+      document.getElementById('statTotalAthletes').innerText = totalAthletes;
+      document.getElementById('statNewLeads').innerText = newLeadsCount;
+      document.getElementById('statTotalRevenue').innerText = '₺' + totalRevenue.toLocaleString('tr-TR');
+      document.getElementById('statAttendanceRate').innerText = attRateStr;
+
+      // Dashboard Son Adaylar
       const dashTbody = document.getElementById('dashLeadsTbody');
       dashTbody.innerHTML = '';
-      leads.slice(0, 3).forEach(lead => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td><strong>${lead.name}</strong></td>
-          <td><span class="badge badge-blue">${lead.branch}</span></td>
-          <td>${lead.method} (${lead.phone})</td>
-          <td>${lead.date}</td>
-          <td><button class="btn btn-secondary btn-sm" onclick="convertLeadToAthlete(${lead.id})">Kaydet ↗</button></td>
+      if (leads.length === 0) {
+        dashTbody.innerHTML = `
+          <tr>
+            <td colspan="5" style="text-align:center;padding:36px 20px;color:var(--muted);">
+              <span style="font-size:24px;display:block;margin-bottom:6px;">📥</span>
+              Henüz yeni bir aday veli başvurusu bulunmamaktadır.
+            </td>
+          </tr>
         `;
-        dashTbody.appendChild(tr);
+      } else {
+        leads.slice(0, 4).forEach(lead => {
+          const tr = document.createElement('tr');
+          const stage = lead.status || 'Yeni';
+          const stageBadgeClass = stage === 'Yeni' ? 'badge-yellow' : (stage === 'Kayıt Yapıldı' ? 'badge-green' : 'badge-blue');
+          tr.innerHTML = `
+            <td><strong>${lead.name}</strong><br><small style="color:var(--muted);">${lead.parent}</small></td>
+            <td><span class="badge badge-blue">${lead.branch}</span></td>
+            <td>${lead.phone}</td>
+            <td><span class="badge ${stageBadgeClass}">${stage}</span></td>
+            <td><button class="btn btn-secondary btn-sm" onclick="switchTab('crm')">CRM Gör ↗</button></td>
+          `;
+          dashTbody.appendChild(tr);
+        });
+      }
+
+      // Dashboard Günün Antrenmanları
+      const schedBox = document.getElementById('dashTodaySchedules');
+      schedBox.innerHTML = '';
+      
+      let allBranches = [];
+      schools.forEach(sch => {
+        sch.branches.forEach(br => {
+          allBranches.push({ ...br, schoolName: sch.name });
+        });
       });
 
-      // 2. Leads Tab
-      const leadsTbody = document.getElementById('leadsTbody');
-      leadsTbody.innerHTML = '';
+      if (allBranches.length === 0) {
+        schedBox.innerHTML = `
+          <div style="text-align:center;padding:32px 20px;color:var(--muted);">
+            <span style="font-size:24px;display:block;margin-bottom:6px;">📅</span>
+            Henüz planlanmış aktif antrenman programı bulunmuyor.<br>
+            <small style="margin-top:4px;display:block;">Okullar & Branşlar sekmesinden program ekleyebilirsiniz.</small>
+          </div>
+        `;
+      } else {
+        allBranches.slice(0, 3).forEach(b => {
+          const div = document.createElement('div');
+          div.style.cssText = "padding:12px 14px;border:1px solid var(--line);border-radius:8px;display:flex;justify-content:space-between;align-items:center;background:white;";
+          div.innerHTML = `
+            <div>
+              <strong style="display:block;font-size:13.5px;">${b.icon || '🏅'} ${b.name} (${b.ageGroup})</strong>
+              <span style="font-size:12px;color:var(--muted);">${b.schedule} · ${b.schoolName}</span>
+            </div>
+            <button class="btn btn-primary btn-sm" onclick="startAttendanceForBranch('${b.name}')">Yoklama Al ↗</button>
+          `;
+          schedBox.appendChild(div);
+        });
+      }
+    }
+
+    // ================= 2. CRM PIPELINE VE VELİ İLİŞKİLERİ =================
+    function renderCrmPipeline() {
+      // 5 Aşama: Yeni, Görüşüldü, Deneme, Kayıt Yapıldı, Beklemede
+      const stages = {
+        'Yeni': document.getElementById('colStageNew'),
+        'Görüşüldü': document.getElementById('colStageContacted'),
+        'Deneme': document.getElementById('colStageTrial'),
+        'Kayıt Yapıldı': document.getElementById('colStageWon'),
+        'Beklemede': document.getElementById('colStageHold')
+      };
+
+      const counts = { 'Yeni': 0, 'Görüşüldü': 0, 'Deneme': 0, 'Kayıt Yapıldı': 0, 'Beklemede': 0 };
+
+      // Kolonları temizle
+      for (let s in stages) {
+        if (stages[s]) stages[s].innerHTML = '';
+      }
+
       leads.forEach(lead => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td><strong>${lead.name}</strong></td>
-          <td>${lead.age}</td>
-          <td><span class="badge badge-blue">${lead.branch}</span></td>
-          <td>${lead.parent}<br><small style="color:var(--muted);">${lead.phone}</small></td>
-          <td>${lead.method}</td>
-          <td><span class="badge badge-green">✓ Açık Rıza Alındı</span></td>
-          <td><span class="badge ${lead.status === 'Yeni' ? 'badge-yellow' : 'badge-green'}">${lead.status}</span></td>
-          <td>
-            <button class="btn btn-primary btn-sm" onclick="convertLeadToAthlete(${lead.id})">Sporcu Yap</button>
-            <button class="btn btn-secondary btn-sm" onclick="deleteLead(${lead.id})">Sil</button>
-          </td>
-        `;
-        leadsTbody.appendChild(tr);
-      });
+        let currentStage = lead.status || 'Yeni';
+        if (!stages[currentStage]) currentStage = 'Yeni';
+        counts[currentStage]++;
 
-      // 3. Athletes Tab
-      const athletesTbody = document.getElementById('athletesTbody');
-      athletesTbody.innerHTML = '';
-      athletes.forEach(ath => {
-        const role = getCurrentUserRole();
-        const coach = getCurrentCoachData();
-        // Antrenör ise sadece kendi branşını görsün
-        if (role === 'coach' && coach) {
-          if (!ath.branch.toLowerCase().includes(coach.branch.toLowerCase())) {
-            return;
-          }
+        const card = document.createElement('div');
+        card.className = 'crm-card';
+
+        // Son görüşme notu
+        let noteHtml = '';
+        if (lead.notes && lead.notes.length > 0) {
+          const lastNote = lead.notes[lead.notes.length - 1];
+          noteHtml = `<div class="crm-card-notes"><strong>${lastNote.type}:</strong> ${lastNote.text} <small style="display:block;color:#64748b;font-size:10px;">${lastNote.date}</small></div>`;
         }
 
+        card.innerHTML = `
+          <div class="crm-card-head">
+            <div>
+              <div class="crm-card-name">${lead.name}</div>
+              <span style="font-size:11.5px;color:var(--muted);">${lead.age}</span>
+            </div>
+            <span class="crm-card-branch badge badge-blue">${lead.branch}</span>
+          </div>
+
+          <div class="crm-card-details">
+            <div>👤 <strong>Veli:</strong> ${lead.parent}</div>
+            <div>📞 <strong>Tel:</strong> ${lead.phone}</div>
+            <div>🏫 <strong>Okul:</strong> ${lead.school || 'Belirtilmedi'}</div>
+          </div>
+
+          ${noteHtml}
+
+          <div class="crm-card-actions">
+            <button class="btn-wa" onclick="sendDirectWhatsApp('${lead.phone}', '${lead.name}', '${lead.branch}')">
+              <span>💬</span> WhatsApp
+            </button>
+            <button class="btn btn-secondary btn-sm" onclick="openCrmNoteModal(${lead.id})">📝 Not</button>
+            <select class="crm-stage-select" onchange="changeCrmLeadStage(${lead.id}, this.value)">
+              <option value="Yeni" ${currentStage==='Yeni'?'selected':''}>📥 Yeni</option>
+              <option value="Görüşüldü" ${currentStage==='Görüşüldü'?'selected':''}>📞 Görüşüldü</option>
+              <option value="Deneme" ${currentStage==='Deneme'?'selected':''}>🏅 Deneme</option>
+              <option value="Kayıt Yapıldı" ${currentStage==='Kayıt Yapıldı'?'selected':''}>✅ Kayıt</option>
+              <option value="Beklemede" ${currentStage==='Beklemede'?'selected':''}>⏳ Beklemede</option>
+            </select>
+            ${currentStage !== 'Kayıt Yapıldı' ? `<button class="btn btn-primary btn-sm" onclick="convertLeadToAthlete(${lead.id})" title="Lisanslı Sporculara Aktar">🏆 Sporcu Yap</button>` : ''}
+            <button class="btn btn-secondary btn-sm" style="color:#ef4444;" onclick="deleteLead(${lead.id})">Sil</button>
+          </div>
+        `;
+
+        if (stages[currentStage]) {
+          stages[currentStage].appendChild(card);
+        }
+      });
+
+      // Boş kolonlara bilgi koy
+      for (let s in stages) {
+        if (stages[s] && stages[s].children.length === 0) {
+          stages[s].innerHTML = `<div style="text-align:center;padding:24px 10px;color:var(--muted);font-size:12px;">Bu aşamada aday bulunmuyor.</div>`;
+        }
+      }
+
+      // Badge sayıları
+      document.getElementById('badgeStageNew').innerText = counts['Yeni'];
+      document.getElementById('badgeStageContacted').innerText = counts['Görüşüldü'];
+      document.getElementById('badgeStageTrial').innerText = counts['Deneme'];
+      document.getElementById('badgeStageWon').innerText = counts['Kayıt Yapıldı'];
+      document.getElementById('badgeStageHold').innerText = counts['Beklemede'];
+
+      document.getElementById('crmTotalLeadsCount').innerText = leads.length;
+      document.getElementById('crmTrialCount').innerText = counts['Deneme'];
+      document.getElementById('crmWonCount').innerText = counts['Kayıt Yapıldı'];
+
+      // Doğum Günü Listesini Render Et
+      renderBirthdays();
+      // Devamsızlık Uyarılarını Render Et
+      renderAbsenceAlerts();
+    }
+
+    function changeCrmLeadStage(leadId, newStage) {
+      const lead = leads.find(l => l.id === leadId);
+      if (lead) {
+        lead.status = newStage;
+        saveState();
+        renderTables();
+      }
+    }
+
+    // Yeni Aday Formu Kaydet
+    function handleNewCrmLeadSubmit(e) {
+      e.preventDefault();
+      const name = document.getElementById('crmLeadName').value.trim();
+      const age = document.getElementById('crmLeadAge').value.trim();
+      const branch = document.getElementById('crmLeadBranch').value;
+      const school = document.getElementById('crmLeadSchool').value;
+      const parent = document.getElementById('crmLeadParent').value.trim();
+      const phone = document.getElementById('crmLeadPhone').value.trim();
+      const stage = document.getElementById('crmLeadStage').value;
+      const note = document.getElementById('crmLeadNote').value.trim();
+
+      const newId = Date.now();
+      const leadObj = {
+        id: newId,
+        name: name,
+        age: age,
+        branch: branch,
+        school: school,
+        parent: parent,
+        phone: phone,
+        status: stage,
+        date: new Date().toISOString().slice(0, 10),
+        notes: []
+      };
+
+      if (note) {
+        leadObj.notes.push({
+          type: 'İlk Görüşme',
+          text: note,
+          date: new Date().toLocaleDateString('tr-TR')
+        });
+      }
+
+      leads.unshift(leadObj);
+      saveState();
+      closeModal('newCrmLeadModal');
+      document.getElementById('newCrmLeadForm').reset();
+      renderTables();
+      alert(`✓ ${name} isimli aday başarıyla CRM dönüşüm hattına kaydedildi!`);
+    }
+
+    // Görüşme Notu Modalı Aç
+    function openCrmNoteModal(leadId) {
+      const lead = leads.find(l => l.id === leadId);
+      if (!lead) return;
+      document.getElementById('crmNoteLeadId').value = lead.id;
+      document.getElementById('crmNoteLeadTarget').innerText = `${lead.parent} (${lead.name} Velisi - ${lead.branch})`;
+      document.getElementById('crmNoteContent').value = '';
+      openModal('crmNoteModal');
+    }
+
+    function handleCrmNoteSubmit(e) {
+      e.preventDefault();
+      const leadId = parseInt(document.getElementById('crmNoteLeadId').value);
+      const type = document.getElementById('crmNoteType').value;
+      const content = document.getElementById('crmNoteContent').value.trim();
+
+      const lead = leads.find(l => l.id === leadId);
+      if (lead) {
+        if (!lead.notes) lead.notes = [];
+        lead.notes.push({
+          type: type,
+          text: content,
+          date: new Date().toLocaleDateString('tr-TR') + ' ' + new Date().toLocaleTimeString('tr-TR').slice(0, 5)
+        });
+        saveState();
+        closeModal('crmNoteModal');
+        renderTables();
+        alert('✓ Veli görüşme notu başarıyla adayın profiline eklendi.');
+      }
+    }
+
+    // Doğum Günü Widget'ı
+    function renderBirthdays() {
+      const container = document.getElementById('birthdayListContainer');
+      const countEl = document.getElementById('crmBirthdayCount');
+      if (!container) return;
+      container.innerHTML = '';
+
+      const currentMonth = new Date().getMonth(); // 0-11
+      const upcomingAthletes = athletes.filter(ath => {
+        if (!ath.birthDate) return false;
+        const bDate = new Date(ath.birthDate);
+        return bDate.getMonth() === currentMonth;
+      });
+
+      if (countEl) countEl.innerText = upcomingAthletes.length;
+
+      if (upcomingAthletes.length === 0) {
+        container.innerHTML = `
+          <div style="text-align:center;padding:20px;color:var(--muted);font-size:12.5px;">
+            🎂 Bu ay doğum günü olan kayıtlı sporcu bulunmamaktadır.<br>
+            <small style="color:#94a3b8;">Yeni sporcu kaydı yaparken doğum tarihi girildiğinde burada otomatik listelenir.</small>
+          </div>
+        `;
+      } else {
+        upcomingAthletes.forEach(ath => {
+          const div = document.createElement('div');
+          div.style.cssText = "display:flex;justify-content:space-between;align-items:center;padding:10px 12px;border:1px solid var(--line);border-radius:8px;margin-bottom:8px;background:#faf5ff;";
+          div.innerHTML = `
+            <div>
+              <strong style="color:#6b21a8;">🎉 ${ath.name}</strong> (${ath.branch})<br>
+              <small style="color:var(--muted);">Veli: ${ath.parent} · Tel: ${ath.phone}</small>
+            </div>
+            <button class="btn-wa" onclick="sendBirthdayWhatsApp('${ath.phone}', '${ath.name}', '${ath.parent}')">
+              🎂 Kutlama Mesajı At
+            </button>
+          `;
+          container.appendChild(div);
+        });
+      }
+    }
+
+    // Devamsızlık Uyarı Widget'ı
+    function renderAbsenceAlerts() {
+      const container = document.getElementById('absenceAlertContainer');
+      if (!container) return;
+      container.innerHTML = '';
+
+      const attLogs = JSON.parse(localStorage.getItem('mulk_attendance_log')) || [];
+      const absentMap = {};
+      attLogs.forEach(log => {
+        if (log.status === 'Gelmedi') {
+          absentMap[log.id] = (absentMap[log.id] || 0) + 1;
+        }
+      });
+
+      const alerts = athletes.filter(a => absentMap[a.id] && absentMap[a.id] >= 2);
+
+      if (alerts.length === 0) {
+        container.innerHTML = `
+          <div style="text-align:center;padding:20px;color:var(--muted);font-size:12.5px;">
+            ✓ Son antrenmanlarda 2 veya daha fazla devamsızlık yapan sporcu bulunmuyor. Katılım harika!
+          </div>
+        `;
+      } else {
+        alerts.forEach(ath => {
+          const div = document.createElement('div');
+          div.style.cssText = "display:flex;justify-content:space-between;align-items:center;padding:10px 12px;border:1px solid #fed7aa;border-radius:8px;margin-bottom:8px;background:#fff7ed;";
+          div.innerHTML = `
+            <div>
+              <strong style="color:#c2410c;">⚠️ ${ath.name}</strong> (${absentMap[ath.id]} Antrenmandır Devamsız)<br>
+              <small style="color:var(--muted);">Veli: ${ath.parent} · ${ath.phone}</small>
+            </div>
+            <button class="btn-wa" onclick="sendAbsenceWhatsApp('${ath.phone}', '${ath.name}', '${ath.parent}')">
+              Geçmiş Olsun İlet
+            </button>
+          `;
+          container.appendChild(div);
+        });
+      }
+    }
+
+    // Hızlı WhatsApp Göndericileri
+    function sendDirectWhatsApp(phone, athleteName, branch) {
+      const msg = `Sayın Velimiz, MÜLK Spor Kulübü ${branch} şubemizden arıyoruz. Sporcumuz ${athleteName} için ücretsiz deneme antrenmanı planlamak üzere sizinle iletişime geçmek isteriz. Müsait olduğunuzda görüşebilir miyiz?`;
+      sendWhatsAppURL(phone, msg);
+    }
+
+    function sendBirthdayWhatsApp(phone, athleteName, parentName) {
+      const msg = `Sayın ${parentName}, MÜLK Spor Kulübü ailesi olarak sporcumuz ${athleteName}'in yeni yaşını en içten dileklerimizle kutlar; sağlıklı, başarılı ve spor dolu harika bir yıl dileriz! 🎉🎂`;
+      sendWhatsAppURL(phone, msg);
+    }
+
+    function sendAbsenceWhatsApp(phone, athleteName, parentName) {
+      const msg = `Sayın ${parentName}, sporcumuz ${athleteName} son antrenmanımızda aramızda olamadı. Kendisine geçmiş olsun dileklerimizi iletir, bir sonraki idmanda görüşmeyi dileriz. MÜLK Spor Kulübü`;
+      sendWhatsAppURL(phone, msg);
+    }
+
+    function sendWhatsAppURL(phone, text) {
+      let clean = phone.replace(/[^0-9]/g, '');
+      if (clean.startsWith('0')) clean = clean.substring(1);
+      if (!clean.startsWith('90')) clean = '90' + clean;
+      const url = `https://wa.me/${clean}?text=${encodeURIComponent(text)}`;
+      window.open(url, '_blank');
+    }
+
+    function copyTemplateText(elementId) {
+      const text = document.getElementById(elementId).innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        alert('✓ Şablon metni panoya kopyalandı! WhatsApp veya SMS ile dilediğiniz veliye gönderebilirsiniz.');
+      });
+    }
+
+    // ================= 3. OKULLAR & BRANŞLAR SEKMENTİ =================
+    function renderSchoolsTab() {
+      const container = document.getElementById('schoolsContainer');
+      if (!container) return;
+      container.innerHTML = '';
+
+      if (schools.length === 0) {
+        container.innerHTML = `
+          <div class="card-box empty-state-box">
+            <span class="icon">🏫</span>
+            <h4>Henüz Okul veya Tesis Eklenmemiş</h4>
+            <p>Kulübünüzün antrenman yaptığı spor tesislerini ve altındaki branşları listelemek için yukarıdaki '+ Yeni Okul / Tesis Ekle' butonunu kullanabilirsiniz.</p>
+          </div>
+        `;
+        return;
+      }
+
+      schools.forEach((sch, sIdx) => {
+        const card = document.createElement('div');
+        card.className = 'school-card';
+        const schoolAthletesCount = athletes.filter(a => a.school === sch.name).length;
+
+        let branchesHtml = '';
+        if (!sch.branches || sch.branches.length === 0) {
+          branchesHtml = `
+            <div style="text-align:center;padding:24px;color:var(--muted);font-size:13px;background:white;border-radius:10px;border:1px dashed var(--line);">
+              Bu okulda henüz tanımlanmış aktif spor branşı bulunmuyor.
+              <br><button class="btn btn-secondary btn-sm" style="margin-top:10px;" onclick="openBranchModalForSchool('${sch.name}')">+ Bu Okula Branş Ekle</button>
+            </div>
+          `;
+        } else {
+          branchesHtml = '<div class="branches-grid">';
+          sch.branches.forEach((br, bIdx) => {
+            const countInBranch = athletes.filter(a => a.school === sch.name && a.branch.toLowerCase().includes(br.name.toLowerCase())).length;
+            const quota = br.quota || 25;
+            
+            branchesHtml += `
+              <div class="branch-subcard">
+                <div>
+                  <div class="branch-card-head">
+                    <div class="branch-name-box">
+                      <span style="font-size:22px;">${br.icon || '🏅'}</span>
+                      <div>
+                        <h4>${br.name} Branşı</h4>
+                        <span style="font-size:11.5px;color:var(--muted);">${br.ageGroup}</span>
+                      </div>
+                    </div>
+                    <span class="badge badge-blue">${countInBranch} / ${quota} Sporcu</span>
+                  </div>
+
+                  <div class="branch-details">
+                    <div class="branch-detail-row">
+                      <span class="label">⏰ Gün & Saat:</span>
+                      <strong>${br.schedule}</strong>
+                    </div>
+                    <div class="branch-detail-row">
+                      <span class="label">👤 Antrenör:</span>
+                      <span>${br.coach || 'Atanmadı'}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="branch-card-footer">
+                  <button class="btn btn-primary btn-sm" onclick="startAttendanceForBranch('${br.name}')">Yoklama Al ↗</button>
+                  <button class="btn btn-secondary btn-sm" style="color:#ef4444;" onclick="deleteBranchFromSchool(${sIdx}, ${bIdx})">Kaldır</button>
+                </div>
+              </div>
+            `;
+          });
+          branchesHtml += '</div>';
+        }
+
+        card.innerHTML = `
+          <div class="school-header">
+            <div class="school-info">
+              <div class="school-icon-badge">🏫</div>
+              <div class="school-title">
+                <h3>${sch.name}</h3>
+                <p>
+                  <span>📍 ${sch.district}</span>
+                  <span>•</span>
+                  <span>🏢 ${sch.address || 'Anlaşmalı Tesis'}</span>
+                  <span>•</span>
+                  <span>📞 ${sch.phone || '-'}</span>
+                  <span>•</span>
+                  <strong>👥 ${schoolAthletesCount} Kayıtlı Sporcu</strong>
+                </p>
+              </div>
+            </div>
+            <div class="school-actions">
+              <button class="btn btn-secondary btn-sm" onclick="openBranchModalForSchool('${sch.name}')">+ Branş Ekle</button>
+              <button class="btn btn-secondary btn-sm" style="color:#ef4444;" onclick="deleteSchool(${sIdx})">Okulu Sil</button>
+            </div>
+          </div>
+          <div class="school-body">
+            <div class="branches-subhead">
+              <span>🏅</span>
+              <span>Bu Okulun Altındaki Aktif Spor Branşları & Antrenman Grupları:</span>
+            </div>
+            ${branchesHtml}
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function openBranchModalForSchool(schName) {
+      openModal('newBranchScheduleModal');
+      const select = document.getElementById('brSchoolSelect');
+      if (select) select.value = schName;
+    }
+
+    function deleteSchool(idx) {
+      if (confirm('Bu okulu ve bağlı programları silmek istediğinize emin misiniz?')) {
+        schools.splice(idx, 1);
+        saveSchools();
+        renderTables();
+      }
+    }
+
+    function deleteBranchFromSchool(schIdx, brIdx) {
+      if (confirm('Bu branş programını kaldırmak istediğinize emin misiniz?')) {
+        schools[schIdx].branches.splice(brIdx, 1);
+        saveSchools();
+        renderTables();
+      }
+    }
+
+    function handleNewSchoolSubmit(e) {
+      e.preventDefault();
+      const name = document.getElementById('schName').value.trim();
+      const district = document.getElementById('schDistrict').value.trim();
+      const phone = document.getElementById('schPhone').value.trim();
+      const address = document.getElementById('schAddress').value.trim();
+
+      const newId = 'SCH-' + (schools.length + 1);
+      schools.push({
+        id: newId,
+        name: name,
+        district: district,
+        phone: phone,
+        address: address,
+        branches: []
+      });
+
+      saveSchools();
+      closeModal('newSchoolModal');
+      document.getElementById('newSchoolForm').reset();
+      renderTables();
+      alert(`✓ "${name}" başarıyla okullar listenize eklendi! Şimdi bu okulun altına branşlar ekleyebilirsiniz.`);
+    }
+
+    function handleNewBranchSubmit(e) {
+      e.preventDefault();
+      const schName = document.getElementById('brSchoolSelect').value;
+      const branchName = document.getElementById('brBranchSelect').value;
+      const schedule = document.getElementById('brSchedule').value.trim();
+      const ageGroup = document.getElementById('brAgeGroup').value.trim();
+      const coachSelect = document.getElementById('brCoachSelect');
+      const coachText = coachSelect.options[coachSelect.selectedIndex].text;
+      const coachKey = coachSelect.value;
+      const quota = parseInt(document.getElementById('brQuota').value) || 25;
+
+      const icons = {
+        'Voleybol': '🏐',
+        'Basketbol': '🏀',
+        'Futbol': '⚽',
+        'Jimnastik': '🤸',
+        'Okçuluk': '🏹',
+        'Kros': '🏃'
+      };
+
+      const targetSchool = schools.find(s => s.name === schName);
+      if (targetSchool) {
+        if (!targetSchool.branches) targetSchool.branches = [];
+        targetSchool.branches.push({
+          id: 'BR-' + (Date.now() % 10000),
+          name: branchName,
+          icon: icons[branchName] || '🏅',
+          schedule: schedule,
+          ageGroup: ageGroup,
+          coach: coachText,
+          coachKey: coachKey,
+          quota: quota
+        });
+        saveSchools();
+        closeModal('newBranchScheduleModal');
+        document.getElementById('newBranchScheduleForm').reset();
+        renderTables();
+        alert(`✓ ${schName} bünyesine ${branchName} branşı başarıyla eklendi!`);
+      }
+    }
+
+    function saveSchools() {
+      localStorage.setItem('mulk_schools', JSON.stringify(schools));
+    }
+
+    // ================= 4. SPORCULAR TABLOSU =================
+    function renderAthletesTable() {
+      const athletesTbody = document.getElementById('athletesTbody');
+      if (!athletesTbody) return;
+      athletesTbody.innerHTML = '';
+
+      const role = getCurrentUserRole();
+      const coach = getCurrentCoachData();
+
+      let visibleList = athletes;
+      if (role === 'coach' && coach) {
+        visibleList = athletes.filter(a => a.branch.toLowerCase().includes(coach.branch.toLowerCase()));
+      }
+
+      if (visibleList.length === 0) {
+        athletesTbody.innerHTML = `
+          <tr>
+            <td colspan="9" style="text-align:center;padding:36px;color:var(--muted);">
+              <span style="font-size:26px;display:block;margin-bottom:8px;">🏃</span>
+              <strong style="color:#475569;display:block;margin-bottom:4px;">Kayıtlı Sporcu Bulunmuyor</strong>
+              <span style="font-size:12px;">Sağ üstteki "+ Yeni Sporcu Kaydı" butonuyla veya CRM dönüşüm hattından ilk sporcunuzu ekleyebilirsiniz.</span>
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      visibleList.forEach(ath => {
         const tr = document.createElement('tr');
         const badgeClass = ath.status === 'Ödendi' ? 'badge-green' : (ath.status === 'Bekliyor' ? 'badge-yellow' : 'badge-red');
         
-        // Antrenör aidat durumunu GÖREMEZ (KVKK Veri Minimizasyonu)
         const feeCell = (role === 'coach') 
           ? '<td><small style="color:var(--muted);">Yetki Dışı</small></td>'
           : `<td><span class="badge ${badgeClass}">${ath.status}</span></td>`;
@@ -1476,28 +2783,118 @@ MÜLK Spor Kulübü Yönetimi
         tr.innerHTML = `
           <td><code>${ath.id}</code></td>
           <td><strong>${ath.name}</strong></td>
-          <td>${ath.age}</td>
+          <td><small style="color:#2563eb;font-weight:600;">🏫 ${ath.school || 'Belirtilmedi'}</small></td>
           <td><span class="badge badge-blue">${ath.branch}</span></td>
           <td>${ath.parent}</td>
           <td>${ath.phone}</td>
           ${feeCell}
-          <td><span class="badge badge-green">✓ ${ath.kvkkDate}</span></td>
+          <td>
+            <button class="btn-wa" onclick="sendDirectWhatsApp('${ath.phone}', '${ath.name}', '${ath.branch}')">💬 Mesaj</button>
+          </td>
           ${actionCell}
         `;
         athletesTbody.appendChild(tr);
       });
-
-      
-    // Otomatik Sporcu Banka Referans Kodu Üretici
-    // Format: MLK + SOYAD + AD (Banka açıklamasına yazılır)
-    function generateBankRefCode(athleteName) {
-      const parts = athleteName.trim().toUpperCase().split(' ');
-      const firstName = parts[0].replace(/[^A-ZÇĞİÖŞÜ]/g, '');
-      const lastName = parts.length > 1 ? parts[parts.length - 1].replace(/[^A-ZÇĞİÖŞÜ]/g, '') : 'SPORCU';
-      return `MLK-${lastName}-${firstName}`;
     }
 
-    // Finans Tablosunu Render Et
+    // ================= 5. YOKLAMA SİSTEMİ =================
+    function renderAttendanceList() {
+      const attTbody = document.getElementById('attendanceTbody');
+      if (!attTbody) return;
+      attTbody.innerHTML = '';
+
+      const role = getCurrentUserRole();
+      const coach = getCurrentCoachData();
+      const groupVal = document.getElementById('attGroup') ? document.getElementById('attGroup').value : 'Tümü';
+
+      let filtered = athletes;
+      if (role === 'coach' && coach) {
+        filtered = athletes.filter(a => a.branch.toLowerCase().includes(coach.branch.toLowerCase()));
+      } else if (groupVal && groupVal !== 'Tümü') {
+        filtered = athletes.filter(a => a.branch.toLowerCase().includes(groupVal.toLowerCase()));
+      }
+
+      const totalCountEl = document.getElementById('attTotalCount');
+      if (totalCountEl) totalCountEl.innerText = filtered.length + ' Sporcu';
+
+      if (filtered.length === 0) {
+        attTbody.innerHTML = `
+          <tr>
+            <td colspan="5" style="text-align:center;padding:36px;color:var(--muted);">
+              <span style="font-size:26px;display:block;margin-bottom:8px;">📅</span>
+              <strong style="color:#475569;display:block;margin-bottom:4px;">Bu Branşta Kayıtlı Sporcu Bulunmuyor</strong>
+              <span style="font-size:12px;">Sporcu kaydı eklendiğinde yoklama listesi burada aktifleşecektir.</span>
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      filtered.forEach(ath => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td><code>${ath.id}</code></td>
+          <td><strong>${ath.name}</strong><br><small style="color:var(--muted);">${ath.age || 'Öğrenci'}</small></td>
+          <td><small style="color:#2563eb;">${ath.school || ''}</small><br><strong>${ath.branch}</strong></td>
+          <td>
+            <div style="display:flex;gap:6px;">
+              <button class="att-btn present active" onclick="setAttStatus(this, 'present')">Geldi</button>
+              <button class="att-btn absent" onclick="setAttStatus(this, 'absent')">Gelmedi</button>
+              <button class="att-btn excused" onclick="setAttStatus(this, 'excused')">İzinli</button>
+            </div>
+          </td>
+          <td><input type="text" placeholder="Gelişim / antrenman notu..." style="padding:6px 10px;border:1px solid var(--line);border-radius:6px;font-size:12px;width:100%;"></td>
+        `;
+        attTbody.appendChild(tr);
+      });
+    }
+
+    function setAttStatus(btn, type) {
+      const parent = btn.parentElement;
+      parent.querySelectorAll('.att-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    }
+
+    function markAllAttendance(type) {
+      document.querySelectorAll('#attendanceTbody tr').forEach(tr => {
+        const btn = tr.querySelector(`.att-btn.${type}`);
+        if (btn) btn.click();
+      });
+    }
+
+    function startAttendanceForBranch(branchName) {
+      switchTab('attendance');
+      const attGroup = document.getElementById('attGroup');
+      if (attGroup) {
+        attGroup.value = branchName;
+        renderAttendanceList();
+      }
+      const title = document.getElementById('currentGroupTitle');
+      if (title) title.innerText = branchName + ' Grubu';
+    }
+
+    function saveAttendance() {
+      const notes = [];
+      document.querySelectorAll('#attendanceTbody tr').forEach(tr => {
+        const codeEl = tr.querySelector('code');
+        if (!codeEl) return;
+        const id = codeEl.innerText;
+        const note = tr.querySelector('input').value;
+        const statusBtn = tr.querySelector('.att-btn.active');
+        const status = statusBtn ? statusBtn.innerText : 'Geldi';
+        notes.push({ id, status, note, date: document.getElementById('attDate').value });
+      });
+      localStorage.setItem('mulk_attendance_log', JSON.stringify(notes));
+      const role = getCurrentUserRole();
+      if (role === 'coach') {
+        alert('✓ Antrenör Yoklaması ve Sporcu Gelişim Notları Başarıyla Ortak Kulüp Havuzuna Kaydedildi! Yönetim anında görüntüleyebilir.');
+      } else {
+        alert('✓ Yoklama ve sporcu gelişim kayıtları ortak sisteme kaydedildi!');
+      }
+      renderDashboard();
+    }
+
+    // ================= 6. AİDAT & FİNANS =================
     function renderFinanceTable() {
       const financeTbody = document.getElementById('financeTbody');
       if (!financeTbody) return;
@@ -1510,23 +2907,53 @@ MÜLK Spor Kulübü Yönetimi
       athletes.forEach(ath => {
         const refCode = generateBankRefCode(ath.name);
         ath.refCode = refCode;
-        totalExpected += ath.fee;
+        const fee = Number(ath.fee) || 0;
+        totalExpected += fee;
 
         if (ath.status === 'Ödendi') {
-          totalCollected += ath.fee;
+          totalCollected += fee;
         } else {
           pendingCount++;
         }
+      });
 
+      const finTotalExpected = document.getElementById('finTotalExpected');
+      const finTotalCollected = document.getElementById('finTotalCollected');
+      const finTotalPending = document.getElementById('finTotalPending');
+      const finRate = document.getElementById('finRate');
+      const reminderTargetCount = document.getElementById('reminderTargetCount');
+      const finPendingCountLabel = document.getElementById('finPendingCountLabel');
+
+      if (finTotalExpected) finTotalExpected.innerText = '₺' + totalExpected.toLocaleString('tr-TR');
+      if (finTotalCollected) finTotalCollected.innerText = '₺' + totalCollected.toLocaleString('tr-TR');
+      if (finTotalPending) finTotalPending.innerText = '₺' + (totalExpected - totalCollected).toLocaleString('tr-TR');
+      if (finRate) finRate.innerText = '%' + (totalExpected > 0 ? Math.round((totalCollected / totalExpected) * 100) : 0);
+      if (reminderTargetCount) reminderTargetCount.innerText = pendingCount + ' Veliye';
+      if (finPendingCountLabel) finPendingCountLabel.innerText = pendingCount + ' Sporcu Bekliyor';
+
+      if (athletes.length === 0) {
+        financeTbody.innerHTML = `
+          <tr>
+            <td colspan="8" style="text-align:center;padding:36px;color:var(--muted);">
+              <span style="font-size:26px;display:block;margin-bottom:8px;">💳</span>
+              <strong style="color:#475569;display:block;margin-bottom:4px;">Henüz Aidat Kaydı Bulunmuyor</strong>
+              <span style="font-size:12px;">Sisteme sporcu kaydedildiğinde otomatik banka referans kodlarıyla burada listelenir.</span>
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      athletes.forEach(ath => {
+        const refCode = ath.refCode || generateBankRefCode(ath.name);
         const badgeClass = ath.status === 'Ödendi' ? 'badge-green' : (ath.status === 'Bekliyor' ? 'badge-yellow' : 'badge-red');
         const tr = document.createElement('tr');
-
-        const payDateText = ath.status === 'Ödendi' ? (ath.payDate || '02.11.2026 (Banka FAST)') : '<span style="color:var(--muted);">-</span>';
+        const payDateText = ath.status === 'Ödendi' ? (ath.payDate || 'Ödendi') : '<span style="color:var(--muted);">-</span>';
 
         const actionButtons = ath.status === 'Ödendi' 
           ? `
             <div style="display:flex;gap:6px;">
-              <button class="btn btn-secondary btn-sm" onclick="showReceiptModal('${ath.name}', '${refCode}', '${ath.parent}')">📄 Makbuz</button>
+              <button class="btn btn-secondary btn-sm" onclick="showReceiptModal('${ath.name}', '${refCode}', '${ath.parent}', '${ath.fee}')">📄 Makbuz</button>
               <button class="btn btn-secondary btn-sm" style="color:#0284c7;background:#f0f9ff;border-color:#bae6fd;" onclick="sendQuickReceipt('${ath.parent}', '${ath.name}', '${ath.phone}')">✉️ Teyit Maili</button>
             </div>
           `
@@ -1542,38 +2969,61 @@ MÜLK Spor Kulübü Yönetimi
           <td><strong>${ath.name}</strong></td>
           <td><span class="badge badge-blue">${ath.branch}</span></td>
           <td><code style="font-weight:800;color:var(--primary);background:#fff0f2;padding:3px 8px;border-radius:4px;border:1px solid #f8c8d0;">${refCode}</code></td>
-          <td><strong>₺${ath.fee.toLocaleString('tr-TR')}</strong></td>
+          <td><strong>₺${(Number(ath.fee)||0).toLocaleString('tr-TR')}</strong></td>
           <td><span class="badge ${badgeClass}">${ath.status}</span></td>
           <td><small>${payDateText}</small></td>
           <td>${actionButtons}</td>
         `;
         financeTbody.appendChild(tr);
       });
-
-      // KPI'ları Güncelle
-      const finTotalExpected = document.getElementById('finTotalExpected');
-      const finTotalCollected = document.getElementById('finTotalCollected');
-      const finTotalPending = document.getElementById('finTotalPending');
-      const finRate = document.getElementById('finRate');
-      const reminderTargetCount = document.getElementById('reminderTargetCount');
-
-      if (finTotalExpected) finTotalExpected.innerText = '₺' + totalExpected.toLocaleString('tr-TR');
-      if (finTotalCollected) finTotalCollected.innerText = '₺' + totalCollected.toLocaleString('tr-TR');
-      if (finTotalPending) finTotalPending.innerText = '₺' + (totalExpected - totalCollected).toLocaleString('tr-TR');
-      if (finRate) finRate.innerText = '%' + Math.round((totalCollected / (totalExpected || 1)) * 100);
-      if (reminderTargetCount) reminderTargetCount.innerText = pendingCount + ' Veliye';
     }
 
-    // Örnek Banka Ekstresi Metni
-    function fillSampleBankData() {
-      const sampleText = 
-`08.11.2026 - 1500 TL - FAST Gelen: CEM YILMAZ - Aciklama: MLK-YILMAZ-DEFNE Kasim Aidati
-09.11.2026 - 1500 TL - FAST Gelen: BULENT KOC - Aciklama: MLK-KOC-KAAN Spor Kulubu Aidat
-09.11.2026 - 1500 TL - Havale: KEMAL AKSOY - Aciklama: MLK-AKSOY-ARAS Futbol`;
-      document.getElementById('bankStatementText').value = sampleText;
+    // ================= 7. KVKK KÜTÜĞÜ =================
+    function renderKvkkTable() {
+      const kvkkTbody = document.getElementById('kvkkLogTbody');
+      if (!kvkkTbody) return;
+      kvkkTbody.innerHTML = '';
+
+      if (athletes.length === 0) {
+        kvkkTbody.innerHTML = `
+          <tr>
+            <td colspan="6" style="text-align:center;padding:36px;color:var(--muted);">
+              <span style="font-size:26px;display:block;margin-bottom:8px;">⚖️</span>
+              <strong style="color:#475569;display:block;margin-bottom:4px;">KVKK Kütüğünde Aktif Kayıt Yok</strong>
+              <span style="font-size:12px;">Sporcu ve veli kayıtları eklendikçe kanuni açık rıza kayıtları burada listelenir.</span>
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      athletes.forEach(ath => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td><strong>${ath.parent}</strong> (${ath.name} Velisi)</td>
+          <td>İletişim, Kimlik, Spor Branşı, Sağlık Beyanı</td>
+          <td>${ath.kvkkDate} 14:00</td>
+          <td>Web Formu (SSL - TLS 1.3)</td>
+          <td><span class="badge badge-green">✓ Aktif Açık Rıza</span></td>
+          <td>
+            <button class="btn btn-secondary btn-sm" onclick="alert('KVKK 11. Madde gereği ${ath.name} ait tüm veriler şifreli JSON formatında paketleniyor.')">Veri Dökümü</button>
+          </td>
+        `;
+        kvkkTbody.appendChild(tr);
+      });
     }
 
-    // Banka Ekstresini Otomatik Tara ve Eşleştir
+    function updateBadges() {
+      const crmCount = document.getElementById('crmCount');
+      const athletesCount = document.getElementById('athletesCount');
+      const schoolsCount = document.getElementById('schoolsCount');
+
+      if (crmCount) crmCount.innerText = leads.length;
+      if (athletesCount) athletesCount.innerText = athletes.length;
+      if (schoolsCount) schoolsCount.innerText = schools.length;
+    }
+
+    // Banka Ekstresi Eşleştirme
     function processBankSync() {
       const text = document.getElementById('bankStatementText').value.toUpperCase();
       if (!text.trim()) {
@@ -1586,7 +3036,6 @@ MÜLK Spor Kulübü Yönetimi
 
       athletes.forEach(ath => {
         const code = generateBankRefCode(ath.name).toUpperCase();
-        // Açıklamada sporcu kodu geçiyor mu?
         if (text.includes(code)) {
           if (ath.status !== 'Ödendi') {
             ath.status = 'Ödendi';
@@ -1616,11 +3065,10 @@ MÜLK Spor Kulübü Yönetimi
         resBox.style.background = '#fffbeb';
         resBox.style.border = '1px solid #fde68a';
         resBox.style.color = '#92400e';
-        resBox.innerHTML = 'Ekstrede bekleyen yeni bir sporcu kodu eşleşmedi veya kayıtlar zaten önceden ödenmiş.';
+        resBox.innerHTML = 'Ekstrede bekleyen yeni bir sporcu referans kodu eşleşmedi veya kayıtlar zaten önceden ödenmiş.';
       }
     }
 
-    // Tek Tıkla Bankadan Tahsil Et
     function markPaidWithBank(id, method) {
       const ath = athletes.find(a => a.id === id);
       if (ath) {
@@ -1628,15 +3076,15 @@ MÜLK Spor Kulübü Yönetimi
         ath.payDate = new Date().toLocaleDateString('tr-TR') + ' (' + method + ')';
         saveState();
         renderTables();
-        alert(`✓ ${ath.name} için Kasım 2026 aidatı ödendi olarak işlendi.`);
+        alert(`✓ ${ath.name} için aidat ödendi olarak işlendi.`);
       }
     }
 
-    // Makbuz Modalı Aç
-    function showReceiptModal(name, code, parent) {
+    function showReceiptModal(name, code, parent, fee) {
       document.getElementById('recAthleteName').innerText = name;
       document.getElementById('recAthleteCode').innerText = code;
       document.getElementById('recParentName').innerText = parent;
+      document.getElementById('recAmount').innerText = (Number(fee) || 1500).toLocaleString('tr-TR') + ',00 TL';
       document.getElementById('recDate').innerText = 'Tarih: ' + new Date().toLocaleDateString('tr-TR');
       openModal('receiptModal');
     }
@@ -1648,20 +3096,16 @@ MÜLK Spor Kulübü Yönetimi
     function sendReceiptEmailToParent() {
       const name = document.getElementById('recAthleteName').innerText;
       const parent = document.getElementById('recParentName').innerText;
-      alert(`✓ Veli Sayın ${parent} kişisine, sporcumuz ${name} adına düzenlenen Kasım 2026 Resmî Tahsilat Makbuzu başarıyla e-posta olarak iletildi!`);
+      alert(`✓ Veli Sayın ${parent} kişisine, sporcumuz ${name} adına düzenlenen Resmî Tahsilat Makbuzu başarıyla e-posta olarak iletildi!`);
       closeModal('receiptModal');
     }
 
     function sendQuickReceipt(parent, athlete, phone) {
-      alert(`✉️ Sayın ${parent} kişisine:
-"Sporcumuz ${athlete} için Kasım 2026 dönemi 1.500 TL aidat tahsilatınız onaylanmıştır. Teşekkür ederiz."
-
-Otomasyon teyit mesajı başarıyla gönderildi.`);
+      alert(`✉️ Sayın ${parent} kişisine:\n"Sporcumuz ${athlete} için aidat tahsilatınız onaylanmıştır. Teşekkür ederiz."\n\nOtomasyon teyit mesajı başarıyla gönderildi.`);
     }
 
     function sendSingleReminder(parent, athlete, code) {
-      alert(`⏰ Sayın ${parent} kişisine 3 gün kala hatırlatması iletildi:
-"Sporcumuz ${athlete} için son ödeme günü 15 Kasım'dır. Banka Referans Kodunuz: ${code}"`);
+      alert(`⏰ Sayın ${parent} kişisine 3 gün kala hatırlatması iletildi:\n"Sporcumuz ${athlete} için ödeme gününe 3 gün kalmıştır. Banka Referans Kodunuz: ${code}"`);
     }
 
     function sendAutomatedReminders() {
@@ -1669,123 +3113,7 @@ Otomasyon teyit mesajı başarıyla gönderildi.`);
       closeModal('reminderModal');
     }
 
-      // 4. Finance Tab
-      renderFinanceTable();
-      const oldFinanceTbody = document.getElementById('financeTbody');
-      financeTbody.innerHTML = '';
-      athletes.forEach(ath => {
-        const tr = document.createElement('tr');
-        const badgeClass = ath.status === 'Ödendi' ? 'badge-green' : (ath.status === 'Bekliyor' ? 'badge-yellow' : 'badge-red');
-        tr.innerHTML = `
-          <td><strong>${ath.name}</strong></td>
-          <td>${ath.branch}</td>
-          <td>₺${ath.fee}</td>
-          <td>Kasım 2026</td>
-          <td><span class="badge ${badgeClass}">${ath.status}</span></td>
-          <td>${ath.status === 'Ödendi' ? '02.11.2026' : '-'}</td>
-          <td>
-            ${ath.status === 'Ödendi' ? '<button class="btn btn-secondary btn-sm" onclick="printReceipt(\''+ath.name+'\')">📄 Makbuz</button>' : '<button class="btn btn-success btn-sm" onclick="markPaid(\''+ath.id+'\')">Tahsil Et</button>'}
-          </td>
-        `;
-        financeTbody.appendChild(tr);
-      });
-
-      // 5. KVKK Tab
-      const kvkkTbody = document.getElementById('kvkkLogTbody');
-      kvkkTbody.innerHTML = '';
-      athletes.forEach(ath => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td><strong>${ath.parent}</strong> (${ath.name} Velisi)</td>
-          <td>İletişim, Kimlik, Spor Branşı, Sağlık Beyanı</td>
-          <td>${ath.kvkkDate} 14:22:10</td>
-          <td>Web Formu (SSL - TLS 1.3)</td>
-          <td><span class="badge badge-green">✓ Aktif Açık Rıza</span></td>
-          <td>
-            <button class="btn btn-secondary btn-sm" onclick="alert('KVKK 11. Madde gereği ${ath.name} ait tüm veriler şifreli JSON formatında paketleniyor.')">Veri Dökümü</button>
-          </td>
-        `;
-        kvkkTbody.appendChild(tr);
-      });
-
-      // Sayı güncelle
-      document.getElementById('statTotalAthletes').innerText = athletes.length;
-      document.getElementById('statNewLeads').innerText = leads.filter(l => l.status === 'Yeni').length;
-      document.getElementById('leadsCount').innerText = leads.length;
-      document.getElementById('athletesCount').innerText = athletes.length;
-
-      loadAttendanceList();
-    }
-
-    // Yoklama Listesi (Branşa göre filtrelenir)
-    function loadAttendanceList() {
-      const attTbody = document.getElementById('attendanceTbody');
-      attTbody.innerHTML = '';
-      const role = getCurrentUserRole();
-      const coach = getCurrentCoachData();
-      const groupVal = document.getElementById('attGroup') ? document.getElementById('attGroup').value : 'Tümü';
-
-      let filtered = athletes;
-      if (role === 'coach' && coach) {
-        filtered = athletes.filter(a => a.branch.toLowerCase().includes(coach.branch.toLowerCase()));
-      } else if (groupVal && groupVal !== 'Tümü') {
-        filtered = athletes.filter(a => a.branch.toLowerCase().includes(groupVal.toLowerCase()));
-      }
-
-      filtered.forEach((ath, idx) => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td><code>${ath.id}</code></td>
-          <td><strong>${ath.name}</strong><br><small style="color:var(--muted);">${ath.branch}</small></td>
-          <td>${ath.age}</td>
-          <td>
-            <div style="display:flex;gap:6px;">
-              <button class="att-btn present active" onclick="setAttStatus(this, 'present')">Geldi</button>
-              <button class="att-btn absent" onclick="setAttStatus(this, 'absent')">Gelmedi</button>
-              <button class="att-btn excused" onclick="setAttStatus(this, 'excused')">İzinli</button>
-            </div>
-          </td>
-          <td><input type="text" placeholder="Gelişim / antrenman performans notu..." style="padding:6px 10px;border:1px solid var(--line);border-radius:6px;font-size:12px;width:100%;"></td>
-        `;
-        attTbody.appendChild(tr);
-      });
-      document.getElementById('attTotalCount').innerText = filtered.length + ' Sporcu';
-    }
-
-    function setAttStatus(btn, type) {
-      const parent = btn.parentElement;
-      parent.querySelectorAll('.att-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-    }
-
-    function markAllAttendance(type) {
-      document.querySelectorAll('#attendanceTbody tr').forEach(tr => {
-        const btn = tr.querySelector(`.att-btn.${type}`);
-        if (btn) btn.click();
-      });
-    }
-
-    function saveAttendance() {
-      const notes = [];
-      document.querySelectorAll('#attendanceTbody tr').forEach(tr => {
-        const id = tr.querySelector('code').innerText;
-        const note = tr.querySelector('input').value;
-        const statusBtn = tr.querySelector('.att-btn.active');
-        const status = statusBtn ? statusBtn.innerText : 'Geldi';
-        if (note || status) {
-          notes.push({ id, status, note, date: document.getElementById('attDate').value });
-        }
-      });
-      localStorage.setItem('mulk_attendance_log', JSON.stringify(notes));
-      const role = getCurrentUserRole();
-      if (role === 'coach') {
-        alert('✓ Antrenör Yoklaması ve Sporcu Notları Başarıyla Ortak Kulüp Havuzuna Kaydedildi! Yönetim anında görüntüleyebilir.');
-      } else {
-        alert('✓ Yoklama ve sporcu gelişim kayıtları ortak sisteme kaydedildi!');
-      }
-    }
-
-    // Ön Kaydı Sporcuya Çevir
+    // Adayı Lisanslı Sporcuya Dönüştür (CRM -> Sporcular)
     function convertLeadToAthlete(id) {
       const lead = leads.find(l => l.id === id);
       if (!lead) return;
@@ -1794,21 +3122,24 @@ Otomasyon teyit mesajı başarıyla gönderildi.`);
         id: newId,
         name: lead.name,
         age: lead.age,
+        school: lead.school || (schools.length > 0 ? schools[0].name : 'Merkez'),
         branch: lead.branch,
         parent: lead.parent,
         phone: lead.phone,
+        email: lead.email || '',
         fee: 1500,
         status: 'Bekliyor',
-        kvkkDate: lead.date
+        kvkkDate: lead.date || new Date().toLocaleDateString('tr-TR')
       });
-      leads = leads.filter(l => l.id !== id);
+      // CRM aşamasını 'Kayıt Yapıldı' yap
+      lead.status = 'Kayıt Yapıldı';
       saveState();
       renderTables();
-      alert(`✓ ${lead.name} başarıyla ${newId} lisans numarasıyla sporcular listesine kaydedildi!`);
+      alert(`🎉 Harika! ${lead.name} başarıyla ${newId} lisans numarasıyla sporcular listesine eklendi ve CRM aşaması 'Kayıt Yapıldı' olarak güncellendi!`);
     }
 
     function deleteLead(id) {
-      if (confirm('Bu başvuruyu silmek istediğinize emin misiniz?')) {
+      if (confirm('Bu adayı silmek istediğinize emin misiniz?')) {
         leads = leads.filter(l => l.id !== id);
         saveState();
         renderTables();
@@ -1829,39 +3160,31 @@ Otomasyon teyit mesajı başarıyla gönderildi.`);
       }
     }
 
-    function markPaid(id) {
-      const ath = athletes.find(a => a.id === id);
-      if (ath) {
-        ath.status = 'Ödendi';
-        saveState();
-        renderTables();
-        alert(`✓ ${ath.name} için Kasım 2026 aidatı ödendi olarak güncellendi.`);
-      }
-    }
-
-    function printReceipt(name) {
-      alert(`MÜLK Spor Kulübü - Resmî Aidat Tahsilat Makbuzu hazırlanıyor:\n\nSporcu: ${name}\nTutar: 1.500 TL\nDönem: Kasım 2026\nSicil: 06-01-05948\n\nYazıcıya yönlendiriliyor...`);
-    }
-
-    // Yeni Sporcu Ekle Formu
     function handleNewAthleteSubmit(e) {
       e.preventDefault();
       const newId = 'M-' + (100 + athletes.length + 1);
       const name = document.getElementById('athName').value;
+      const birth = document.getElementById('athBirth').value;
+      const school = document.getElementById('athSchool').value;
       const branch = document.getElementById('athBranch').value;
       const parent = document.getElementById('athParent').value;
       const phone = document.getElementById('athPhone').value;
+      const email = document.getElementById('athEmail').value;
       const fee = document.getElementById('athFee').value;
+      const status = document.getElementById('athStatus').value;
 
       athletes.push({
         id: newId,
         name: name,
+        birthDate: birth,
         age: "Gelişim Grubu",
+        school: school,
         branch: branch,
         parent: parent,
         phone: phone,
-        fee: parseInt(fee),
-        status: 'Ödendi',
+        email: email,
+        fee: parseInt(fee) || 1500,
+        status: status,
         kvkkDate: new Date().toLocaleDateString('tr-TR')
       });
 
@@ -1869,7 +3192,7 @@ Otomasyon teyit mesajı başarıyla gönderildi.`);
       renderTables();
       closeModal('newAthleteModal');
       document.getElementById('newAthleteForm').reset();
-      alert(`✓ Yeni sporcu ${name} (${newId}) başarıyla kulübe eklendi.`);
+      alert(`✓ Yeni sporcu ${name} (${newId}) başarıyla kulübe kaydedildi.`);
     }
 
     function saveState() {
@@ -1877,22 +3200,16 @@ Otomasyon teyit mesajı başarıyla gönderildi.`);
       localStorage.setItem('mulk_leads', JSON.stringify(leads));
     }
 
-    // Arama ve Filtreler
     function filterAthletesTable() {
       const query = document.getElementById('searchAthletes').value.toLowerCase();
       const branch = document.getElementById('filterBranch').value.toLowerCase();
+      const school = document.getElementById('filterSchool').value.toLowerCase();
       document.querySelectorAll('#athletesTbody tr').forEach(tr => {
         const text = tr.innerText.toLowerCase();
         const matchesQuery = text.includes(query);
         const matchesBranch = branch === '' || text.includes(branch);
-        tr.style.display = (matchesQuery && matchesBranch) ? '' : 'none';
-      });
-    }
-
-    function filterLeadsTable() {
-      const query = document.getElementById('searchLeads').value.toLowerCase();
-      document.querySelectorAll('#leadsTbody tr').forEach(tr => {
-        tr.style.display = tr.innerText.toLowerCase().includes(query) ? '' : 'none';
+        const matchesSchool = school === '' || text.includes(school);
+        tr.style.display = (matchesQuery && matchesBranch && matchesSchool) ? '' : 'none';
       });
     }
 
@@ -1903,11 +3220,10 @@ Otomasyon teyit mesajı başarıyla gönderildi.`);
       });
     }
 
-    // CSV Dışa Aktarma
     function exportDataToCSV() {
-      let csv = 'Sporcu No,Ad Soyad,Yas,Brans,Veli Ad,Telefon,Aidat Durumu,KVKK Onay Tarihi\n';
+      let csv = 'Sporcu No,Ad Soyad,Okul,Brans,Veli Ad,Telefon,Aidat Durumu,KVKK Onay Tarihi\n';
       athletes.forEach(a => {
-        csv += `"${a.id}","${a.name}","${a.age}","${a.branch}","${a.parent}","${a.phone}","${a.status}","${a.kvkkDate}"\n`;
+        csv += `"${a.id}","${a.name}","${a.school||''}","${a.branch}","${a.parent}","${a.phone}","${a.status}","${a.kvkkDate}"\n`;
       });
       const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
       const url = URL.createObjectURL(blob);
@@ -1921,47 +3237,49 @@ Otomasyon teyit mesajı başarıyla gönderildi.`);
       alert('6698 sayılı Kişisel Verilerin Korunması Kanunu Denetim Dosyası hazırlanıyor:\n- Veri Envanteri: Hazır\n- Açık Rıza Kayıtları: Doğrulandı\n- Yetki Matrisi: Aktif\n\nDosya güvenli şekilde dışa aktarılıyor.');
     }
 
-    // Sayfa Yüklendiğinde
-    document.getElementById('attDate').valueAsDate = new Date();
-
     // ================= GÜVENLİK, ROL VE YETKİ MATRİSİ (RBAC) =================
-    // 1. Kulüp Yöneticisi (Tam Yetki)
+    const ADMIN_USER = 'info';
     const ADMIN_EMAIL = 'info@mulksporkulubu.com';
     const DEFAULT_ADMIN_PASS = 'Mulk@2026!Ankara,Gazi';
 
-    // 2. Branşlara Özel Antrenör Hesapları ve Güçlü Parolaları
     const BRANCH_COACHES = {
-      'futbol@mulksporkulubu.com': {
+      'futbol': {
+        email: 'futbol@mulksporkulubu.com',
         pass: ['Antrenorfutbolmulk26!', 'Antrenorfutbolmülk26!'],
         branch: 'Futbol',
         icon: '⚽',
         title: 'Futbol Antrenörü'
       },
-      'voleybol@mulksporkulubu.com': {
+      'voleybol': {
+        email: 'voleybol@mulksporkulubu.com',
         pass: ['Antrenorvoleybolmulk26!', 'Antrenorvoleybolmülk26!'],
         branch: 'Voleybol',
         icon: '🏐',
         title: 'Voleybol Antrenörü'
       },
-      'basketbol@mulksporkulubu.com': {
+      'basketbol': {
+        email: 'basketbol@mulksporkulubu.com',
         pass: ['Antrenorbasketbolmulk26!', 'Antrenorbasketbolmülk26!'],
         branch: 'Basketbol',
-        icon: '🎯',
+        icon: '🏀',
         title: 'Basketbol Antrenörü'
       },
-      'jimnastik@mulksporkulubu.com': {
+      'jimnastik': {
+        email: 'jimnastik@mulksporkulubu.com',
         pass: ['Antrenorjimnastikmulk26!', 'Antrenorjimnastikmülk26!'],
         branch: 'Jimnastik',
         icon: '🤸',
         title: 'Jimnastik Antrenörü'
       },
-      'okculuk@mulksporkulubu.com': {
+      'okculuk': {
+        email: 'okculuk@mulksporkulubu.com',
         pass: ['Antrenorokculukmulk26!', 'Antrenorokculukmülk26!'],
         branch: 'Okçuluk',
         icon: '🏹',
         title: 'Okçuluk Antrenörü'
       },
-      'kros@mulksporkulubu.com': {
+      'kros': {
+        email: 'kros@mulksporkulubu.com',
         pass: ['Antrenorkrosmulk26!', 'Antrenorkrosmülk26!'],
         branch: 'Kros',
         icon: '🏃',
@@ -1978,8 +3296,8 @@ Otomasyon teyit mesajı başarıyla gönderildi.`);
     }
 
     function getCurrentCoachData() {
-      const email = sessionStorage.getItem('mulk_coach_email') || localStorage.getItem('mulk_coach_email_remember');
-      return email && BRANCH_COACHES[email] ? BRANCH_COACHES[email] : null;
+      const coachKey = sessionStorage.getItem('mulk_coach_key') || localStorage.getItem('mulk_coach_key_remember');
+      return coachKey && BRANCH_COACHES[coachKey] ? BRANCH_COACHES[coachKey] : null;
     }
 
     function checkAuth() {
@@ -1996,28 +3314,26 @@ Otomasyon teyit mesajı başarıyla gönderildi.`);
     function handleLogin(e) {
       e.preventDefault();
       let enteredUser = document.getElementById('loginUsername').value.trim().toLowerCase();
-      // E-posta veya sade kullanıcı adı girişini destekle (@mulksporkulubu.com varsa temizle)
       if (enteredUser.endsWith('@mulksporkulubu.com')) {
         enteredUser = enteredUser.replace('@mulksporkulubu.com', '');
       }
-      const fullEmail = enteredUser + '@mulksporkulubu.com';
 
       const enteredPass = document.getElementById('loginPassword').value.trim();
       const errorDiv = document.getElementById('loginError');
 
       let authenticatedRole = null;
-      let authenticatedCoach = null;
+      let authenticatedCoachKey = null;
 
-      // 1. Yönetici Kontrolü (Kullanıcı adı: info)
-      if ((enteredUser === 'info' || fullEmail === ADMIN_EMAIL.toLowerCase()) && enteredPass === getAdminPassword()) {
+      // 1. Yönetici Kontrolü (info / Mulk@2026!Ankara,Gazi)
+      if (enteredUser === ADMIN_USER && enteredPass === getAdminPassword()) {
         authenticatedRole = 'admin';
       }
       // 2. Branş Antrenörleri Kontrolü (futbol, voleybol, basketbol, jimnastik, okculuk, kros)
-      else if (BRANCH_COACHES[fullEmail]) {
-        const coach = BRANCH_COACHES[fullEmail];
+      else if (BRANCH_COACHES[enteredUser]) {
+        const coach = BRANCH_COACHES[enteredUser];
         if (coach.pass.includes(enteredPass)) {
           authenticatedRole = 'coach';
-          authenticatedCoach = fullEmail;
+          authenticatedCoachKey = enteredUser;
         }
       }
 
@@ -2025,15 +3341,15 @@ Otomasyon teyit mesajı başarıyla gönderildi.`);
         sessionStorage.setItem('mulk_auth', 'true');
         sessionStorage.setItem('mulk_role', authenticatedRole);
 
-        if (authenticatedCoach) {
-          sessionStorage.setItem('mulk_coach_email', authenticatedCoach);
+        if (authenticatedCoachKey) {
+          sessionStorage.setItem('mulk_coach_key', authenticatedCoachKey);
         }
 
         if (document.getElementById('rememberMe').checked) {
           localStorage.setItem('mulk_auth_remember', 'true');
           localStorage.setItem('mulk_role_remember', authenticatedRole);
-          if (authenticatedCoach) {
-            localStorage.setItem('mulk_coach_email_remember', authenticatedCoach);
+          if (authenticatedCoachKey) {
+            localStorage.setItem('mulk_coach_key_remember', authenticatedCoachKey);
           }
         }
 
@@ -2049,7 +3365,6 @@ Otomasyon teyit mesajı başarıyla gönderildi.`);
       }
     }
 
-    // Yetki Kısıtlamalarını Ekrana Uygula (KVKK Madde 12)
     function applyRolePermissions(role) {
       const roleBadge = document.querySelector('.role-badge');
       const topbarActions = document.querySelector('.topbar-right');
@@ -2062,20 +3377,18 @@ Otomasyon teyit mesajı başarıyla gönderildi.`);
         roleBadge.style.background = 'rgba(16, 185, 129, 0.2)';
         roleBadge.style.color = '#10b981';
 
-        // Antrenör finansal verileri, ön kayıtları ve ayarları GÖREMEZ
+        // Antrenör finansal verileri, CRM hattını, okulları ve ayarları GÖREMEZ (KVKK Madde 12)
         navBtns.forEach(btn => {
           const onclickAttr = btn.getAttribute('onclick') || '';
-          if (onclickAttr.includes('dashboard') || onclickAttr.includes('leads') || onclickAttr.includes('finance') || onclickAttr.includes('kvkk') || onclickAttr.includes('settings')) {
+          if (onclickAttr.includes('dashboard') || onclickAttr.includes('crm') || onclickAttr.includes('schools') || onclickAttr.includes('finance') || onclickAttr.includes('kvkk') || onclickAttr.includes('settings')) {
             btn.style.display = 'none';
           } else {
             btn.style.display = 'flex';
           }
         });
 
-        // Topbardaki dışa aktarma ve sporcu ekleme butonları antrenörden gizlenir
         if (topbarActions) topbarActions.style.display = 'none';
 
-        // Antrenman grubunu kendi branşına kitle
         const attGroupSelect = document.getElementById('attGroup');
         if (attGroupSelect) {
           attGroupSelect.innerHTML = `<option value="${coach.branch}">${coach.icon} ${coach.branch} Antrenman Grubu</option>`;
@@ -2085,7 +3398,6 @@ Otomasyon teyit mesajı başarıyla gönderildi.`);
           currentGroupTitle.innerText = `${coach.branch} Grubu`;
         }
 
-        // Doğrudan Yoklama sekmesini aç
         switchTab('attendance');
       } else {
         // YÖNETİCİ MODU (TAM YETKİ)
@@ -2102,10 +3414,10 @@ Otomasyon teyit mesajı başarıyla gönderildi.`);
             <option value="Tümü">Tüm Branşlar</option>
             <option value="Futbol">⚽ Futbol Grubu</option>
             <option value="Voleybol">🏐 Voleybol Grubu</option>
-            <option value="Basketbol">🎯 Basketbol Grubu</option>
+            <option value="Basketbol">🏀 Basketbol Grubu</option>
             <option value="Jimnastik">🤸 Jimnastik Grubu</option>
             <option value="Okçuluk">🏹 Okçuluk Grubu</option>
-            <option value="Kros">🏃 Kros Grubu</option>
+            <option value="Kros">🏃 Kros & Atletizm Grubu</option>
           `;
         }
       }
@@ -2116,7 +3428,7 @@ Otomasyon teyit mesajı başarıyla gönderildi.`);
         sessionStorage.clear();
         localStorage.removeItem('mulk_auth_remember');
         localStorage.removeItem('mulk_role_remember');
-        localStorage.removeItem('mulk_coach_email_remember');
+        localStorage.removeItem('mulk_coach_key_remember');
         location.reload();
       }
     }
@@ -2132,4 +3444,11 @@ Otomasyon teyit mesajı başarıyla gönderildi.`);
       alert('✓ Yönetici parolanız başarıyla güncellendi! Bir sonraki girişinizde bu yeni parolayı kullanacaksınız.');
     }
 
-    
+    // Tarih seçici başlangıç
+    document.getElementById('attDate').valueAsDate = new Date();
+
+    // Başlangıç Yetki Kontrolü
+    checkAuth();
+  </script>
+</body>
+</html>
