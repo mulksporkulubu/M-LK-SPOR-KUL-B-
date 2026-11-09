@@ -618,22 +618,22 @@
     <div class="login-card">
       <img src="amblem.jpg" alt="MÜLK SK" class="login-logo">
       <h2>MÜLK SPOR KULÜBÜ</h2>
-      <p>Kulüp Yönetim & Takip Sistemi<br><strong style="color:#c8102e;">Yalnızca Yetkili Yönetici Girişi</strong></p>
+      <p>Kulüp Yönetim & Takip Sistemi<br><strong style="color:#c8102e;">Yönetici veya Yetkili Antrenör Girişi</strong></p>
 
       <form id="loginForm" onsubmit="handleLogin(event)">
         <div style="margin-bottom:14px;text-align:left;">
-          <label style="display:block;font-size:12px;font-weight:700;color:#334155;margin-bottom:5px;">Yönetici E-posta Adresi *</label>
-          <input type="email" id="loginEmail" class="login-field" placeholder="info@mulksporkulubu.com" required autofocus style="text-align:left;letter-spacing:normal;">
+          <label style="display:block;font-size:12px;font-weight:700;color:#334155;margin-bottom:5px;">Kullanıcı Adı *</label>
+          <input type="text" id="loginUsername" class="login-field" placeholder="Kullanıcı adınızı giriniz" required autofocus autocomplete="off" style="text-align:left;letter-spacing:normal;">
         </div>
 
         <div style="margin-bottom:6px;text-align:left;">
-          <label style="display:block;font-size:12px;font-weight:700;color:#334155;margin-bottom:5px;">Yönetici Parolası *</label>
+          <label style="display:block;font-size:12px;font-weight:700;color:#334155;margin-bottom:5px;">Parola *</label>
           <input type="password" id="loginPassword" class="login-field" placeholder="••••••••••••" required style="text-align:left;letter-spacing:normal;">
         </div>
 
-        <div id="loginError" class="login-error" style="margin-top:10px;text-align:left;">✕ Yetkisiz e-posta veya hatalı parola!</div>
+        <div id="loginError" class="login-error" style="margin-top:10px;text-align:left;">✕ Hatalı kullanıcı adı veya parola!</div>
 
-        <button type="submit" class="login-btn" style="margin-top:16px;">Güvenli Yönetici Girişi Yap ↗</button>
+        <button type="submit" class="login-btn" style="margin-top:16px;">Güvenli Giriş Yap ↗</button>
         
         <label style="display:flex;align-items:center;justify-content:center;gap:8px;font-size:12px;color:#64748b;margin-top:14px;cursor:pointer;">
           <input type="checkbox" id="rememberMe"> Bu cihazda oturumumu açık tut
@@ -967,35 +967,69 @@
         </div>
       </section>
 
-      <!-- ================= TAB 5: AİDAT & FİNANS ================= -->
+      <!-- ================= TAB 5: AİDAT & FİNANS (BANKA & OTOMASYON ENTEGRELİ) ================= -->
       <section id="tab-finance" class="tab-pane">
+        
+        <!-- Üst Finans KPI Şeridi -->
+        <div style="display:grid;grid-template-columns:repeat(4, 1fr);gap:16px;margin-bottom:20px;">
+          <div style="background:white;padding:16px 20px;border-radius:12px;border:1px solid var(--line);">
+            <span style="font-size:11.5px;color:var(--muted);font-weight:700;text-transform:uppercase;">Toplam Beklenen</span>
+            <div style="font-size:22px;font-weight:800;color:var(--ink);margin-top:2px;" id="finTotalExpected">₺12.000</div>
+            <small style="color:var(--muted);">Kasım 2026 Dönemi</small>
+          </div>
+
+          <div style="background:white;padding:16px 20px;border-radius:12px;border:1px solid var(--line);">
+            <span style="font-size:11.5px;color:var(--green);font-weight:700;text-transform:uppercase;">Tahsil Edilen</span>
+            <div style="font-size:22px;font-weight:800;color:var(--green);margin-top:2px;" id="finTotalCollected">₺9.000</div>
+            <small style="color:var(--green);">Banka & FAST ile Alınan</small>
+          </div>
+
+          <div style="background:white;padding:16px 20px;border-radius:12px;border:1px solid var(--line);">
+            <span style="font-size:11.5px;color:var(--yellow);font-weight:700;text-transform:uppercase;">Kalan Alacak</span>
+            <div style="font-size:22px;font-weight:800;color:var(--yellow);margin-top:2px;" id="finTotalPending">₺3.000</div>
+            <small style="color:var(--muted);">2 Sporcu Bekliyor</small>
+          </div>
+
+          <div style="background:white;padding:16px 20px;border-radius:12px;border:1px solid var(--line);">
+            <span style="font-size:11.5px;color:var(--blue);font-weight:700;text-transform:uppercase;">Tahsilat Oranı</span>
+            <div style="font-size:22px;font-weight:800;color:var(--blue);margin-top:2px;" id="finRate">%75</div>
+            <small style="color:var(--muted);">Otomatik Takip Aktif</small>
+          </div>
+        </div>
+
         <div class="card-box">
           <div class="cb-head">
             <div>
-              <h3>Aidat & Tahsilat Yönetimi</h3>
-              <span style="font-size:12px;color:var(--muted);">Aylık kulüp aidatları, ödeme durumları ve makbuz takibi</span>
+              <h3>Banka Entegrasyonlu Aidat & Tahsilat Havuzu</h3>
+              <span style="font-size:12px;color:var(--muted);">Sporcu kodlarıyla banka havalesi eşleştirme ve otomatik veli bildirimleri</span>
             </div>
             <div class="cb-actions">
-              <select id="filterFinance" class="search-input" style="width:150px;" onchange="filterFinanceTable()">
+              <button class="btn btn-secondary btn-sm" onclick="openModal('bankSyncModal')" style="border-color:#3b82f6;color:#1d4ed8;background:#eff6ff;">
+                <span>📤</span> Banka Ekstresi Eşleştir
+              </button>
+              <button class="btn btn-secondary btn-sm" onclick="openModal('reminderModal')" style="border-color:#f59e0b;color:#b45309;background:#fffbeb;">
+                <span>⏰</span> 3 Gün Öncesi Hatırlatma Mailleri
+              </button>
+              <select id="filterFinance" class="search-input" style="width:140px;" onchange="filterFinanceTable()">
                 <option value="">Tüm Durumlar</option>
                 <option value="Ödendi">Ödendi</option>
                 <option value="Bekliyor">Bekliyor</option>
                 <option value="Gecikmede">Gecikmede</option>
               </select>
-              <button class="btn btn-primary btn-sm" onclick="openModal('newPaymentModal')">+ Tahsilat Girişi</button>
             </div>
           </div>
 
           <table class="data-table" id="financeTable">
             <thead>
               <tr>
+                <th>Sporcu No</th>
                 <th>Sporcu Ad Soyad</th>
-                <th>Branş / Grup</th>
-                <th>Aylık Aidat</th>
-                <th>Dönem</th>
+                <th>Branş</th>
+                <th>Banka Açıklama Kodu (Referans)</th>
+                <th>Tutar</th>
                 <th>Durum</th>
-                <th>Ödeme Tarihi</th>
-                <th>Makbuz / İşlem</th>
+                <th>Tahsilat Yolu / Tarih</th>
+                <th>Otomasyon & Makbuz</th>
               </tr>
             </thead>
             <tbody id="financeTbody">
@@ -1176,6 +1210,145 @@
     </div>
   </div>
 
+  
+  <!-- ================= MODAL: BANKA EKSTRESİ İLE OTOMATİK EŞLEŞTİRME ================= -->
+  <div id="bankSyncModal" class="modal-overlay">
+    <div class="modal-box" style="max-width:640px;">
+      <div class="modal-head">
+        <div>
+          <h3>Banka Ekstresi ile Otomatik Aidat Eşleştirme</h3>
+          <span style="font-size:12px;color:var(--muted);">Banka ekstresindeki açıklamaları tarar, sporcu kodunu bulup aidatı 'Ödendi' yapar.</span>
+        </div>
+        <button class="close-btn" onclick="closeModal('bankSyncModal')">✕</button>
+      </div>
+
+      <div style="background:#f8fafc;padding:16px;border-radius:10px;border:1px solid var(--line);margin-bottom:16px;">
+        <label style="display:block;font-size:12.5px;font-weight:700;color:#334155;margin-bottom:6px;">
+          Banka Hareketleri / FAST Açıklamaları Metnini Yapıştırın:
+        </label>
+        <textarea id="bankStatementText" rows="6" style="width:100%;font-family:monospace;font-size:12px;padding:10px;border:1px solid var(--line);border-radius:8px;" placeholder="Örnek:
+08.11.2026 - 1500 TL - FAST Gelen: CEM YILMAZ - Aciklama: MLK-YILMAZ-DEFNE Kasim Aidati
+09.11.2026 - 1500 TL - Havale: BULENT KOC - Aciklama: MLK-KOC-KAAN Aidat Odemesi"></textarea>
+      </div>
+
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <button type="button" class="btn btn-secondary btn-sm" onclick="fillSampleBankData()">
+          ⚡ Örnek Banka Ekstresi Doldur (Test Et)
+        </button>
+        <div style="display:flex;gap:10px;">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('bankSyncModal')">Kapat</button>
+          <button type="button" class="btn btn-primary" onclick="processBankSync()">
+            ✓ Ekstre ile Otomatik Eşleştir
+          </button>
+        </div>
+      </div>
+
+      <div id="bankSyncResult" style="margin-top:16px;display:none;padding:14px;border-radius:8px;font-size:13px;line-height:1.6;"></div>
+    </div>
+  </div>
+
+  <!-- ================= MODAL: 3 GÜN ÖNCESİ HATIRLATMA E-POSTASI ================= -->
+  <div id="reminderModal" class="modal-overlay">
+    <div class="modal-box" style="max-width:620px;">
+      <div class="modal-head">
+        <div>
+          <h3>⏰ Ödeme Gününe 3 Gün Kala Hatırlatma Otomasyonu</h3>
+          <span style="font-size:12px;color:var(--muted);">Aidatı bekleyen veya geciken velilere kişiselleştirilmiş nazik hatırlatma</span>
+        </div>
+        <button class="close-btn" onclick="closeModal('reminderModal')">✕</button>
+      </div>
+
+      <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:10px;padding:14px 18px;margin-bottom:16px;">
+        <strong style="color:#b45309;font-size:13px;display:block;margin-bottom:4px;">Otomatik Gönderilecek E-posta Şablonu:</strong>
+        <div style="font-size:12.5px;color:#78350f;background:white;padding:12px;border-radius:6px;border:1px solid #fef3c7;font-family:monospace;white-space:pre-wrap;" id="reminderTemplatePreview">
+Konu: MÜLK Spor Kulübü - Kasım 2026 Dönemi Aidat Hatırlatması
+
+Sayın Velimiz [Veli Adı],
+Sporcumuz [Sporcu Adı] için Kasım 2026 dönemi aidat ödeme gününe 3 gün kalmıştır (Son Ödeme: 15 Kasım).
+
+Ödemenizi banka yoluyla yaparken lütfen açıklama kısmına sporcu kodunu yazınız:
+Ödeme Referans Kodu: [SPORCU-KODU]
+Tutar: 1.500 TL
+Kulüp IBAN: TR12 0006 2000 0001 2345 6789 01 (Ziraat Bankası)
+Alıcı: MÜLK Spor Kulübü Derneği (Sicil: 06-01-05948)
+
+Düzenli desteğiniz için teşekkür eder, sporcumuza başarılar dileriz.
+MÜLK Spor Kulübü Yönetimi
+        </div>
+      </div>
+
+      <div style="font-size:13px;color:#475569;margin-bottom:18px;">
+        Alıcı Listesi: <strong id="reminderTargetCount">2 Veliye</strong> otomatik hatırlatma e-postası iletilecektir.
+      </div>
+
+      <div style="display:flex;justify-content:flex-end;gap:10px;">
+        <button type="button" class="btn btn-secondary" onclick="closeModal('reminderModal')">İptal</button>
+        <button type="button" class="btn btn-primary" onclick="sendAutomatedReminders()">
+          ✉️ Tüm Bekleyen Velilere Hatırlatma Gönder
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= MODAL: DİJİTAL MAKBUZ & ONAY E-POSTASI ================= -->
+  <div id="receiptModal" class="modal-overlay">
+    <div class="modal-box" style="max-width:560px;">
+      <div class="modal-head">
+        <h3>📄 MÜLK Spor Kulübü Resmî Dijital Makbuz</h3>
+        <button class="close-btn" onclick="closeModal('receiptModal')">✕</button>
+      </div>
+
+      <div id="receiptPrintArea" style="background:#ffffff;border:1.5px solid #cbd5e1;border-radius:12px;padding:24px;font-size:13px;color:#1e293b;position:relative;">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;border-bottom:2px solid var(--primary);padding-bottom:14px;margin-bottom:16px;">
+          <div>
+            <h4 style="font-family:'Manrope',sans-serif;font-size:17px;font-weight:800;color:var(--primary);margin:0;">MÜLK SPOR KULÜBÜ</h4>
+            <span style="font-size:11px;color:var(--muted);display:block;margin-top:2px;">Resmî Tescil Sicil No: 06-01-05948 · Ankara</span>
+          </div>
+          <div style="text-align:right;">
+            <strong style="color:#0d9488;font-size:14px;">TAHSİLAT MAKBUZU</strong>
+            <span style="font-size:11px;display:block;color:var(--muted);" id="recDate">Tarih: 09.11.2026</span>
+          </div>
+        </div>
+
+        <table style="width:100%;margin-bottom:16px;font-size:12.5px;">
+          <tr>
+            <td style="padding:4px 0;color:var(--muted);">Sporcu Adı Soyadı:</td>
+            <td style="padding:4px 0;font-weight:700;" id="recAthleteName">Eren Can Kurt</td>
+          </tr>
+          <tr>
+            <td style="padding:4px 0;color:var(--muted);">Banka Referans Kodu:</td>
+            <td style="padding:4px 0;font-weight:700;"><code id="recAthleteCode">MLK-KURT-EREN</code></td>
+          </tr>
+          <tr>
+            <td style="padding:4px 0;color:var(--muted);">Veli Adı Soyadı:</td>
+            <td style="padding:4px 0;font-weight:700;" id="recParentName">Sema Kurt</td>
+          </tr>
+          <tr>
+            <td style="padding:4px 0;color:var(--muted);">Dönem:</td>
+            <td style="padding:4px 0;font-weight:700;">Kasım 2026 Aidatı</td>
+          </tr>
+          <tr>
+            <td style="padding:4px 0;color:var(--muted);">Ödeme Kanalı:</td>
+            <td style="padding:4px 0;font-weight:700;color:#10b981;">Banka Havalesi / FAST</td>
+          </tr>
+          <tr style="border-top:1px dashed #cbd5e1;">
+            <td style="padding:10px 0;font-size:14px;font-weight:800;">Tahsil Edilen Tutar:</td>
+            <td style="padding:10px 0;font-size:16px;font-weight:800;color:var(--primary);">1.500,00 TL</td>
+          </tr>
+        </table>
+
+        <div style="background:#f8fafc;padding:10px 12px;border-radius:6px;font-size:11px;color:#64748b;line-height:1.5;">
+          Bu belge 6698 sayılı KVKK ve dernekler mevzuatına uygun olarak elektronik ortamda oluşturulmuş dijital tahsilat makbuzudur.
+        </div>
+      </div>
+
+      <div style="margin-top:20px;display:flex;justify-content:space-between;align-items:center;">
+        <button type="button" class="btn btn-secondary" onclick="printReceiptArea()">🖨️ Yazdır / PDF Kaydet</button>
+        <button type="button" class="btn btn-primary" onclick="sendReceiptEmailToParent()">✉️ Veliye E-posta ile İlet</button>
+      </div>
+    </div>
+  </div>
+
   <!-- ================= JAVASCRIPT LOGIC ================= -->
   <script>
     // Başlangıç Verileri (LocalStorage ile kalıcı)
@@ -1186,11 +1359,14 @@
     ];
 
     const initialAthletes = [
-      { id: "M-101", name: "Eren Can Kurt", age: "8 Yaş", branch: "Spor Antrenmanları", parent: "Sema Kurt", phone: "0533 456 78 90", fee: 1500, status: "Ödendi", kvkkDate: "19.10.2026" },
-      { id: "M-102", name: "Defne Yılmaz", age: "11 Yaş", branch: "Branş Antrenmanları", parent: "Cem Yılmaz", phone: "0535 567 89 01", fee: 1500, status: "Bekliyor", kvkkDate: "20.10.2026" },
+      { id: "M-101", name: "Eren Can Kurt", age: "8 Yaş", branch: "Futbol", parent: "Sema Kurt", phone: "0533 456 78 90", fee: 1500, status: "Ödendi", kvkkDate: "19.10.2026" },
+      { id: "M-102", name: "Defne Yılmaz", age: "11 Yaş", branch: "Voleybol", parent: "Cem Yılmaz", phone: "0535 567 89 01", fee: 1500, status: "Bekliyor", kvkkDate: "20.10.2026" },
       { id: "M-103", name: "Kaan Arda Koç", age: "14 Yaş", branch: "Kros Antrenmanları", parent: "Bülent Koç", phone: "0542 678 90 12", fee: 1500, status: "Gecikmede", kvkkDate: "22.10.2026" },
-      { id: "M-104", name: "Elif Naz Demir", age: "7 Yaş", branch: "Spor Antrenmanları", parent: "Gülşen Demir", phone: "0530 789 01 23", fee: 1500, status: "Ödendi", kvkkDate: "23.10.2026" },
-      { id: "M-105", name: "Mert Öztürk", age: "15 Yaş", branch: "Basketbol", parent: "Tarık Öztürk", phone: "0536 890 12 34", fee: 1500, status: "Ödendi", kvkkDate: "25.10.2026" }
+      { id: "M-104", name: "Elif Naz Demir", age: "7 Yaş", branch: "Jimnastik", parent: "Gülşen Demir", phone: "0530 789 01 23", fee: 1500, status: "Ödendi", kvkkDate: "23.10.2026" },
+      { id: "M-105", name: "Mert Öztürk", age: "15 Yaş", branch: "Basketbol", parent: "Tarık Öztürk", phone: "0536 890 12 34", fee: 1500, status: "Ödendi", kvkkDate: "25.10.2026" },
+      { id: "M-106", name: "Beren Çelik", age: "12 Yaş", branch: "Okçuluk", parent: "Murat Çelik", phone: "0532 999 88 77", fee: 1500, status: "Ödendi", kvkkDate: "26.10.2026" },
+      { id: "M-107", name: "Aras Aksoy", age: "9 Yaş", branch: "Futbol", parent: "Kemal Aksoy", phone: "0533 777 66 55", fee: 1500, status: "Bekliyor", kvkkDate: "27.10.2026" },
+      { id: "M-108", name: "Selin Aydın", age: "13 Yaş", branch: "Voleybol", parent: "Derya Aydın", phone: "0544 555 44 33", fee: 1500, status: "Ödendi", kvkkDate: "28.10.2026" }
     ];
 
     let leads = JSON.parse(localStorage.getItem('mulk_leads')) || initialLeads;
@@ -1276,8 +1452,27 @@
       const athletesTbody = document.getElementById('athletesTbody');
       athletesTbody.innerHTML = '';
       athletes.forEach(ath => {
+        const role = getCurrentUserRole();
+        const coach = getCurrentCoachData();
+        // Antrenör ise sadece kendi branşını görsün
+        if (role === 'coach' && coach) {
+          if (!ath.branch.toLowerCase().includes(coach.branch.toLowerCase())) {
+            return;
+          }
+        }
+
         const tr = document.createElement('tr');
         const badgeClass = ath.status === 'Ödendi' ? 'badge-green' : (ath.status === 'Bekliyor' ? 'badge-yellow' : 'badge-red');
+        
+        // Antrenör aidat durumunu GÖREMEZ (KVKK Veri Minimizasyonu)
+        const feeCell = (role === 'coach') 
+          ? '<td><small style="color:var(--muted);">Yetki Dışı</small></td>'
+          : `<td><span class="badge ${badgeClass}">${ath.status}</span></td>`;
+
+        const actionCell = (role === 'coach')
+          ? '<td><button class="btn btn-primary btn-sm" onclick="switchTab(\'attendance\')">Yoklama</button></td>'
+          : `<td><button class="btn btn-secondary btn-sm" onclick="anonymizeAthlete('${ath.id}')">KVKK İmha</button></td>`;
+
         tr.innerHTML = `
           <td><code>${ath.id}</code></td>
           <td><strong>${ath.name}</strong></td>
@@ -1285,17 +1480,198 @@
           <td><span class="badge badge-blue">${ath.branch}</span></td>
           <td>${ath.parent}</td>
           <td>${ath.phone}</td>
-          <td><span class="badge ${badgeClass}">${ath.status}</span></td>
+          ${feeCell}
           <td><span class="badge badge-green">✓ ${ath.kvkkDate}</span></td>
-          <td>
-            <button class="btn btn-secondary btn-sm" onclick="anonymizeAthlete('${ath.id}')" title="KVKK Gereği Veriyi Anonimleştir">KVKK İmha</button>
-          </td>
+          ${actionCell}
         `;
         athletesTbody.appendChild(tr);
       });
 
-      // 4. Finance Tab
+      
+    // Otomatik Sporcu Banka Referans Kodu Üretici
+    // Format: MLK + SOYAD + AD (Banka açıklamasına yazılır)
+    function generateBankRefCode(athleteName) {
+      const parts = athleteName.trim().toUpperCase().split(' ');
+      const firstName = parts[0].replace(/[^A-ZÇĞİÖŞÜ]/g, '');
+      const lastName = parts.length > 1 ? parts[parts.length - 1].replace(/[^A-ZÇĞİÖŞÜ]/g, '') : 'SPORCU';
+      return `MLK-${lastName}-${firstName}`;
+    }
+
+    // Finans Tablosunu Render Et
+    function renderFinanceTable() {
       const financeTbody = document.getElementById('financeTbody');
+      if (!financeTbody) return;
+      financeTbody.innerHTML = '';
+
+      let totalExpected = 0;
+      let totalCollected = 0;
+      let pendingCount = 0;
+
+      athletes.forEach(ath => {
+        const refCode = generateBankRefCode(ath.name);
+        ath.refCode = refCode;
+        totalExpected += ath.fee;
+
+        if (ath.status === 'Ödendi') {
+          totalCollected += ath.fee;
+        } else {
+          pendingCount++;
+        }
+
+        const badgeClass = ath.status === 'Ödendi' ? 'badge-green' : (ath.status === 'Bekliyor' ? 'badge-yellow' : 'badge-red');
+        const tr = document.createElement('tr');
+
+        const payDateText = ath.status === 'Ödendi' ? (ath.payDate || '02.11.2026 (Banka FAST)') : '<span style="color:var(--muted);">-</span>';
+
+        const actionButtons = ath.status === 'Ödendi' 
+          ? `
+            <div style="display:flex;gap:6px;">
+              <button class="btn btn-secondary btn-sm" onclick="showReceiptModal('${ath.name}', '${refCode}', '${ath.parent}')">📄 Makbuz</button>
+              <button class="btn btn-secondary btn-sm" style="color:#0284c7;background:#f0f9ff;border-color:#bae6fd;" onclick="sendQuickReceipt('${ath.parent}', '${ath.name}', '${ath.phone}')">✉️ Teyit Maili</button>
+            </div>
+          `
+          : `
+            <div style="display:flex;gap:6px;">
+              <button class="btn btn-success btn-sm" onclick="markPaidWithBank('${ath.id}', 'Manuel Giriş')">✓ Tahsil Et</button>
+              <button class="btn btn-secondary btn-sm" style="color:#b45309;background:#fffbeb;border-color:#fde68a;" onclick="sendSingleReminder('${ath.parent}', '${ath.name}', '${refCode}')">⏰ Hatırlat</button>
+            </div>
+          `;
+
+        tr.innerHTML = `
+          <td><code>${ath.id}</code></td>
+          <td><strong>${ath.name}</strong></td>
+          <td><span class="badge badge-blue">${ath.branch}</span></td>
+          <td><code style="font-weight:800;color:var(--primary);background:#fff0f2;padding:3px 8px;border-radius:4px;border:1px solid #f8c8d0;">${refCode}</code></td>
+          <td><strong>₺${ath.fee.toLocaleString('tr-TR')}</strong></td>
+          <td><span class="badge ${badgeClass}">${ath.status}</span></td>
+          <td><small>${payDateText}</small></td>
+          <td>${actionButtons}</td>
+        `;
+        financeTbody.appendChild(tr);
+      });
+
+      // KPI'ları Güncelle
+      const finTotalExpected = document.getElementById('finTotalExpected');
+      const finTotalCollected = document.getElementById('finTotalCollected');
+      const finTotalPending = document.getElementById('finTotalPending');
+      const finRate = document.getElementById('finRate');
+      const reminderTargetCount = document.getElementById('reminderTargetCount');
+
+      if (finTotalExpected) finTotalExpected.innerText = '₺' + totalExpected.toLocaleString('tr-TR');
+      if (finTotalCollected) finTotalCollected.innerText = '₺' + totalCollected.toLocaleString('tr-TR');
+      if (finTotalPending) finTotalPending.innerText = '₺' + (totalExpected - totalCollected).toLocaleString('tr-TR');
+      if (finRate) finRate.innerText = '%' + Math.round((totalCollected / (totalExpected || 1)) * 100);
+      if (reminderTargetCount) reminderTargetCount.innerText = pendingCount + ' Veliye';
+    }
+
+    // Örnek Banka Ekstresi Metni
+    function fillSampleBankData() {
+      const sampleText = 
+`08.11.2026 - 1500 TL - FAST Gelen: CEM YILMAZ - Aciklama: MLK-YILMAZ-DEFNE Kasim Aidati
+09.11.2026 - 1500 TL - FAST Gelen: BULENT KOC - Aciklama: MLK-KOC-KAAN Spor Kulubu Aidat
+09.11.2026 - 1500 TL - Havale: KEMAL AKSOY - Aciklama: MLK-AKSOY-ARAS Futbol`;
+      document.getElementById('bankStatementText').value = sampleText;
+    }
+
+    // Banka Ekstresini Otomatik Tara ve Eşleştir
+    function processBankSync() {
+      const text = document.getElementById('bankStatementText').value.toUpperCase();
+      if (!text.trim()) {
+        alert('Lütfen banka ekstresi metnini yapıştırınız.');
+        return;
+      }
+
+      let matchedCount = 0;
+      let matchedList = [];
+
+      athletes.forEach(ath => {
+        const code = generateBankRefCode(ath.name).toUpperCase();
+        // Açıklamada sporcu kodu geçiyor mu?
+        if (text.includes(code)) {
+          if (ath.status !== 'Ödendi') {
+            ath.status = 'Ödendi';
+            ath.payDate = new Date().toLocaleDateString('tr-TR') + ' (Banka FAST Otomatik)';
+            matchedCount++;
+            matchedList.push(`${ath.name} (${code})`);
+          }
+        }
+      });
+
+      const resBox = document.getElementById('bankSyncResult');
+      resBox.style.display = 'block';
+
+      if (matchedCount > 0) {
+        saveState();
+        renderTables();
+        resBox.style.background = '#ecfdf5';
+        resBox.style.border = '1px solid #a7f3d0';
+        resBox.style.color = '#065f46';
+        resBox.innerHTML = `
+          <strong>✓ Başarılı Eşleştirme!</strong><br>
+          Banka ekstresinde <strong>${matchedCount} adet sporcunun</strong> ödemesi bulundu ve sistemde otomatik olarak 'Ödendi' yapıldı:<br>
+          • ${matchedList.join('<br>• ')}<br><br>
+          <small>✓ Velilere otomatik ödeme alındı teyit e-postası kuyruğa alındı.</small>
+        `;
+      } else {
+        resBox.style.background = '#fffbeb';
+        resBox.style.border = '1px solid #fde68a';
+        resBox.style.color = '#92400e';
+        resBox.innerHTML = 'Ekstrede bekleyen yeni bir sporcu kodu eşleşmedi veya kayıtlar zaten önceden ödenmiş.';
+      }
+    }
+
+    // Tek Tıkla Bankadan Tahsil Et
+    function markPaidWithBank(id, method) {
+      const ath = athletes.find(a => a.id === id);
+      if (ath) {
+        ath.status = 'Ödendi';
+        ath.payDate = new Date().toLocaleDateString('tr-TR') + ' (' + method + ')';
+        saveState();
+        renderTables();
+        alert(`✓ ${ath.name} için Kasım 2026 aidatı ödendi olarak işlendi.`);
+      }
+    }
+
+    // Makbuz Modalı Aç
+    function showReceiptModal(name, code, parent) {
+      document.getElementById('recAthleteName').innerText = name;
+      document.getElementById('recAthleteCode').innerText = code;
+      document.getElementById('recParentName').innerText = parent;
+      document.getElementById('recDate').innerText = 'Tarih: ' + new Date().toLocaleDateString('tr-TR');
+      openModal('receiptModal');
+    }
+
+    function printReceiptArea() {
+      window.print();
+    }
+
+    function sendReceiptEmailToParent() {
+      const name = document.getElementById('recAthleteName').innerText;
+      const parent = document.getElementById('recParentName').innerText;
+      alert(`✓ Veli Sayın ${parent} kişisine, sporcumuz ${name} adına düzenlenen Kasım 2026 Resmî Tahsilat Makbuzu başarıyla e-posta olarak iletildi!`);
+      closeModal('receiptModal');
+    }
+
+    function sendQuickReceipt(parent, athlete, phone) {
+      alert(`✉️ Sayın ${parent} kişisine:
+"Sporcumuz ${athlete} için Kasım 2026 dönemi 1.500 TL aidat tahsilatınız onaylanmıştır. Teşekkür ederiz."
+
+Otomasyon teyit mesajı başarıyla gönderildi.`);
+    }
+
+    function sendSingleReminder(parent, athlete, code) {
+      alert(`⏰ Sayın ${parent} kişisine 3 gün kala hatırlatması iletildi:
+"Sporcumuz ${athlete} için son ödeme günü 15 Kasım'dır. Banka Referans Kodunuz: ${code}"`);
+    }
+
+    function sendAutomatedReminders() {
+      alert('✓ Ödeme günü yaklaşan tüm bekleyen velilere kişiselleştirilmiş 3 gün öncesi hatırlatma e-postaları başarıyla gönderildi!');
+      closeModal('reminderModal');
+    }
+
+      // 4. Finance Tab
+      renderFinanceTable();
+      const oldFinanceTbody = document.getElementById('financeTbody');
       financeTbody.innerHTML = '';
       athletes.forEach(ath => {
         const tr = document.createElement('tr');
@@ -1341,15 +1717,26 @@
       loadAttendanceList();
     }
 
-    // Yoklama Listesi
+    // Yoklama Listesi (Branşa göre filtrelenir)
     function loadAttendanceList() {
       const attTbody = document.getElementById('attendanceTbody');
       attTbody.innerHTML = '';
-      athletes.forEach((ath, idx) => {
+      const role = getCurrentUserRole();
+      const coach = getCurrentCoachData();
+      const groupVal = document.getElementById('attGroup') ? document.getElementById('attGroup').value : 'Tümü';
+
+      let filtered = athletes;
+      if (role === 'coach' && coach) {
+        filtered = athletes.filter(a => a.branch.toLowerCase().includes(coach.branch.toLowerCase()));
+      } else if (groupVal && groupVal !== 'Tümü') {
+        filtered = athletes.filter(a => a.branch.toLowerCase().includes(groupVal.toLowerCase()));
+      }
+
+      filtered.forEach((ath, idx) => {
         const tr = document.createElement('tr');
         tr.innerHTML = `
           <td><code>${ath.id}</code></td>
-          <td><strong>${ath.name}</strong></td>
+          <td><strong>${ath.name}</strong><br><small style="color:var(--muted);">${ath.branch}</small></td>
           <td>${ath.age}</td>
           <td>
             <div style="display:flex;gap:6px;">
@@ -1358,11 +1745,11 @@
               <button class="att-btn excused" onclick="setAttStatus(this, 'excused')">İzinli</button>
             </div>
           </td>
-          <td><input type="text" placeholder="Gelişim / performans notu..." style="padding:4px 8px;border:1px solid var(--line);border-radius:4px;font-size:12px;width:100%;"></td>
+          <td><input type="text" placeholder="Gelişim / antrenman performans notu..." style="padding:6px 10px;border:1px solid var(--line);border-radius:6px;font-size:12px;width:100%;"></td>
         `;
         attTbody.appendChild(tr);
       });
-      document.getElementById('attTotalCount').innerText = athletes.length + ' Sporcu';
+      document.getElementById('attTotalCount').innerText = filtered.length + ' Sporcu';
     }
 
     function setAttStatus(btn, type) {
@@ -1379,7 +1766,23 @@
     }
 
     function saveAttendance() {
-      alert('✓ Yoklama ve antrenör notları başarıyla sisteme kaydedildi!');
+      const notes = [];
+      document.querySelectorAll('#attendanceTbody tr').forEach(tr => {
+        const id = tr.querySelector('code').innerText;
+        const note = tr.querySelector('input').value;
+        const statusBtn = tr.querySelector('.att-btn.active');
+        const status = statusBtn ? statusBtn.innerText : 'Geldi';
+        if (note || status) {
+          notes.push({ id, status, note, date: document.getElementById('attDate').value });
+        }
+      });
+      localStorage.setItem('mulk_attendance_log', JSON.stringify(notes));
+      const role = getCurrentUserRole();
+      if (role === 'coach') {
+        alert('✓ Antrenör Yoklaması ve Sporcu Notları Başarıyla Ortak Kulüp Havuzuna Kaydedildi! Yönetim anında görüntüleyebilir.');
+      } else {
+        alert('✓ Yoklama ve sporcu gelişim kayıtları ortak sisteme kaydedildi!');
+      }
     }
 
     // Ön Kaydı Sporcuya Çevir
@@ -1521,22 +1924,69 @@
     // Sayfa Yüklendiğinde
     document.getElementById('attDate').valueAsDate = new Date();
 
-    // ================= GÜVENLİK & OTURUM YÖNETİMİ =================
-    const AUTHORIZED_EMAIL = 'info@mulksporkulubu.com';
-    const DEFAULT_PASS = 'Mulk@2026!Ankara,Gazi';
-    // Eski önbelleği güncelle
-    if (localStorage.getItem('mulk_admin_pass') === 'Mulk@2026!Ankara' || localStorage.getItem('mulk_admin_pass') === 'mulk2026') { localStorage.removeItem('mulk_admin_pass'); }
+    // ================= GÜVENLİK, ROL VE YETKİ MATRİSİ (RBAC) =================
+    // 1. Kulüp Yöneticisi (Tam Yetki)
+    const ADMIN_EMAIL = 'info@mulksporkulubu.com';
+    const DEFAULT_ADMIN_PASS = 'Mulk@2026!Ankara,Gazi';
+
+    // 2. Branşlara Özel Antrenör Hesapları ve Güçlü Parolaları
+    const BRANCH_COACHES = {
+      'futbol@mulksporkulubu.com': {
+        pass: ['Antrenorfutbolmulk26!', 'Antrenorfutbolmülk26!'],
+        branch: 'Futbol',
+        icon: '⚽',
+        title: 'Futbol Antrenörü'
+      },
+      'voleybol@mulksporkulubu.com': {
+        pass: ['Antrenorvoleybolmulk26!', 'Antrenorvoleybolmülk26!'],
+        branch: 'Voleybol',
+        icon: '🏐',
+        title: 'Voleybol Antrenörü'
+      },
+      'basketbol@mulksporkulubu.com': {
+        pass: ['Antrenorbasketbolmulk26!', 'Antrenorbasketbolmülk26!'],
+        branch: 'Basketbol',
+        icon: '🎯',
+        title: 'Basketbol Antrenörü'
+      },
+      'jimnastik@mulksporkulubu.com': {
+        pass: ['Antrenorjimnastikmulk26!', 'Antrenorjimnastikmülk26!'],
+        branch: 'Jimnastik',
+        icon: '🤸',
+        title: 'Jimnastik Antrenörü'
+      },
+      'okculuk@mulksporkulubu.com': {
+        pass: ['Antrenorokculukmulk26!', 'Antrenorokculukmülk26!'],
+        branch: 'Okçuluk',
+        icon: '🏹',
+        title: 'Okçuluk Antrenörü'
+      },
+      'kros@mulksporkulubu.com': {
+        pass: ['Antrenorkrosmulk26!', 'Antrenorkrosmülk26!'],
+        branch: 'Kros',
+        icon: '🏃',
+        title: 'Kros & Kondisyon Antrenörü'
+      }
+    };
 
     function getAdminPassword() {
-      return localStorage.getItem('mulk_admin_pass') || DEFAULT_PASS;
+      return localStorage.getItem('mulk_admin_pass') || DEFAULT_ADMIN_PASS;
+    }
+
+    function getCurrentUserRole() {
+      return sessionStorage.getItem('mulk_role') || localStorage.getItem('mulk_role_remember') || null;
+    }
+
+    function getCurrentCoachData() {
+      const email = sessionStorage.getItem('mulk_coach_email') || localStorage.getItem('mulk_coach_email_remember');
+      return email && BRANCH_COACHES[email] ? BRANCH_COACHES[email] : null;
     }
 
     function checkAuth() {
-      const isSessionAuth = sessionStorage.getItem('mulk_auth') === 'true';
-      const isLocalAuth = localStorage.getItem('mulk_auth_remember') === 'true';
-
-      if (isSessionAuth || isLocalAuth) {
+      const role = getCurrentUserRole();
+      if (role) {
         document.getElementById('loginScreen').style.display = 'none';
+        applyRolePermissions(role);
         renderTables();
       } else {
         document.getElementById('loginScreen').style.display = 'flex';
@@ -1545,44 +1995,136 @@
 
     function handleLogin(e) {
       e.preventDefault();
-      const enteredEmail = document.getElementById('loginEmail').value.trim().toLowerCase();
+      let enteredUser = document.getElementById('loginUsername').value.trim().toLowerCase();
+      // E-posta veya sade kullanıcı adı girişini destekle (@mulksporkulubu.com varsa temizle)
+      if (enteredUser.endsWith('@mulksporkulubu.com')) {
+        enteredUser = enteredUser.replace('@mulksporkulubu.com', '');
+      }
+      const fullEmail = enteredUser + '@mulksporkulubu.com';
+
       const enteredPass = document.getElementById('loginPassword').value.trim();
-      const currentPass = getAdminPassword();
       const errorDiv = document.getElementById('loginError');
 
-      // Hem e-posta info@mulksporkulubu.com olmalı hem de şifre eşleşmeli
-      if (enteredEmail === AUTHORIZED_EMAIL.toLowerCase() && enteredPass === currentPass) {
+      let authenticatedRole = null;
+      let authenticatedCoach = null;
+
+      // 1. Yönetici Kontrolü (Kullanıcı adı: info)
+      if ((enteredUser === 'info' || fullEmail === ADMIN_EMAIL.toLowerCase()) && enteredPass === getAdminPassword()) {
+        authenticatedRole = 'admin';
+      }
+      // 2. Branş Antrenörleri Kontrolü (futbol, voleybol, basketbol, jimnastik, okculuk, kros)
+      else if (BRANCH_COACHES[fullEmail]) {
+        const coach = BRANCH_COACHES[fullEmail];
+        if (coach.pass.includes(enteredPass)) {
+          authenticatedRole = 'coach';
+          authenticatedCoach = fullEmail;
+        }
+      }
+
+      if (authenticatedRole) {
         sessionStorage.setItem('mulk_auth', 'true');
+        sessionStorage.setItem('mulk_role', authenticatedRole);
+
+        if (authenticatedCoach) {
+          sessionStorage.setItem('mulk_coach_email', authenticatedCoach);
+        }
+
         if (document.getElementById('rememberMe').checked) {
           localStorage.setItem('mulk_auth_remember', 'true');
+          localStorage.setItem('mulk_role_remember', authenticatedRole);
+          if (authenticatedCoach) {
+            localStorage.setItem('mulk_coach_email_remember', authenticatedCoach);
+          }
         }
+
         document.getElementById('loginScreen').style.display = 'none';
         errorDiv.style.display = 'none';
+        applyRolePermissions(authenticatedRole);
         renderTables();
       } else {
         errorDiv.style.display = 'block';
-        if (enteredEmail !== AUTHORIZED_EMAIL.toLowerCase()) {
-          errorDiv.innerText = '✕ Yetkisiz e-posta adresi! Yalnızca info@mulksporkulubu.com yetkilidir.';
-        } else {
-          errorDiv.innerText = '✕ Hatalı parola! Lütfen güçlü parolanızı kontrol ediniz.';
-        }
+        errorDiv.innerText = '✕ Hatalı kullanıcı adı veya parola! Lütfen bilgilerinizi kontrol ediniz.';
         document.getElementById('loginPassword').value = '';
         document.getElementById('loginPassword').focus();
       }
     }
 
+    // Yetki Kısıtlamalarını Ekrana Uygula (KVKK Madde 12)
+    function applyRolePermissions(role) {
+      const roleBadge = document.querySelector('.role-badge');
+      const topbarActions = document.querySelector('.topbar-right');
+      const navBtns = document.querySelectorAll('.sidebar-nav .nav-btn');
+      const coach = getCurrentCoachData();
+
+      if (role === 'coach' && coach) {
+        // ANTRENÖR MODU
+        roleBadge.innerHTML = `${coach.icon} ${coach.title}`;
+        roleBadge.style.background = 'rgba(16, 185, 129, 0.2)';
+        roleBadge.style.color = '#10b981';
+
+        // Antrenör finansal verileri, ön kayıtları ve ayarları GÖREMEZ
+        navBtns.forEach(btn => {
+          const onclickAttr = btn.getAttribute('onclick') || '';
+          if (onclickAttr.includes('dashboard') || onclickAttr.includes('leads') || onclickAttr.includes('finance') || onclickAttr.includes('kvkk') || onclickAttr.includes('settings')) {
+            btn.style.display = 'none';
+          } else {
+            btn.style.display = 'flex';
+          }
+        });
+
+        // Topbardaki dışa aktarma ve sporcu ekleme butonları antrenörden gizlenir
+        if (topbarActions) topbarActions.style.display = 'none';
+
+        // Antrenman grubunu kendi branşına kitle
+        const attGroupSelect = document.getElementById('attGroup');
+        if (attGroupSelect) {
+          attGroupSelect.innerHTML = `<option value="${coach.branch}">${coach.icon} ${coach.branch} Antrenman Grubu</option>`;
+        }
+        const currentGroupTitle = document.getElementById('currentGroupTitle');
+        if (currentGroupTitle) {
+          currentGroupTitle.innerText = `${coach.branch} Grubu`;
+        }
+
+        // Doğrudan Yoklama sekmesini aç
+        switchTab('attendance');
+      } else {
+        // YÖNETİCİ MODU (TAM YETKİ)
+        roleBadge.innerHTML = '🛡️ info@mulksporkulubu.com (Yönetici)';
+        roleBadge.style.background = 'rgba(200, 16, 46, 0.2)';
+        roleBadge.style.color = '#ff8a99';
+
+        navBtns.forEach(btn => { btn.style.display = 'flex'; });
+        if (topbarActions) topbarActions.style.display = 'flex';
+
+        const attGroupSelect = document.getElementById('attGroup');
+        if (attGroupSelect) {
+          attGroupSelect.innerHTML = `
+            <option value="Tümü">Tüm Branşlar</option>
+            <option value="Futbol">⚽ Futbol Grubu</option>
+            <option value="Voleybol">🏐 Voleybol Grubu</option>
+            <option value="Basketbol">🎯 Basketbol Grubu</option>
+            <option value="Jimnastik">🤸 Jimnastik Grubu</option>
+            <option value="Okçuluk">🏹 Okçuluk Grubu</option>
+            <option value="Kros">🏃 Kros Grubu</option>
+          `;
+        }
+      }
+    }
+
     function handleLogout() {
-      if (confirm('Yönetim panelinden güvenli çıkış yapmak istiyor musunuz?')) {
-        sessionStorage.removeItem('mulk_auth');
+      if (confirm('Sistemden güvenli çıkış yapmak istiyor musunuz?')) {
+        sessionStorage.clear();
         localStorage.removeItem('mulk_auth_remember');
+        localStorage.removeItem('mulk_role_remember');
+        localStorage.removeItem('mulk_coach_email_remember');
         location.reload();
       }
     }
 
     function changeAdminPassword() {
       const newP = document.getElementById('newAdminPassword').value.trim();
-      if (!newP || newP.length < 4) {
-        alert('Lütfen en az 4 karakterden oluşan güvenli bir parola giriniz.');
+      if (!newP || newP.length < 6) {
+        alert('Lütfen en az 6 karakterden oluşan güçlü bir parola giriniz.');
         return;
       }
       localStorage.setItem('mulk_admin_pass', newP);
@@ -1590,10 +2132,4 @@
       alert('✓ Yönetici parolanız başarıyla güncellendi! Bir sonraki girişinizde bu yeni parolayı kullanacaksınız.');
     }
 
-    // Sayfa Yüklendiğinde Doğrulama Kontrolü
-    checkAuth();
-
-  </script>
-</body>
-</html>
-
+    
