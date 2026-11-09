@@ -2177,6 +2177,10 @@
               </small>
             </div>
 
+            <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:6px;padding:8px 10px;font-size:11.5px;color:#1e40af;line-height:1.4;margin-top:4px;">
+              💻 <strong>Mac Kullanıcıları İçin Kolaylık:</strong> Bilgisayarınızda yerel çalışırken e-postaların arka planda canlı akması için klasördeki <code>E-Posta-Senkronizasyonu-Baslat.command</code> dosyasına çift tıklayabilirsiniz.
+            </div>
+
             <div style="display:flex;align-items:center;justify-content:space-between;margin-top:4px;">
               <span style="font-size:12px;color:#475569;">Otomatik Tarama Sıklığı:</span>
               <select id="cfgSyncInterval" style="font-size:12px;padding:4px 8px;border:1px solid #cbd5e1;border-radius:6px;background:white;color:#1e293b;width:auto;">
@@ -4689,7 +4693,7 @@ MÜLK Spor Kulübü Yönetimi`
       syncLiveEmails(true);
     }
 
-    function saveMailServerSettings() {
+    async function saveMailServerSettings() {
       const infoPass = document.getElementById('cfgInfoPassword').value.trim();
       const gmailPass = document.getElementById('cfgGmailPassword').value.trim();
       const interval = document.getElementById('cfgSyncInterval').value;
@@ -4699,11 +4703,21 @@ MÜLK Spor Kulübü Yönetimi`
         localStorage.setItem('mulk_mail_config', JSON.stringify(cfg));
       } catch(e) {}
 
+      // 1. Yerel Python REST API servisine gönder
+      try {
+        await fetch('http://127.0.0.1:8080/api/config', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ info_password: infoPass, gmail_password: gmailPass, interval: interval })
+        });
+      } catch(e) {}
+
+      // 2. Web sunucusuna (cPanel PHP) gönder
       try {
         fetch('sync_mail.php', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ info_password: infoPass, gmail_password: gmailPass })
+          body: JSON.stringify({ info_password: infoPass, gmail_password: gmailPass, interval: interval })
         }).catch(() => {});
       } catch(e) {}
 
@@ -4713,13 +4727,52 @@ MÜLK Spor Kulübü Yönetimi`
       syncLiveEmails(true);
     }
 
-    function testLiveMailConnection() {
+    async function testLiveMailConnection() {
       const infoPass = document.getElementById('cfgInfoPassword').value.trim();
-      if (!infoPass) {
-        alert('Lütfen test etmek için info@mulksporkulubu.com parolanızı giriniz.');
+      const gmailPass = document.getElementById('cfgGmailPassword').value.trim();
+
+      if (!infoPass && !gmailPass) {
+        alert('Lütfen test etmek için en az bir hesabın şifresini giriniz.');
         return;
       }
-      alert('⚡ Sunucu Bağlantı Testi:\n\n• IMAP Sunucusu: mail.mulksporkulubu.com:993 (SSL)\n• Kullanıcı: info@mulksporkulubu.com\n\nAyarlar kaydedildikten sonra sunucunuzla canlı eşleşme başlayacaktır.');
+
+      const testBtn = event.currentTarget || document.getElementById('btnTestMailConfig');
+      const origText = testBtn ? testBtn.innerHTML : '';
+      if (testBtn) testBtn.innerHTML = '<span>⏳</span> Bağlantı Test Ediliyor...';
+
+      try {
+        const resp = await fetch('http://127.0.0.1:8080/api/test', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ info_password: infoPass, gmail_password: gmailPass })
+        });
+
+        if (resp && resp.ok) {
+          const data = await resp.json();
+          let msg = "⚡ CANLI E-POSTA BAĞLANTI TESTİ SONUÇLARI:\n\n";
+          if (data.results && Array.isArray(data.results)) {
+            data.results.forEach(r => {
+              if (r.success) {
+                msg += `🟢 ${r.account}:\n   ${r.message}\n\n`;
+              } else {
+                msg += `🔴 ${r.account}:\n   Hata: ${r.error}\n\n`;
+              }
+            });
+          }
+          alert(msg);
+        } else {
+          throw new Error('Yanıt alınamadı');
+        }
+      } catch (err) {
+        alert(
+          "⚠️ YEREL SENKRONİZASYON SERVİSİ ŞU AN ÇALIŞMIYOR\n\n" +
+          "Bilgisayarınızda e-postaları arka planda canlı çekebilmek için:\n\n" +
+          "1. Masaüstünüzdeki 'E-Posta-Senkronizasyonu-Baslat.command' dosyasına çift tıklayarak arka plan servisini başlatabilirsiniz.\n\n" +
+          "2. VEYA doğrudan üstteki '🏢 Canlı Kurumsal Webmail' ve '🔴 Canlı Gmail' sekmelerine tıklayarak tüm maillerinizi hemen açabilirsiniz."
+        );
+      } finally {
+        if (testBtn) testBtn.innerHTML = origText || '<span>⚡</span> Bağlantıyı Test Et';
+      }
     }
 
     function openComposeModal(replyToId = null) {
