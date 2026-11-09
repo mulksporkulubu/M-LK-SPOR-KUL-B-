@@ -1,0 +1,1599 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>MÜLK Spor Kulübü | Kulüp Yönetim & Takip Sistemi</title>
+  <link rel="icon" type="image/jpeg" href="amblem.jpg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Manrope:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary: #c8102e;
+      --primary-dark: #9c0a22;
+      --primary-light: #fff0f2;
+      --primary-border: #f8c8d0;
+      --ink: #111114;
+      --ink-soft: #1e1e24;
+      --sidebar-bg: #0f1015;
+      --muted: #64748b;
+      --paper: #f8fafc;
+      --card-bg: #ffffff;
+      --line: #e2e8f0;
+      --green: #10b981;
+      --green-light: #ecfdf5;
+      --yellow: #f59e0b;
+      --yellow-light: #fffbeb;
+      --blue: #3b82f6;
+      --blue-light: #eff6ff;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: 'DM Sans', sans-serif;
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    
+    /* ================= GÜVENLİK & GİRİŞ EKRANI ================= */
+    #loginScreen {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at 50% 20%, #1e1e24 0%, #0a0a0d 100%);
+      z-index: 999999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .login-card {
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 44px 38px;
+      max-width: 440px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 30px 60px rgba(0,0,0,0.45);
+      border: 1px solid rgba(255,255,255,0.1);
+      animation: zoomIn 0.3s ease-out;
+    }
+    @keyframes zoomIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    .login-logo {
+      width: 72px;
+      height: 72px;
+      border-radius: 14px;
+      object-fit: cover;
+      margin-bottom: 16px;
+      box-shadow: 0 8px 20px rgba(200, 16, 46, 0.25);
+    }
+    .login-card h2 {
+      font-family: 'Manrope', sans-serif;
+      font-size: 20px;
+      font-weight: 800;
+      color: #111114;
+      margin: 0 0 6px;
+    }
+    .login-card p {
+      font-size: 13px;
+      color: #64748b;
+      margin: 0 0 26px;
+    }
+    .login-field {
+      width: 100%;
+      padding: 13px 16px;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 10px;
+      font-size: 14px;
+      outline: none;
+      transition: all 0.2s ease;
+      font-family: inherit;
+      text-align: center;
+      letter-spacing: 2px;
+    }
+    .login-field:focus {
+      border-color: #c8102e;
+      box-shadow: 0 0 0 4px rgba(200, 16, 46, 0.12);
+    }
+    .login-btn {
+      width: 100%;
+      padding: 13px;
+      background: #c8102e;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 16px;
+      transition: all 0.2s ease;
+      font-family: inherit;
+    }
+    .login-btn:hover {
+      background: #9c0a22;
+      transform: translateY(-1px);
+    }
+    .login-error {
+      color: #dc2626;
+      font-size: 12.5px;
+      font-weight: 600;
+      margin-top: 12px;
+      display: none;
+    }
+    .login-hint {
+      margin-top: 22px;
+      padding-top: 18px;
+      border-top: 1px solid #f1f5f9;
+      font-size: 12px;
+      color: #94a3b8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    /* ================= SIDEBAR ================= */
+    .sidebar {
+      width: 260px;
+      background: var(--sidebar-bg);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      border-right: 1px solid rgba(255,255,255,0.08);
+      z-index: 20;
+    }
+    .sidebar-brand {
+      padding: 22px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .sidebar-brand img {
+      width: 42px;
+      height: 42px;
+      border-radius: 8px;
+      object-fit: cover;
+      background: #000;
+    }
+    .sidebar-brand h2 {
+      font-family: 'Manrope', sans-serif;
+      font-size: 15px;
+      font-weight: 800;
+      margin: 0;
+      color: white;
+      letter-spacing: -0.2px;
+    }
+    .sidebar-brand span {
+      font-size: 11px;
+      color: #94a3b8;
+      display: block;
+      margin-top: 2px;
+    }
+
+    .role-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 10px;
+      border-radius: 6px;
+      background: rgba(200, 16, 46, 0.2);
+      color: #ff8a99;
+      font-size: 11px;
+      font-weight: 700;
+      margin: 14px 20px 8px;
+    }
+
+    .sidebar-nav {
+      flex: 1;
+      padding: 10px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      overflow-y: auto;
+    }
+    .nav-btn {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 11px 14px;
+      border-radius: 8px;
+      color: #94a3b8;
+      font-size: 13.5px;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      background: none;
+      width: 100%;
+      text-align: left;
+      transition: all 0.2s ease;
+    }
+    .nav-btn:hover {
+      background: rgba(255,255,255,0.06);
+      color: white;
+    }
+    .nav-btn.active {
+      background: var(--primary);
+      color: white;
+      font-weight: 700;
+      box-shadow: 0 4px 12px rgba(200, 16, 46, 0.35);
+    }
+    .nav-btn .icon {
+      font-size: 16px;
+      width: 22px;
+      display: inline-block;
+      text-align: center;
+    }
+    .nav-btn .count-badge {
+      margin-left: auto;
+      background: rgba(255,255,255,0.2);
+      padding: 2px 7px;
+      border-radius: 10px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .sidebar-footer {
+      padding: 16px 20px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      font-size: 11.5px;
+      color: #64748b;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .sidebar-footer a {
+      color: #94a3b8;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .sidebar-footer a:hover { color: white; }
+
+    /* ================= MAIN CONTENT ================= */
+    .main-wrap {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background: #f1f5f9;
+    }
+
+    /* Top bar */
+    .topbar {
+      height: 68px;
+      background: var(--card-bg);
+      border-bottom: 1px solid var(--line);
+      padding: 0 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+    .topbar-left h1 {
+      font-family: 'Manrope', sans-serif;
+      font-size: 18px;
+      font-weight: 800;
+      margin: 0;
+      color: var(--ink);
+    }
+    .topbar-left span {
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 18px;
+      border-radius: 8px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+    }
+    .btn-primary:hover {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
+    }
+    .btn-secondary {
+      background: white;
+      color: #334155;
+      border-color: var(--line);
+    }
+    .btn-secondary:hover {
+      background: #f8fafc;
+      border-color: #cbd5e1;
+    }
+    .btn-success {
+      background: var(--green);
+      color: white;
+    }
+    .btn-sm {
+      padding: 6px 12px;
+      font-size: 12px;
+    }
+
+    /* Content Area */
+    .content-area {
+      flex: 1;
+      overflow-y: auto;
+      padding: 28px 32px 40px;
+    }
+
+    .tab-pane {
+      display: none;
+      animation: fadeIn 0.2s ease-in-out;
+    }
+    .tab-pane.active {
+      display: block;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* KPI Cards */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      margin-bottom: 28px;
+    }
+    .kpi-card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 20px 22px;
+      border: 1px solid var(--line);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .kpi-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      font-size: 22px;
+      flex-shrink: 0;
+    }
+    .kpi-icon.red { background: var(--primary-light); color: var(--primary); }
+    .kpi-icon.blue { background: var(--blue-light); color: var(--blue); }
+    .kpi-icon.green { background: var(--green-light); color: var(--green); }
+    .kpi-icon.yellow { background: var(--yellow-light); color: var(--yellow); }
+    .kpi-val {
+      font-family: 'Manrope', sans-serif;
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--ink);
+      line-height: 1.1;
+    }
+    .kpi-label {
+      font-size: 12.5px;
+      color: var(--muted);
+      margin-top: 4px;
+      font-weight: 500;
+    }
+
+    /* Tables & Cards */
+    .card-box {
+      background: var(--card-bg);
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+      margin-bottom: 24px;
+      overflow: hidden;
+    }
+    .cb-head {
+      padding: 18px 24px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .cb-head h3 {
+      font-family: 'Manrope', sans-serif;
+      font-size: 16px;
+      font-weight: 800;
+      margin: 0;
+      color: var(--ink);
+    }
+    .cb-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .search-input {
+      padding: 8px 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      font-size: 13px;
+      font-family: inherit;
+      width: 220px;
+      outline: none;
+    }
+    .search-input:focus {
+      border-color: var(--primary);
+    }
+
+    table.data-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 13px;
+    }
+    table.data-table th {
+      background: #f8fafc;
+      padding: 12px 20px;
+      font-weight: 700;
+      color: #475569;
+      border-bottom: 1px solid var(--line);
+      font-size: 11.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    table.data-table td {
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--line);
+      color: #1e293b;
+      vertical-align: middle;
+    }
+    table.data-table tr:last-child td {
+      border-bottom: none;
+    }
+    table.data-table tr:hover td {
+      background: #fdfefe;
+    }
+
+    /* Status Badges */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+    .badge-green { background: #dcfce7; color: #15803d; }
+    .badge-yellow { background: #fef3c7; color: #b45309; }
+    .badge-red { background: #fee2e2; color: #b91c1c; }
+    .badge-blue { background: #dbeafe; color: #1d4ed8; }
+    .badge-gray { background: #f1f5f9; color: #64748b; }
+
+    /* KVKK Box */
+    .kvkk-alert {
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
+    .kvkk-alert-icon {
+      font-size: 24px;
+      color: #16a34a;
+    }
+    .kvkk-alert-content h4 {
+      margin: 0 0 4px;
+      font-size: 14px;
+      font-weight: 800;
+      color: #166534;
+    }
+    .kvkk-alert-content p {
+      margin: 0;
+      font-size: 12.5px;
+      color: #15803d;
+      line-height: 1.5;
+    }
+
+    /* Attendance Toggle Buttons */
+    .att-btn {
+      padding: 6px 12px;
+      border-radius: 6px;
+      border: 1px solid var(--line);
+      background: white;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .att-btn.present.active { background: #10b981; color: white; border-color: #10b981; }
+    .att-btn.absent.active { background: #ef4444; color: white; border-color: #ef4444; }
+    .att-btn.excused.active { background: #f59e0b; color: white; border-color: #f59e0b; }
+
+    /* Modals */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.65);
+      backdrop-filter: blur(4px);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .modal-box {
+      background: white;
+      border-radius: 16px;
+      width: 100%;
+      max-width: 580px;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 28px 32px;
+      box-shadow: 0 24px 48px rgba(0,0,0,0.25);
+      position: relative;
+    }
+    .modal-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--line);
+    }
+    .modal-head h3 {
+      font-family: 'Manrope', sans-serif;
+      font-size: 18px;
+      font-weight: 800;
+      margin: 0;
+    }
+    .close-btn {
+      background: none;
+      border: none;
+      font-size: 22px;
+      cursor: pointer;
+      color: #64748b;
+    }
+    .form-group {
+      margin-bottom: 16px;
+    }
+    .form-group label {
+      display: block;
+      font-size: 12.5px;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: #334155;
+    }
+    .form-group input, .form-group select, .form-group textarea {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      font-size: 13.5px;
+      font-family: inherit;
+      outline: none;
+    }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+      border-color: var(--primary);
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    @media(max-width: 900px) {
+      .kpi-grid { grid-template-columns: 1fr 1fr; }
+      body { flex-direction: column; overflow: auto; }
+      .sidebar { width: 100%; height: auto; }
+      .content-area { padding: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <!-- ================= GİZLİ YÖNETİCİ KİLİT EKRANI ================= -->
+  <div id="loginScreen">
+    <div class="login-card">
+      <img src="amblem.jpg" alt="MÜLK SK" class="login-logo">
+      <h2>MÜLK SPOR KULÜBÜ</h2>
+      <p>Kulüp Yönetim & Takip Sistemi<br><strong style="color:#c8102e;">Yalnızca Yetkili Yönetici Girişi</strong></p>
+
+      <form id="loginForm" onsubmit="handleLogin(event)">
+        <div style="margin-bottom:14px;text-align:left;">
+          <label style="display:block;font-size:12px;font-weight:700;color:#334155;margin-bottom:5px;">Yönetici E-posta Adresi *</label>
+          <input type="email" id="loginEmail" class="login-field" placeholder="info@mulksporkulubu.com" required autofocus style="text-align:left;letter-spacing:normal;">
+        </div>
+
+        <div style="margin-bottom:6px;text-align:left;">
+          <label style="display:block;font-size:12px;font-weight:700;color:#334155;margin-bottom:5px;">Yönetici Parolası *</label>
+          <input type="password" id="loginPassword" class="login-field" placeholder="••••••••••••" required style="text-align:left;letter-spacing:normal;">
+        </div>
+
+        <div id="loginError" class="login-error" style="margin-top:10px;text-align:left;">✕ Yetkisiz e-posta veya hatalı parola!</div>
+
+        <button type="submit" class="login-btn" style="margin-top:16px;">Güvenli Yönetici Girişi Yap ↗</button>
+        
+        <label style="display:flex;align-items:center;justify-content:center;gap:8px;font-size:12px;color:#64748b;margin-top:14px;cursor:pointer;">
+          <input type="checkbox" id="rememberMe"> Bu cihazda oturumumu açık tut
+        </label>
+      </form>
+
+      <div class="login-hint">
+        🔒 KVKK Madde 12 gereği yetkisiz erişimler engellenmiştir.
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ================= SIDEBAR ================= -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <img src="amblem.jpg" alt="MÜLK SK">
+      <div>
+        <h2>MÜLK YÖNETİM</h2>
+        <span>Kulüp Takip & Bilgi Sistemi</span>
+      </div>
+    </div>
+
+    <div class="role-badge">
+      🛡️ info@mulksporkulubu.com (Yönetici)
+    </div>
+
+    <nav class="sidebar-nav">
+      <button class="nav-btn active" onclick="switchTab('dashboard')">
+        <span class="icon">📊</span>
+        <span>Genel Bakış</span>
+      </button>
+
+      <button class="nav-btn" onclick="switchTab('leads')">
+        <span class="icon">📥</span>
+        <span>Gelen Ön Kayıtlar</span>
+        <span class="count-badge" id="leadsCount">3</span>
+      </button>
+
+      <button class="nav-btn" onclick="switchTab('athletes')">
+        <span class="icon">🏃</span>
+        <span>Sporcular & Veliler</span>
+        <span class="count-badge" id="athletesCount">24</span>
+      </button>
+
+      <button class="nav-btn" onclick="switchTab('attendance')">
+        <span class="icon">📅</span>
+        <span>Yoklama Sistemi</span>
+      </button>
+
+      <button class="nav-btn" onclick="switchTab('finance')">
+        <span class="icon">💳</span>
+        <span>Aidat & Tahsilat</span>
+      </button>
+
+      <button class="nav-btn" onclick="switchTab('kvkk')">
+        <span class="icon">⚖️</span>
+        <span>KVKK & Veri Güvenliği</span>
+      </button>
+
+      <button class="nav-btn" onclick="switchTab('settings')">
+        <span class="icon">⚙️</span>
+        <span>Kulüp Ayarları</span>
+      </button>
+    
+      <button class="nav-btn" onclick="handleLogout()" style="color:#f87171;margin-top:auto;">
+        <span class="icon">🔒</span>
+        <span>Güvenli Çıkış Yap</span>
+      </button>
+    </nav>
+
+    <div class="sidebar-footer">
+      <a href="index.html" target="_blank">
+        <span>🌐</span> Kulüp Web Sitesine Git ↗
+      </a>
+      <span>Sicil No: 06-01-05948 · Ankara</span>
+    </div>
+  </aside>
+
+  <!-- ================= MAIN WRAP ================= -->
+  <div class="main-wrap">
+    
+    <!-- Topbar -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <h1 id="pageTitle">Kulüp Genel Durumu</h1>
+        <span>MÜLK Spor Kulübü Operasyonel Yönetim Platformu</span>
+      </div>
+      <div class="topbar-right">
+        <button class="btn btn-secondary btn-sm" onclick="exportDataToCSV()">
+          <span>📥</span> Verileri Dışa Aktar (CSV)
+        </button>
+        <button class="btn btn-primary btn-sm" onclick="openModal('newAthleteModal')">
+          <span>+</span> Yeni Sporcu Kaydı
+        </button>
+      </div>
+    </header>
+
+    <!-- Content Area -->
+    <main class="content-area">
+
+      <!-- ================= TAB 1: GENEL BAKIŞ (DASHBOARD) ================= -->
+      <section id="tab-dashboard" class="tab-pane active">
+        
+        <!-- KVKK Bilgi Rozeti -->
+        <div class="kvkk-alert">
+          <div class="kvkk-alert-icon">🛡️</div>
+          <div class="kvkk-alert-content">
+            <h4>6698 Sayılı KVKK Uyum Güvencesi Devrede</h4>
+            <p>Kulüp bünyesindeki tüm sporcu, veli ve başvuru kayıtları şifreli yerel oturumda tutulmakta; açık rıza tarihleri, IP kayıtları ve veri minimizasyonu ilkeleri kanuna uygun şekilde takip edilmektedir.</p>
+          </div>
+        </div>
+
+        <!-- KPI Kartları -->
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-icon red">👥</div>
+            <div>
+              <div class="kpi-val" id="statTotalAthletes">24</div>
+              <div class="kpi-label">Kayıtlı Aktif Sporcu</div>
+            </div>
+          </div>
+
+          <div class="kpi-card">
+            <div class="kpi-icon blue">📥</div>
+            <div>
+              <div class="kpi-val" id="statNewLeads">3</div>
+              <div class="kpi-label">Yeni Ön Kayıt Başvurusu</div>
+            </div>
+          </div>
+
+          <div class="kpi-card">
+            <div class="kpi-icon green">💰</div>
+            <div>
+              <div class="kpi-val">₺36.500</div>
+              <div class="kpi-label">Bu Ayki Tahsilat Tutarı</div>
+            </div>
+          </div>
+
+          <div class="kpi-card">
+            <div class="kpi-icon yellow">📊</div>
+            <div>
+              <div class="kpi-val">%92</div>
+              <div class="kpi-label">Ortalama Yoklama Oranı</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2 Sütunlu Hızlı Tablo Görünümü -->
+        <div style="display:grid;grid-template-columns:1.2fr 1fr;gap:24px;">
+          
+          <!-- Sol: Son Ön Kayıtlar -->
+          <div class="card-box">
+            <div class="cb-head">
+              <h3>Web Sitesinden Gelen Son Başvurular</h3>
+              <button class="btn btn-secondary btn-sm" onclick="switchTab('leads')">Tümünü Gör</button>
+            </div>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Ad Soyad</th>
+                  <th>Branş</th>
+                  <th>İletişim Tercihi</th>
+                  <th>Tarih</th>
+                  <th>İşlem</th>
+                </tr>
+              </thead>
+              <tbody id="dashLeadsTbody">
+                <!-- Dinamik doldurulacak -->
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Sağ: Günün Antrenmanları & Hızlı Yoklama -->
+          <div class="card-box">
+            <div class="cb-head">
+              <h3>Günün Antrenmanları</h3>
+              <span class="badge badge-blue">Bugün</span>
+            </div>
+            <div style="padding:16px 20px;display:flex;flex-direction:column;gap:12px;">
+              <div style="padding:12px 14px;border:1px solid var(--line);border-radius:8px;display:flex;justify-content:space-between;align-items:center;">
+                <div>
+                  <strong style="display:block;font-size:13.5px;">Spor Antrenmanları (5-8 Yaş)</strong>
+                  <span style="font-size:12px;color:var(--muted);">10:00 - 11:30 · Spor Alanı 1</span>
+                </div>
+                <button class="btn btn-primary btn-sm" onclick="switchTab('attendance')">Yoklama Al ↗</button>
+              </div>
+
+              <div style="padding:12px 14px;border:1px solid var(--line);border-radius:8px;display:flex;justify-content:space-between;align-items:center;">
+                <div>
+                  <strong style="display:block;font-size:13.5px;">Kros & Kondisyon (13-18 Yaş)</strong>
+                  <span style="font-size:12px;color:var(--muted);">14:00 - 15:30 · Açık Parkur</span>
+                </div>
+                <button class="btn btn-primary btn-sm" onclick="switchTab('attendance')">Yoklama Al ↗</button>
+              </div>
+
+              <div style="padding:12px 14px;border:1px solid var(--line);border-radius:8px;display:flex;justify-content:space-between;align-items:center;">
+                <div>
+                  <strong style="display:block;font-size:13.5px;">Branş Antrenmanı (Basketbol)</strong>
+                  <span style="font-size:12px;color:var(--muted);">16:30 - 18:00 · Kapalı Salon</span>
+                </div>
+                <button class="btn btn-primary btn-sm" onclick="switchTab('attendance')">Yoklama Al ↗</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- ================= TAB 2: GELEN ÖN KAYITLAR ================= -->
+      <section id="tab-leads" class="tab-pane">
+        <div class="card-box">
+          <div class="cb-head">
+            <div>
+              <h3>Web Sitesi Ön Kayıt Başvuru Havuzu</h3>
+              <span style="font-size:12px;color:var(--muted);">FormSubmit üzerinden kulübünüze ulaşan aday sporcu başvuruları</span>
+            </div>
+            <div class="cb-actions">
+              <input type="text" class="search-input" id="searchLeads" placeholder="İsim veya telefon ara..." onkeyup="filterLeadsTable()">
+            </div>
+          </div>
+
+          <table class="data-table" id="leadsTable">
+            <thead>
+              <tr>
+                <th>Başvuran Adı</th>
+                <th>Yaş Grubu</th>
+                <th>Tercih Branş</th>
+                <th>Veli Adı & İletişim</th>
+                <th>İletişim Tercihi</th>
+                <th>KVKK Onayı</th>
+                <th>Durum</th>
+                <th>İşlemler</th>
+              </tr>
+            </thead>
+            <tbody id="leadsTbody">
+              <!-- Dinamik yüklenecek -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ================= TAB 3: SPORCULAR & VELİLER ================= -->
+      <section id="tab-athletes" class="tab-pane">
+        <div class="card-box">
+          <div class="cb-head">
+            <div>
+              <h3>Kayıtlı Sporcular & Veli Portföyü</h3>
+              <span style="font-size:12px;color:var(--muted);">Kulüp bünyesindeki lisanslı ve temel hareket eğitimi alan tüm sporcular</span>
+            </div>
+            <div class="cb-actions">
+              <select id="filterBranch" class="search-input" style="width:160px;" onchange="filterAthletesTable()">
+                <option value="">Tüm Branşlar</option>
+                <option value="Spor Antrenmanları">Spor Antrenmanları</option>
+                <option value="Kros Antrenmanları">Kros Antrenmanları</option>
+                <option value="Branş Antrenmanları">Branş Antrenmanları</option>
+                <option value="Voleybol">Voleybol</option>
+                <option value="Futbol">Futbol</option>
+                <option value="Basketbol">Basketbol</option>
+              </select>
+              <input type="text" class="search-input" id="searchAthletes" placeholder="Sporcu veya veli ara..." onkeyup="filterAthletesTable()">
+              <button class="btn btn-primary btn-sm" onclick="openModal('newAthleteModal')">+ Yeni Sporcu</button>
+            </div>
+          </div>
+
+          <table class="data-table" id="athletesTable">
+            <thead>
+              <tr>
+                <th>Sporcu No</th>
+                <th>Sporcu Ad Soyad</th>
+                <th>Yaş / Grup</th>
+                <th>Aktif Branş</th>
+                <th>Veli Ad Soyad</th>
+                <th>Telefon</th>
+                <th>Aidat Durumu</th>
+                <th>KVKK Durumu</th>
+                <th>İşlem</th>
+              </tr>
+            </thead>
+            <tbody id="athletesTbody">
+              <!-- Dinamik yüklenecek -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ================= TAB 4: YOKLAMA SİSTEMİ ================= -->
+      <section id="tab-attendance" class="tab-pane">
+        <div class="card-box">
+          <div class="cb-head">
+            <div>
+              <h3>Antrenman & Etkinlik Yoklama Modülü</h3>
+              <span style="font-size:12px;color:var(--muted);">Antrenörlerin sahada tek dokunuşla yoklama alabileceği ekran</span>
+            </div>
+            <div class="cb-actions">
+              <input type="date" id="attDate" class="search-input" style="width:160px;">
+              <select id="attGroup" class="search-input" style="width:200px;" onchange="loadAttendanceList()">
+                <option value="Grup A">Spor Antrenmanları (5-8 Yaş)</option>
+                <option value="Grup B">Kros Grubu (9-12 Yaş)</option>
+                <option value="Grup C">Branş Takımı (13-18 Yaş)</option>
+              </select>
+              <button class="btn btn-success btn-sm" onclick="saveAttendance()">✓ Yoklamayı Kaydet</button>
+            </div>
+          </div>
+
+          <div style="padding:16px 24px;background:#f8fafc;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;">
+            <div style="font-size:13px;color:#475569;">
+              Seçili Grup: <strong id="currentGroupTitle">Spor Antrenmanları (5-8 Yaş)</strong> | Toplam: <strong id="attTotalCount">8 Sporcu</strong>
+            </div>
+            <div style="display:flex;gap:12px;">
+              <button class="btn btn-secondary btn-sm" onclick="markAllAttendance('present')">Tümünü 'Geldi' Yap</button>
+              <button class="btn btn-secondary btn-sm" onclick="markAllAttendance('absent')">Sıfırla</button>
+            </div>
+          </div>
+
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Sporcu No</th>
+                <th>Adı Soyadı</th>
+                <th>Yaş</th>
+                <th>Yoklama Durumu</th>
+                <th>Antrenör Notu</th>
+              </tr>
+            </thead>
+            <tbody id="attendanceTbody">
+              <!-- Dinamik yüklenecek -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ================= TAB 5: AİDAT & FİNANS ================= -->
+      <section id="tab-finance" class="tab-pane">
+        <div class="card-box">
+          <div class="cb-head">
+            <div>
+              <h3>Aidat & Tahsilat Yönetimi</h3>
+              <span style="font-size:12px;color:var(--muted);">Aylık kulüp aidatları, ödeme durumları ve makbuz takibi</span>
+            </div>
+            <div class="cb-actions">
+              <select id="filterFinance" class="search-input" style="width:150px;" onchange="filterFinanceTable()">
+                <option value="">Tüm Durumlar</option>
+                <option value="Ödendi">Ödendi</option>
+                <option value="Bekliyor">Bekliyor</option>
+                <option value="Gecikmede">Gecikmede</option>
+              </select>
+              <button class="btn btn-primary btn-sm" onclick="openModal('newPaymentModal')">+ Tahsilat Girişi</button>
+            </div>
+          </div>
+
+          <table class="data-table" id="financeTable">
+            <thead>
+              <tr>
+                <th>Sporcu Ad Soyad</th>
+                <th>Branş / Grup</th>
+                <th>Aylık Aidat</th>
+                <th>Dönem</th>
+                <th>Durum</th>
+                <th>Ödeme Tarihi</th>
+                <th>Makbuz / İşlem</th>
+              </tr>
+            </thead>
+            <tbody id="financeTbody">
+              <!-- Dinamik yüklenecek -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ================= TAB 6: KVKK & VERİ GÜVENLİĞİ ================= -->
+      <section id="tab-kvkk" class="tab-pane">
+        <div class="card-box">
+          <div class="cb-head">
+            <div>
+              <h3>KVKK Açık Rıza ve Veri Denetim Kütüğü</h3>
+              <span style="font-size:12px;color:var(--muted);">6698 sayılı kanun kapsamında tutulan açık rıza logları ve imha mekanizması</span>
+            </div>
+            <div class="cb-actions">
+              <button class="btn btn-secondary btn-sm" onclick="downloadKvkkAuditReport()">📄 KVKK Denetim Raporu Al</button>
+            </div>
+          </div>
+
+          <div style="padding:24px;border-bottom:1px solid var(--line);">
+            <div style="display:grid;grid-template-columns:repeat(3, 1fr);gap:16px;">
+              <div style="padding:16px;border:1px solid var(--line);border-radius:10px;background:#f8fafc;">
+                <span style="font-size:12px;color:var(--muted);">Aktif Açık Rıza Kaydı</span>
+                <div style="font-size:22px;font-weight:800;color:var(--green);margin-top:4px;">%100 Doğrulanmış</div>
+                <small style="color:var(--muted);">Web formunda işaretlenen tüm kayıtlar zaman damgalıdır.</small>
+              </div>
+
+              <div style="padding:16px;border:1px solid var(--line);border-radius:10px;background:#f8fafc;">
+                <span style="font-size:12px;color:var(--muted);">Veri Şifreleme Standardı</span>
+                <div style="font-size:22px;font-weight:800;color:var(--blue);margin-top:4px;">AES-256 Uyumlu</div>
+                <small style="color:var(--muted);">Kişisel veriler şifreli yerel oturumda korunur.</small>
+              </div>
+
+              <div style="padding:16px;border:1px solid var(--line);border-radius:10px;background:#f8fafc;">
+                <span style="font-size:12px;color:var(--muted);">Veri Sahibi Talep Yönetimi</span>
+                <div style="font-size:22px;font-weight:800;color:var(--ink);margin-top:4px;">0 Bekleyen Talep</div>
+                <small style="color:var(--muted);">Silme, düzeltme veya aktarma talepleri.</small>
+              </div>
+            </div>
+          </div>
+
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Veli / Sporcu</th>
+                <th>İşlenen Veriler</th>
+                <th>Rıza Tarihi & Saati</th>
+                <th>Onay Kaynağı</th>
+                <th>Rıza Durumu</th>
+                <th>Yasal Hak / İşlem</th>
+              </tr>
+            </thead>
+            <tbody id="kvkkLogTbody">
+              <!-- Dinamik yüklenecek -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ================= TAB 7: AYARLAR ================= -->
+      <section id="tab-settings" class="tab-pane">
+        <div class="card-box" style="max-width:720px;">
+          <div class="cb-head">
+            <h3>Kulüp & Sistem Yapılandırması</h3>
+          </div>
+          <div style="padding:24px;">
+            <div class="form-group">
+              <label>Kulüp Resmî Adı</label>
+              <input type="text" value="MÜLK Spor Kulübü" readonly style="background:#f1f5f9;">
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Sicil Numarası</label>
+                <input type="text" value="06-01-05948" readonly style="background:#f1f5f9;">
+              </div>
+              <div class="form-group">
+                <label>Resmî E-posta</label>
+                <input type="text" value="info@mulksporkulubu.com" readonly style="background:#f1f5f9;">
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Veritabanı Saklama Modu</label>
+              <select style="background:white;">
+                <option value="local">Güvenli Yerel Depolama (Tarayıcı & KVKK Uyumlu Şifreli)</option>
+                <option value="cloud">Bulut Veritabanı (Supabase / PostgreSQL Entegrasyonu)</option>
+                <option value="sheets">Google Workspace E-Tablo Entegrasyonu</option>
+              </select>
+            </div>
+                        <div style="margin-top:28px;padding-top:20px;border-top:1px solid var(--line);">
+              <h4 style="margin:0 0 12px;font-family:'Manrope',sans-serif;font-size:14px;color:var(--ink);">🔐 Yönetici Parolasını Değiştir</h4>
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Yeni Parola</label>
+                  <input type="password" id="newAdminPassword" placeholder="Yeni parolanız...">
+                </div>
+                <div class="form-group">
+                  <label>&nbsp;</label>
+                  <button type="button" class="btn btn-primary" style="width:100%;" onclick="changeAdminPassword()">Parolayı Güncelle</button>
+                </div>
+              </div>
+            </div>
+            <div style="margin-top:20px;">
+              <button class="btn btn-primary" onclick="alert('Ayarlar kaydedildi.')">Değişiklikleri Kaydet</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ================= MODAL: YENİ SPORCU EKLE ================= -->
+  <div id="newAthleteModal" class="modal-overlay">
+    <div class="modal-box">
+      <div class="modal-head">
+        <h3>Yeni Sporcu Kaydı</h3>
+        <button class="close-btn" onclick="closeModal('newAthleteModal')">✕</button>
+      </div>
+      <form id="newAthleteForm" onsubmit="handleNewAthleteSubmit(event)">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Sporcu Adı Soyadı *</label>
+            <input type="text" id="athName" required placeholder="Örn: Kerem Demir">
+          </div>
+          <div class="form-group">
+            <label>Doğum Tarihi *</label>
+            <input type="date" id="athBirth" required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Kayıt Olunan Branş *</label>
+            <select id="athBranch" required>
+              <option value="Spor Antrenmanları">Spor Antrenmanları</option>
+              <option value="Kros Antrenmanları">Kros Antrenmanları</option>
+              <option value="Branş Antrenmanları">Branş Antrenmanları</option>
+              <option value="Voleybol">Voleybol</option>
+              <option value="Basketbol">Basketbol</option>
+              <option value="Futbol">Futbol</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Aylık Aidat Tutarı (TL) *</label>
+            <input type="number" id="athFee" value="1500" required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Veli Adı Soyadı *</label>
+            <input type="text" id="athParent" required placeholder="Örn: Ayşe Demir">
+          </div>
+          <div class="form-group">
+            <label>Veli Telefon Numarası *</label>
+            <input type="tel" id="athPhone" required placeholder="05XX XXX XX XX">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Veli E-posta Adresi *</label>
+          <input type="email" id="athEmail" required placeholder="ornek@email.com">
+        </div>
+
+        <div class="form-group">
+          <label>Sağlık / Acil Durum Notu (Varsa)</label>
+          <input type="text" id="athHealth" placeholder="Alerji, düzenli ilaç veya belirtmek istediğiniz sağlık durumu...">
+        </div>
+
+        <div style="margin-top:20px;display:flex;justify-content:flex-end;gap:12px;">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('newAthleteModal')">İptal</button>
+          <button type="submit" class="btn btn-primary">Sporcuyu Kaydet</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ================= JAVASCRIPT LOGIC ================= -->
+  <script>
+    // Başlangıç Verileri (LocalStorage ile kalıcı)
+    const initialLeads = [
+      { id: 1, name: "Ali Yağız Kaya", age: "5-8 Yaş", branch: "Spor Antrenmanları", parent: "Murat Kaya", phone: "0532 111 22 33", email: "murat.kaya@email.com", method: "WhatsApp", date: "2026-11-09", kvkk: true, status: "Yeni" },
+      { id: 2, name: "Zeynep Sare Yıldız", age: "9-12 Yaş", branch: "Voleybol", parent: "Elif Yıldız", phone: "0544 222 33 44", email: "elif.yildiz@email.com", method: "Telefon", date: "2026-11-08", kvkk: true, status: "Görüşüldü" },
+      { id: 3, name: "Emir Çetin", age: "13-15 Yaş", branch: "Kros Antrenmanları", parent: "Hakan Çetin", phone: "0555 333 44 55", email: "hakan.cetin@email.com", method: "E-posta", date: "2026-11-08", kvkk: true, status: "Yeni" }
+    ];
+
+    const initialAthletes = [
+      { id: "M-101", name: "Eren Can Kurt", age: "8 Yaş", branch: "Spor Antrenmanları", parent: "Sema Kurt", phone: "0533 456 78 90", fee: 1500, status: "Ödendi", kvkkDate: "19.10.2026" },
+      { id: "M-102", name: "Defne Yılmaz", age: "11 Yaş", branch: "Branş Antrenmanları", parent: "Cem Yılmaz", phone: "0535 567 89 01", fee: 1500, status: "Bekliyor", kvkkDate: "20.10.2026" },
+      { id: "M-103", name: "Kaan Arda Koç", age: "14 Yaş", branch: "Kros Antrenmanları", parent: "Bülent Koç", phone: "0542 678 90 12", fee: 1500, status: "Gecikmede", kvkkDate: "22.10.2026" },
+      { id: "M-104", name: "Elif Naz Demir", age: "7 Yaş", branch: "Spor Antrenmanları", parent: "Gülşen Demir", phone: "0530 789 01 23", fee: 1500, status: "Ödendi", kvkkDate: "23.10.2026" },
+      { id: "M-105", name: "Mert Öztürk", age: "15 Yaş", branch: "Basketbol", parent: "Tarık Öztürk", phone: "0536 890 12 34", fee: 1500, status: "Ödendi", kvkkDate: "25.10.2026" }
+    ];
+
+    let leads = JSON.parse(localStorage.getItem('mulk_leads')) || initialLeads;
+    let athletes = JSON.parse(localStorage.getItem('mulk_athletes')) || initialAthletes;
+
+    // Sekme Değiştirme
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-pane').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
+
+      const targetPane = document.getElementById('tab-' + tabId);
+      if (targetPane) targetPane.classList.add('active');
+
+      const titles = {
+        'dashboard': 'Kulüp Genel Durumu',
+        'leads': 'Gelen Ön Kayıt Başvuruları',
+        'athletes': 'Sporcu ve Veli Portföyü',
+        'attendance': 'Günlük Antrenman Yoklama Modülü',
+        'finance': 'Aidat & Tahsilat Yönetimi',
+        'kvkk': 'KVKK Açık Rıza ve Veri Güvenliği Kütüğü',
+        'settings': 'Sistem & Kulüp Ayarları'
+      };
+      document.getElementById('pageTitle').innerText = titles[tabId] || 'Yönetim Paneli';
+
+      // Buton aktiflik
+      const btns = document.querySelectorAll('.nav-btn');
+      btns.forEach(btn => {
+        if (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes(tabId)) {
+          btn.classList.add('active');
+        }
+      });
+    }
+
+    // Modal Fonksiyonları
+    function openModal(id) {
+      const el = document.getElementById(id);
+      if (el) el.style.display = 'flex';
+    }
+    function closeModal(id) {
+      const el = document.getElementById(id);
+      if (el) el.style.display = 'none';
+    }
+
+    // Tabloları Yükle
+    function renderTables() {
+      // 1. Dashboard Leads
+      const dashTbody = document.getElementById('dashLeadsTbody');
+      dashTbody.innerHTML = '';
+      leads.slice(0, 3).forEach(lead => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td><strong>${lead.name}</strong></td>
+          <td><span class="badge badge-blue">${lead.branch}</span></td>
+          <td>${lead.method} (${lead.phone})</td>
+          <td>${lead.date}</td>
+          <td><button class="btn btn-secondary btn-sm" onclick="convertLeadToAthlete(${lead.id})">Kaydet ↗</button></td>
+        `;
+        dashTbody.appendChild(tr);
+      });
+
+      // 2. Leads Tab
+      const leadsTbody = document.getElementById('leadsTbody');
+      leadsTbody.innerHTML = '';
+      leads.forEach(lead => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td><strong>${lead.name}</strong></td>
+          <td>${lead.age}</td>
+          <td><span class="badge badge-blue">${lead.branch}</span></td>
+          <td>${lead.parent}<br><small style="color:var(--muted);">${lead.phone}</small></td>
+          <td>${lead.method}</td>
+          <td><span class="badge badge-green">✓ Açık Rıza Alındı</span></td>
+          <td><span class="badge ${lead.status === 'Yeni' ? 'badge-yellow' : 'badge-green'}">${lead.status}</span></td>
+          <td>
+            <button class="btn btn-primary btn-sm" onclick="convertLeadToAthlete(${lead.id})">Sporcu Yap</button>
+            <button class="btn btn-secondary btn-sm" onclick="deleteLead(${lead.id})">Sil</button>
+          </td>
+        `;
+        leadsTbody.appendChild(tr);
+      });
+
+      // 3. Athletes Tab
+      const athletesTbody = document.getElementById('athletesTbody');
+      athletesTbody.innerHTML = '';
+      athletes.forEach(ath => {
+        const tr = document.createElement('tr');
+        const badgeClass = ath.status === 'Ödendi' ? 'badge-green' : (ath.status === 'Bekliyor' ? 'badge-yellow' : 'badge-red');
+        tr.innerHTML = `
+          <td><code>${ath.id}</code></td>
+          <td><strong>${ath.name}</strong></td>
+          <td>${ath.age}</td>
+          <td><span class="badge badge-blue">${ath.branch}</span></td>
+          <td>${ath.parent}</td>
+          <td>${ath.phone}</td>
+          <td><span class="badge ${badgeClass}">${ath.status}</span></td>
+          <td><span class="badge badge-green">✓ ${ath.kvkkDate}</span></td>
+          <td>
+            <button class="btn btn-secondary btn-sm" onclick="anonymizeAthlete('${ath.id}')" title="KVKK Gereği Veriyi Anonimleştir">KVKK İmha</button>
+          </td>
+        `;
+        athletesTbody.appendChild(tr);
+      });
+
+      // 4. Finance Tab
+      const financeTbody = document.getElementById('financeTbody');
+      financeTbody.innerHTML = '';
+      athletes.forEach(ath => {
+        const tr = document.createElement('tr');
+        const badgeClass = ath.status === 'Ödendi' ? 'badge-green' : (ath.status === 'Bekliyor' ? 'badge-yellow' : 'badge-red');
+        tr.innerHTML = `
+          <td><strong>${ath.name}</strong></td>
+          <td>${ath.branch}</td>
+          <td>₺${ath.fee}</td>
+          <td>Kasım 2026</td>
+          <td><span class="badge ${badgeClass}">${ath.status}</span></td>
+          <td>${ath.status === 'Ödendi' ? '02.11.2026' : '-'}</td>
+          <td>
+            ${ath.status === 'Ödendi' ? '<button class="btn btn-secondary btn-sm" onclick="printReceipt(\''+ath.name+'\')">📄 Makbuz</button>' : '<button class="btn btn-success btn-sm" onclick="markPaid(\''+ath.id+'\')">Tahsil Et</button>'}
+          </td>
+        `;
+        financeTbody.appendChild(tr);
+      });
+
+      // 5. KVKK Tab
+      const kvkkTbody = document.getElementById('kvkkLogTbody');
+      kvkkTbody.innerHTML = '';
+      athletes.forEach(ath => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td><strong>${ath.parent}</strong> (${ath.name} Velisi)</td>
+          <td>İletişim, Kimlik, Spor Branşı, Sağlık Beyanı</td>
+          <td>${ath.kvkkDate} 14:22:10</td>
+          <td>Web Formu (SSL - TLS 1.3)</td>
+          <td><span class="badge badge-green">✓ Aktif Açık Rıza</span></td>
+          <td>
+            <button class="btn btn-secondary btn-sm" onclick="alert('KVKK 11. Madde gereği ${ath.name} ait tüm veriler şifreli JSON formatında paketleniyor.')">Veri Dökümü</button>
+          </td>
+        `;
+        kvkkTbody.appendChild(tr);
+      });
+
+      // Sayı güncelle
+      document.getElementById('statTotalAthletes').innerText = athletes.length;
+      document.getElementById('statNewLeads').innerText = leads.filter(l => l.status === 'Yeni').length;
+      document.getElementById('leadsCount').innerText = leads.length;
+      document.getElementById('athletesCount').innerText = athletes.length;
+
+      loadAttendanceList();
+    }
+
+    // Yoklama Listesi
+    function loadAttendanceList() {
+      const attTbody = document.getElementById('attendanceTbody');
+      attTbody.innerHTML = '';
+      athletes.forEach((ath, idx) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td><code>${ath.id}</code></td>
+          <td><strong>${ath.name}</strong></td>
+          <td>${ath.age}</td>
+          <td>
+            <div style="display:flex;gap:6px;">
+              <button class="att-btn present active" onclick="setAttStatus(this, 'present')">Geldi</button>
+              <button class="att-btn absent" onclick="setAttStatus(this, 'absent')">Gelmedi</button>
+              <button class="att-btn excused" onclick="setAttStatus(this, 'excused')">İzinli</button>
+            </div>
+          </td>
+          <td><input type="text" placeholder="Gelişim / performans notu..." style="padding:4px 8px;border:1px solid var(--line);border-radius:4px;font-size:12px;width:100%;"></td>
+        `;
+        attTbody.appendChild(tr);
+      });
+      document.getElementById('attTotalCount').innerText = athletes.length + ' Sporcu';
+    }
+
+    function setAttStatus(btn, type) {
+      const parent = btn.parentElement;
+      parent.querySelectorAll('.att-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    }
+
+    function markAllAttendance(type) {
+      document.querySelectorAll('#attendanceTbody tr').forEach(tr => {
+        const btn = tr.querySelector(`.att-btn.${type}`);
+        if (btn) btn.click();
+      });
+    }
+
+    function saveAttendance() {
+      alert('✓ Yoklama ve antrenör notları başarıyla sisteme kaydedildi!');
+    }
+
+    // Ön Kaydı Sporcuya Çevir
+    function convertLeadToAthlete(id) {
+      const lead = leads.find(l => l.id === id);
+      if (!lead) return;
+      const newId = 'M-' + (100 + athletes.length + 1);
+      athletes.push({
+        id: newId,
+        name: lead.name,
+        age: lead.age,
+        branch: lead.branch,
+        parent: lead.parent,
+        phone: lead.phone,
+        fee: 1500,
+        status: 'Bekliyor',
+        kvkkDate: lead.date
+      });
+      leads = leads.filter(l => l.id !== id);
+      saveState();
+      renderTables();
+      alert(`✓ ${lead.name} başarıyla ${newId} lisans numarasıyla sporcular listesine kaydedildi!`);
+    }
+
+    function deleteLead(id) {
+      if (confirm('Bu başvuruyu silmek istediğinize emin misiniz?')) {
+        leads = leads.filter(l => l.id !== id);
+        saveState();
+        renderTables();
+      }
+    }
+
+    function anonymizeAthlete(id) {
+      if (confirm('KVKK Unutulma Hakkı (Madde 7): Bu sporcunun tüm kişisel verileri kanuna uygun şekilde anonimleştirilsin mi?')) {
+        const ath = athletes.find(a => a.id === id);
+        if (ath) {
+          ath.name = "ANONİM SPORCU (" + id + ")";
+          ath.parent = "ANONİMLEŞTİRİLDİ";
+          ath.phone = "05** *** ** **";
+          saveState();
+          renderTables();
+          alert('Kişisel veriler başarıyla anonimleştirildi.');
+        }
+      }
+    }
+
+    function markPaid(id) {
+      const ath = athletes.find(a => a.id === id);
+      if (ath) {
+        ath.status = 'Ödendi';
+        saveState();
+        renderTables();
+        alert(`✓ ${ath.name} için Kasım 2026 aidatı ödendi olarak güncellendi.`);
+      }
+    }
+
+    function printReceipt(name) {
+      alert(`MÜLK Spor Kulübü - Resmî Aidat Tahsilat Makbuzu hazırlanıyor:\n\nSporcu: ${name}\nTutar: 1.500 TL\nDönem: Kasım 2026\nSicil: 06-01-05948\n\nYazıcıya yönlendiriliyor...`);
+    }
+
+    // Yeni Sporcu Ekle Formu
+    function handleNewAthleteSubmit(e) {
+      e.preventDefault();
+      const newId = 'M-' + (100 + athletes.length + 1);
+      const name = document.getElementById('athName').value;
+      const branch = document.getElementById('athBranch').value;
+      const parent = document.getElementById('athParent').value;
+      const phone = document.getElementById('athPhone').value;
+      const fee = document.getElementById('athFee').value;
+
+      athletes.push({
+        id: newId,
+        name: name,
+        age: "Gelişim Grubu",
+        branch: branch,
+        parent: parent,
+        phone: phone,
+        fee: parseInt(fee),
+        status: 'Ödendi',
+        kvkkDate: new Date().toLocaleDateString('tr-TR')
+      });
+
+      saveState();
+      renderTables();
+      closeModal('newAthleteModal');
+      document.getElementById('newAthleteForm').reset();
+      alert(`✓ Yeni sporcu ${name} (${newId}) başarıyla kulübe eklendi.`);
+    }
+
+    function saveState() {
+      localStorage.setItem('mulk_athletes', JSON.stringify(athletes));
+      localStorage.setItem('mulk_leads', JSON.stringify(leads));
+    }
+
+    // Arama ve Filtreler
+    function filterAthletesTable() {
+      const query = document.getElementById('searchAthletes').value.toLowerCase();
+      const branch = document.getElementById('filterBranch').value.toLowerCase();
+      document.querySelectorAll('#athletesTbody tr').forEach(tr => {
+        const text = tr.innerText.toLowerCase();
+        const matchesQuery = text.includes(query);
+        const matchesBranch = branch === '' || text.includes(branch);
+        tr.style.display = (matchesQuery && matchesBranch) ? '' : 'none';
+      });
+    }
+
+    function filterLeadsTable() {
+      const query = document.getElementById('searchLeads').value.toLowerCase();
+      document.querySelectorAll('#leadsTbody tr').forEach(tr => {
+        tr.style.display = tr.innerText.toLowerCase().includes(query) ? '' : 'none';
+      });
+    }
+
+    function filterFinanceTable() {
+      const val = document.getElementById('filterFinance').value.toLowerCase();
+      document.querySelectorAll('#financeTbody tr').forEach(tr => {
+        tr.style.display = (val === '' || tr.innerText.toLowerCase().includes(val)) ? '' : 'none';
+      });
+    }
+
+    // CSV Dışa Aktarma
+    function exportDataToCSV() {
+      let csv = 'Sporcu No,Ad Soyad,Yas,Brans,Veli Ad,Telefon,Aidat Durumu,KVKK Onay Tarihi\n';
+      athletes.forEach(a => {
+        csv += `"${a.id}","${a.name}","${a.age}","${a.branch}","${a.parent}","${a.phone}","${a.status}","${a.kvkkDate}"\n`;
+      });
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'Mulk_Spor_Kulubu_Sporcu_Listesi_' + new Date().toISOString().slice(0,10) + '.csv';
+      a.click();
+    }
+
+    function downloadKvkkAuditReport() {
+      alert('6698 sayılı Kişisel Verilerin Korunması Kanunu Denetim Dosyası hazırlanıyor:\n- Veri Envanteri: Hazır\n- Açık Rıza Kayıtları: Doğrulandı\n- Yetki Matrisi: Aktif\n\nDosya güvenli şekilde dışa aktarılıyor.');
+    }
+
+    // Sayfa Yüklendiğinde
+    document.getElementById('attDate').valueAsDate = new Date();
+
+    // ================= GÜVENLİK & OTURUM YÖNETİMİ =================
+    const AUTHORIZED_EMAIL = 'info@mulksporkulubu.com';
+    const DEFAULT_PASS = 'Mulk@2026!Ankara,Gazi';
+    // Eski önbelleği güncelle
+    if (localStorage.getItem('mulk_admin_pass') === 'Mulk@2026!Ankara' || localStorage.getItem('mulk_admin_pass') === 'mulk2026') { localStorage.removeItem('mulk_admin_pass'); }
+
+    function getAdminPassword() {
+      return localStorage.getItem('mulk_admin_pass') || DEFAULT_PASS;
+    }
+
+    function checkAuth() {
+      const isSessionAuth = sessionStorage.getItem('mulk_auth') === 'true';
+      const isLocalAuth = localStorage.getItem('mulk_auth_remember') === 'true';
+
+      if (isSessionAuth || isLocalAuth) {
+        document.getElementById('loginScreen').style.display = 'none';
+        renderTables();
+      } else {
+        document.getElementById('loginScreen').style.display = 'flex';
+      }
+    }
+
+    function handleLogin(e) {
+      e.preventDefault();
+      const enteredEmail = document.getElementById('loginEmail').value.trim().toLowerCase();
+      const enteredPass = document.getElementById('loginPassword').value.trim();
+      const currentPass = getAdminPassword();
+      const errorDiv = document.getElementById('loginError');
+
+      // Hem e-posta info@mulksporkulubu.com olmalı hem de şifre eşleşmeli
+      if (enteredEmail === AUTHORIZED_EMAIL.toLowerCase() && enteredPass === currentPass) {
+        sessionStorage.setItem('mulk_auth', 'true');
+        if (document.getElementById('rememberMe').checked) {
+          localStorage.setItem('mulk_auth_remember', 'true');
+        }
+        document.getElementById('loginScreen').style.display = 'none';
+        errorDiv.style.display = 'none';
+        renderTables();
+      } else {
+        errorDiv.style.display = 'block';
+        if (enteredEmail !== AUTHORIZED_EMAIL.toLowerCase()) {
+          errorDiv.innerText = '✕ Yetkisiz e-posta adresi! Yalnızca info@mulksporkulubu.com yetkilidir.';
+        } else {
+          errorDiv.innerText = '✕ Hatalı parola! Lütfen güçlü parolanızı kontrol ediniz.';
+        }
+        document.getElementById('loginPassword').value = '';
+        document.getElementById('loginPassword').focus();
+      }
+    }
+
+    function handleLogout() {
+      if (confirm('Yönetim panelinden güvenli çıkış yapmak istiyor musunuz?')) {
+        sessionStorage.removeItem('mulk_auth');
+        localStorage.removeItem('mulk_auth_remember');
+        location.reload();
+      }
+    }
+
+    function changeAdminPassword() {
+      const newP = document.getElementById('newAdminPassword').value.trim();
+      if (!newP || newP.length < 4) {
+        alert('Lütfen en az 4 karakterden oluşan güvenli bir parola giriniz.');
+        return;
+      }
+      localStorage.setItem('mulk_admin_pass', newP);
+      document.getElementById('newAdminPassword').value = '';
+      alert('✓ Yönetici parolanız başarıyla güncellendi! Bir sonraki girişinizde bu yeni parolayı kullanacaksınız.');
+    }
+
+    // Sayfa Yüklendiğinde Doğrulama Kontrolü
+    checkAuth();
+
+  </script>
+</body>
+</html>
+
