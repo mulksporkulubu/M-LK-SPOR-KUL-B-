@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MÜLK Spor Kulübü - Resmî Ön Kayıt & Bilgi Formu (İlk Ders Ücretsiz!)</title>
+  <link rel="icon" type="image/jpeg" href="amblem.jpg">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Manrope:wght@400;500;600;700;800&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary: #c8102e;
+      --primary-dark: #9b0b22;
+      --navy: #090d16;
+      --surface: #0f172a;
+      --card: #1e293b;
+      --line: #334155;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent-gold: #f59e0b;
+      --green: #10b981;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: radial-gradient(circle at top center, #1e293b 0%, #090d16 100%);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding: 20px 16px 40px;
+    }
+
+    .form-container {
+      max-width: 680px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    /* Header */
+    .form-header {
+      text-align: center;
+      margin-bottom: 24px;
+      padding: 10px 0;
+    }
+    .form-logo {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      border: 3px solid var(--primary);
+      box-shadow: 0 0 25px rgba(200, 16, 46, 0.4);
+      margin-bottom: 12px;
+      object-fit: cover;
+    }
+    .club-title {
+      font-family: 'Manrope', sans-serif;
+      font-size: 24px;
+      font-weight: 800;
+      color: white;
+      letter-spacing: -0.3px;
+    }
+    .club-subtitle {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* Promo Highlight Badge */
+    .promo-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(90deg, #c8102e 0%, #dc2626 100%);
+      color: white;
+      font-weight: 800;
+      font-size: 13px;
+      padding: 8px 18px;
+      border-radius: 30px;
+      margin-top: 14px;
+      box-shadow: 0 4px 15px rgba(200, 16, 46, 0.4);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* Form Card */
+    .form-card {
+      background: rgba(30, 41, 59, 0.85);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 18px;
+      padding: 32px 28px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+    }
+
+    .section-title {
+      font-family: 'Manrope', sans-serif;
+      font-size: 15px;
+      font-weight: 800;
+      color: #ff8a99;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 22px;
+    }
+    @media (max-width: 600px) {
+      .form-grid { grid-template-columns: 1fr; }
+      .form-card { padding: 24px 18px; }
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .form-group.full {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: #cbd5e1;
+    }
+    label span.req {
+      color: #ef4444;
+      margin-left: 2px;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      background: #0f172a;
+      border: 1.5px solid #334155;
+      border-radius: 10px;
+      padding: 12px 14px;
+      color: white;
+      font-family: inherit;
+      font-size: 13.5px;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(200, 16, 46, 0.25);
+      background: #111b33;
+    }
+    select option {
+      background: #0f172a;
+      color: white;
+    }
+
+    .kvkk-box {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 10px;
+      padding: 14px;
+      margin: 18px 0;
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.5;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+    .kvkk-box input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      margin-top: 2px;
+      accent-color: var(--primary);
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    /* Submit Button */
+    .btn-submit {
+      width: 100%;
+      background: linear-gradient(135deg, #c8102e 0%, #e01436 100%);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      padding: 16px;
+      font-family: 'Manrope', sans-serif;
+      font-size: 16px;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 8px 25px rgba(200, 16, 46, 0.45);
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    .btn-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(200, 16, 46, 0.6);
+    }
+    .btn-submit:active {
+      transform: translateY(0);
+    }
+
+    /* Success Screen */
+    #successScreen {
+      display: none;
+      text-align: center;
+      padding: 24px 8px;
+    }
+    .success-icon {
+      width: 72px;
+      height: 72px;
+      background: rgba(16, 185, 129, 0.15);
+      color: #10b981;
+      border: 2px solid #10b981;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 36px;
+      margin: 0 auto 18px;
+    }
+    .success-title {
+      font-family: 'Manrope', sans-serif;
+      font-size: 22px;
+      font-weight: 800;
+      color: white;
+      margin-bottom: 8px;
+    }
+    .success-desc {
+      font-size: 14px;
+      color: #cbd5e1;
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+
+    .success-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      max-width: 380px;
+      margin: 0 auto;
+    }
+    .btn-action {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 20px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 13.5px;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s ease;
+    }
+    .btn-whatsapp {
+      background: #25d366;
+      color: white;
+      box-shadow: 0 4px 14px rgba(37, 211, 102, 0.3);
+    }
+    .btn-whatsapp:hover {
+      background: #20ba5a;
+    }
+    .btn-csv {
+      background: rgba(255,255,255,0.08);
+      color: white;
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+    .btn-csv:hover {
+      background: rgba(255,255,255,0.15);
+    }
+
+    /* Google Forms Alternative Pill */
+    .alt-pill {
+      margin-top: 22px;
+      text-align: center;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+    .alt-pill a {
+      color: #60a5fa;
+      text-decoration: none;
+      font-weight: 700;
+      margin-left: 4px;
+    }
+    .alt-pill a:hover {
+      text-decoration: underline;
+    }
+
+    /* Footer */
+    .form-footer {
+      text-align: center;
+      margin-top: 24px;
+      font-size: 12px;
+      color: #64748b;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="form-container">
+    
+    <!-- Header -->
+    <div class="form-header">
+      <img src="amblem.jpg" alt="MÜLK SK Logo" class="form-logo">
+      <h1 class="club-title">MÜLK SPOR KULÜBÜ</h1>
+      <p class="club-subtitle">Resmî Spor Okulu & Altyapı Bilgi Formu · Ankara</p>
+      <div class="promo-badge">
+        <span>✨</span> İLK DERSİNİZ TAMAMEN ÜCRETSİZ!
+      </div>
+    </div>
+
+    <!-- Form Card -->
+    <div class="form-card">
+      
+      <div id="formContent">
+        <form id="onlineRegForm" onsubmit="handleRegistrationSubmit(event)">
+          
+          <!-- Sporcu Bilgileri -->
+          <div class="section-title">
+            <span>🏃</span> Sporcu Bilgileri
+          </div>
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="regAthleteName">Sporcu Adı Soyadı <span class="req">*</span></label>
+              <input type="text" id="regAthleteName" required placeholder="Örn: Deniz Kaya">
+            </div>
+
+            <div class="form-group">
+              <label for="regBirthDate">Doğum Tarihi <span class="req">*</span></label>
+              <input type="date" id="regBirthDate" required>
+            </div>
+
+            <div class="form-group">
+              <label for="regBranch">İlgilendiği Branş <span class="req">*</span></label>
+              <select id="regBranch" required>
+                <option value="">Seçiniz</option>
+                <option value="Voleybol">🏐 Voleybol</option>
+                <option value="Basketbol">🏀 Basketbol</option>
+                <option value="Futbol">⚽ Futbol</option>
+                <option value="Jimnastik">🤸 Jimnastik</option>
+                <option value="Okçuluk">🏹 Okçuluk</option>
+                <option value="Kros">🏃 Kros & Atletizm</option>
+                <option value="Kararsızım">❓ Kararsızım (Antrenör Yönlendirsin)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="regSchool">Tercih Edilen Spor Salonu / Kampüs</label>
+              <select id="regSchool">
+                <option value="Gazi Kampüsü Spor Salonu">Gazi Kampüsü Spor Salonu (Beşevler)</option>
+                <option value="Çankaya Altyapı Tesisleri">Çankaya Altyapı Tesisleri</option>
+                <option value="Yenimahalle Spor Tesisleri">Yenimahalle Spor Tesisleri</option>
+                <option value="Fark etmez">Fark etmez (En yakın salon)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Veli & İletişim Bilgileri -->
+          <div class="section-title">
+            <span>👨‍👩‍👧</span> Veli & İletişim Bilgileri
+          </div>
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="regParentName">Veli Adı Soyadı <span class="req">*</span></label>
+              <input type="text" id="regParentName" required placeholder="Örn: Selin Kaya">
+            </div>
+
+            <div class="form-group">
+              <label for="regParentRelation">Yakınlık Derecesi</label>
+              <select id="regParentRelation">
+                <option value="Anne">Anne</option>
+                <option value="Baba">Baba</option>
+                <option value="Vasi">Yasal Vasi</option>
+                <option value="Diğer">Diğer</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="regPhone">İletişim / WhatsApp Telefon Numarası <span class="req">*</span></label>
+              <input type="tel" id="regPhone" required placeholder="0545 410 40 40">
+            </div>
+
+            <div class="form-group">
+              <label for="regEmail">E-posta Adresi</label>
+              <input type="email" id="regEmail" placeholder="ornek@gmail.com">
+            </div>
+
+            <div class="form-group full">
+              <label for="regNotes">İlave Notlar / Spor Geçmişi / Varsa Sağlık Durumu</label>
+              <textarea id="regNotes" rows="2" placeholder="Daha önce spor yaptı mı, özel bir sağlık durumu var mı? (İsteğe bağlı)"></textarea>
+            </div>
+          </div>
+
+          <!-- KVKK Onayı -->
+          <div class="kvkk-box">
+            <input type="checkbox" id="regKvkkConsent" required>
+            <label for="regKvkkConsent" style="font-size:11.5px;color:#94a3b8;cursor:pointer;font-weight:normal;">
+              6698 sayılı KVKK kapsamında çocuk sporcu ön kayıt bilgilerimin MÜLK Spor Kulübü Derneği tarafından saklanmasını, ilk ders ve antrenman saatleri bilgilendirmesi amacıyla tarafımla iletişime geçilmesini onaylıyorum.
+            </label>
+          </div>
+
+          <button type="submit" class="btn-submit" id="submitBtn">
+            <span>📝</span> Ücretsiz Deneme Dersi Ön Kaydını Tamamla
+          </button>
+        </form>
+
+        <div class="alt-pill">
+          Alternatif olarak Google Forms kullanmak isterseniz: 
+          <a href="https://forms.gle/mulksporkulubu" target="_blank" id="googleFormsAltLink">Google Forms Kayıt Sayfası ↗</a>
+        </div>
+      </div>
+
+      <!-- Success Screen -->
+      <div id="successScreen">
+        <div class="success-icon">✓</div>
+        <h2 class="success-title">Ön Kaydınız Başarıyla Alındı!</h2>
+        <p class="success-desc" id="successDesc">
+          Teşekkür ederiz! Başvurunuz MÜLK Spor Kulübü yönetim sistemine kaydedildi. Antrenörlerimiz en kısa sürede ücretsiz deneme dersi randevusu için sizinle iletişime geçecektir.
+        </p>
+
+        <div class="success-actions">
+          <a href="#" id="waSendBtn" target="_blank" class="btn-action btn-whatsapp">
+            <span>💬</span> WhatsApp ile Kulübe Bildir ↗
+          </a>
+          <button type="button" class="btn-action btn-csv" onclick="downloadCurrentSubmissionCSV()">
+            <span>📥</span> Kayıt Bilgilerini CSV Olarak İndir
+          </button>
+          <a href="index.html" class="btn-action btn-csv" style="margin-top:6px;">
+            <span>🌐</span> Kulüp Resmî Web Sitesine Dön
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="form-footer">
+      MÜLK Spor Kulübü Derneği · T.C. Gençlik ve Spor Bakanlığı Tescilli<br>
+      📞 0545 410 40 40 · ✉️ info@mulksporkulubu.com · www.mulksporkulubu.com
+    </div>
+
+  </div>
+
+  <script>
+    let lastSubmission = null;
+
+    function handleRegistrationSubmit(e) {
+      e.preventDefault();
+
+      const athleteName = document.getElementById('regAthleteName').value.trim();
+      const birthDate = document.getElementById('regBirthDate').value;
+      const branch = document.getElementById('regBranch').value;
+      const school = document.getElementById('regSchool').value;
+      const parentName = document.getElementById('regParentName').value.trim();
+      const relation = document.getElementById('regParentRelation').value;
+      const phone = document.getElementById('regPhone').value.trim();
+      const email = document.getElementById('regEmail').value.trim();
+      const notes = document.getElementById('regNotes').value.trim();
+      const kvkk = document.getElementById('regKvkkConsent').checked;
+
+      if (!athleteName || !parentName || !phone) {
+        alert('Lütfen zorunlu alanları doldurunuz.');
+        return;
+      }
+
+      // Yaş hesapla
+      let ageStr = 'Gelişim Grubu';
+      if (birthDate) {
+        const birthYear = new Date(birthDate).getFullYear();
+        const currentYear = new Date().getFullYear();
+        const calcAge = currentYear - birthYear;
+        if (calcAge > 0 && calcAge < 30) {
+          ageStr = calcAge + ' Yaş';
+        }
+      }
+
+      const newLead = {
+        id: 'LEAD-' + Date.now(),
+        name: athleteName,
+        age: ageStr,
+        birthDate: birthDate,
+        branch: branch || 'Genel',
+        school: school || 'Gazi Kampüsü',
+        parent: parentName + (relation ? ` (${relation})` : ''),
+        phone: phone,
+        email: email || '',
+        notes: notes || 'Web QR Kayıt Formu üzerinden başvuru yapıldı.',
+        source: 'Web QR Kayıt Formu',
+        date: new Date().toLocaleDateString('tr-TR'),
+        status: 'Yeni Başvuru'
+      };
+
+      lastSubmission = newLead;
+
+      // 1. Panel CRM Veritabanına (mulk_leads) Otomatik Ekle
+      try {
+        let existingLeads = JSON.parse(localStorage.getItem('mulk_leads')) || [];
+        existingLeads.unshift(newLead);
+        localStorage.setItem('mulk_leads', JSON.stringify(existingLeads));
+      } catch (err) {
+        console.error('LocalStorage error:', err);
+      }
+
+      // 2. WhatsApp Mesaj Linki Hazırla
+      const waMsg = encodeURIComponent(
+        `Merhaba MÜLK Spor Kulübü,\n\nBen ${parentName}. Sporcumuz ${athleteName} (${ageStr}, ${branch}) için web kayıt formunuzu doldurdum.\n\nİlk ücretsiz deneme antrenmanı günü ve saati hakkında bilgi alabilir miyim?\n\nİletişim: ${phone}`
+      );
+      const waUrl = `https://wa.me/905454104040?text=${waMsg}`;
+      document.getElementById('waSendBtn').href = waUrl;
+
+      // 3. Başarı Ekranını Göster
+      document.getElementById('formContent').style.display = 'none';
+      document.getElementById('successScreen').style.display = 'block';
+      document.getElementById('successDesc').innerText = 
+        `Sayın ${parentName}, sporcumuz ${athleteName} için ön kayıt başarıyla kulüp sistemimize iletildi. İlk ücretsiz deneme antrenmanınız için antrenörümüz en kısa sürede sizinle iletişime geçecektir.`;
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function downloadCurrentSubmissionCSV() {
+      if (!lastSubmission) return;
+      const headers = ['Basvuru_ID', 'Sporcu_Adi', 'Yas', 'Dogum_Tarihi', 'Brans', 'Kampus', 'Veli_Adi', 'Telefon', 'Eposta', 'Notlar', 'Kaynak', 'Tarih', 'Durum'];
+      const row = [
+        lastSubmission.id,
+        `"${lastSubmission.name}"`,
+        `"${lastSubmission.age}"`,
+        `"${lastSubmission.birthDate || ''}"`,
+        `"${lastSubmission.branch}"`,
+        `"${lastSubmission.school}"`,
+        `"${lastSubmission.parent}"`,
+        `"${lastSubmission.phone}"`,
+        `"${lastSubmission.email}"`,
+        `"${(lastSubmission.notes || '').replace(/"/g, '""')}"`,
+        `"${lastSubmission.source}"`,
+        `"${lastSubmission.date}"`,
+        `"${lastSubmission.status}"`
+      ];
+
+      const csvContent = '\uFEFF' + headers.join(';') + '\n' + row.join(';');
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `Mulk_Spor_OnKayit_${lastSubmission.name.replace(/\s+/g, '_')}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+  </script>
+</body>
+</html>
+

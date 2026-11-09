@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MÜLK Spor Kulübü - Sosyal Medya & Baskı Stüdyosu (Her Yere Uyumlu)</title>
+  <link rel="icon" type="image/jpeg" href="amblem.jpg">
+  
+  <!-- Fontlar: Büyük Başlıklar ve Okunaklı Metinler -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Manrope:wght@400;500;600;700;800&family=Montserrat:ital,wght@0,700;0,800;0,900;1,900&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary: #c8102e;
+      --primary-dark: #9b0b22;
+      --ink: #090d16;
+      --card-bg: #131b2e;
+      --line: #2d3748;
+      --text-muted: #94a3b8;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: #090d16;
+      color: #f8fafc;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Topbar */
+    .studio-topbar {
+      height: 72px;
+      background: #0d131f;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      padding: 0 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .studio-brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .studio-brand img {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 2px solid var(--primary);
+      object-fit: cover;
+    }
+    .studio-brand h1 {
+      font-family: 'Manrope', sans-serif;
+      font-size: 17px;
+      font-weight: 800;
+      color: white;
+      letter-spacing: -0.2px;
+    }
+    .studio-brand span {
+      font-size: 12px;
+      color: #94a3b8;
+      display: block;
+    }
+    .topbar-actions {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      border: 1px solid transparent;
+    }
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+    }
+    .btn-primary:hover {
+      background: #e01436;
+      transform: translateY(-1px);
+    }
+    .btn-secondary {
+      background: rgba(255,255,255,0.08);
+      color: white;
+      border-color: rgba(255,255,255,0.15);
+    }
+    .btn-secondary:hover {
+      background: rgba(255,255,255,0.15);
+    }
+
+    /* Universal Info Notice */
+    .universal-banner {
+      background: linear-gradient(90deg, rgba(200,16,46,0.18) 0%, rgba(13,19,31,0.95) 100%);
+      border-bottom: 1px solid rgba(200,16,46,0.3);
+      padding: 14px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .universal-banner strong {
+      color: #ff8a99;
+      font-size: 13.5px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .universal-banner span {
+      font-size: 12.5px;
+      color: #cbd5e1;
+    }
+    .p-badge {
+      font-size: 11px;
+      font-weight: 700;
+      background: rgba(255,255,255,0.1);
+      padding: 4px 10px;
+      border-radius: 20px;
+      color: #ffffff;
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+
+    /* Format Switcher Bar (Tüm Platformlara Uyumlu) */
+    .format-bar {
+      background: #111827;
+      padding: 14px 32px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      overflow-x: auto;
+    }
+    .format-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-right: 6px;
+      white-space: nowrap;
+    }
+    .format-btn {
+      padding: 9px 16px;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: #94a3b8;
+      font-weight: 700;
+      font-size: 12.5px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    .format-btn:hover {
+      background: rgba(255,255,255,0.12);
+      color: white;
+    }
+    .format-btn.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: white;
+      box-shadow: 0 4px 14px rgba(200, 16, 46, 0.4);
+    }
+
+    /* Main Container */
+    .studio-container {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 32px;
+      flex: 1;
+      width: 100%;
+    }
+
+    .section-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .section-header-row h2 {
+      font-size: 18px;
+      font-weight: 800;
+      color: white;
+    }
+    .section-header-row p {
+      font-size: 13px;
+      color: #94a3b8;
+      margin-top: 4px;
+    }
+
+    /* Gallery Grid */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+      gap: 36px;
+      align-items: start;
+    }
+
+    /* Poster Wrapper Card */
+    .poster-card {
+      background: var(--card-bg);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+    .poster-card:hover {
+      border-color: rgba(200,16,46,0.5);
+      transform: translateY(-2px);
+    }
+    .poster-card-head {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .poster-title {
+      font-weight: 800;
+      font-size: 15px;
+      color: white;
+    }
+    .poster-ratio-tag {
+      font-size: 11px;
+      background: rgba(200,16,46,0.2);
+      color: #ff8a99;
+      padding: 3px 10px;
+      border-radius: 4px;
+      font-weight: 700;
+    }
+
+    /* =================== DİNAMİK ORANTILAR (HER YERE UYAN) =================== */
+
+    .canvas-box {
+      position: relative;
+      overflow: hidden;
+      background: #090d16;
+      border-radius: 6px;
+      box-shadow: 0 20px 45px rgba(0,0,0,0.8);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: width 0.25s ease, height 0.25s ease;
+    }
+
+    /* 1. Instagram Story / WhatsApp Durum (9:16) */
+    .canvas-box.ratio-story {
+      width: 350px;
+      height: 622px; /* 1080x1920 orantısı */
+    }
+
+    /* 2. Instagram Post / Gönderi (4:5) */
+    .canvas-box.ratio-post {
+      width: 360px;
+      height: 450px; /* 1080x1350 orantısı */
+    }
+
+    /* 3. Kare Paylaşım (1:1) */
+    .canvas-box.ratio-square {
+      width: 380px;
+      height: 380px; /* 1080x1080 orantısı */
+    }
+
+    /* 4. Ayaklı Roll-Up Banner (85 x 200 cm) */
+    .canvas-box.ratio-rollup {
+      width: 350px;
+      height: 823px; /* 85x200cm orantısı */
+    }
+
+    /* 5. A3 / 50x70 cm Duvar & Pano Afişi */
+    .canvas-box.ratio-a3 {
+      width: 370px;
+      height: 523px; /* A3 orantısı (1:1.414) */
+    }
+
+    /* 6. A4 Veli Broşürü / İlanı */
+    .canvas-box.ratio-a4 {
+      width: 370px;
+      height: 523px; /* A4 orantısı (1:1.414) */
+    }
+
+    /* Arka Plan Katmanları */
+    .canvas-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.65;
+      z-index: 1;
+    }
+    .canvas-gradient {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(180deg, 
+        rgba(9,13,22,0.92) 0%, 
+        rgba(9,13,22,0.15) 28%, 
+        rgba(9,13,22,0.35) 62%, 
+        rgba(9,13,22,0.96) 100%);
+      z-index: 2;
+    }
+    .canvas-stripes {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(200, 16, 46, 0.08) 35px, rgba(200, 16, 46, 0.08) 70px);
+      z-index: 2;
+    }
+
+    /* Poster İçerik Katmanı */
+    .canvas-content {
+      position: relative;
+      z-index: 3;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 20px 18px;
+      text-align: center;
+    }
+
+    /* Üst Kulüp Başlığı */
+    .p-brand-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 4px;
+    }
+    .p-brand-logo {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: 2px solid #ffffff;
+      box-shadow: 0 4px 15px rgba(200, 16, 46, 0.6);
+      background: #ffffff;
+      object-fit: contain;
+    }
+    .p-brand-title {
+      text-align: left;
+    }
+    .p-brand-title h2 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 15px;
+      font-weight: 900;
+      color: #ffffff;
+      letter-spacing: 0.5px;
+      line-height: 1.1;
+      text-transform: uppercase;
+      text-shadow: 0 2px 6px rgba(0,0,0,0.8);
+    }
+    .p-brand-title span {
+      font-size: 9.5px;
+      color: #ff8a99;
+      font-weight: 800;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      display: block;
+    }
+
+    /* Büyük Başlık ve Slogan Bölgesi */
+    .p-hero-title-box {
+      margin-top: 4px;
+    }
+    .p-badge-ribbon {
+      display: inline-block;
+      background: #c8102e;
+      color: white;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 10.5px;
+      font-weight: 900;
+      letter-spacing: 1.2px;
+      padding: 4px 12px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+      box-shadow: 0 4px 12px rgba(200, 16, 46, 0.6);
+    }
+    .p-title-huge {
+      font-family: 'Oswald', 'Montserrat', sans-serif;
+      font-size: 29px;
+      font-weight: 700;
+      text-transform: uppercase;
+      line-height: 1.05;
+      color: #ffffff;
+      letter-spacing: 0.5px;
+      text-shadow: 0 3px 8px rgba(0,0,0,0.95);
+    }
+    .p-title-highlight-red {
+      display: block;
+      color: #ff2a4b;
+      font-size: 33px;
+      font-weight: 900;
+      text-shadow: 0 0 25px rgba(200, 16, 46, 0.9), 0 3px 8px rgba(0,0,0,0.95);
+      margin-top: 3px;
+    }
+
+    .p-pillars-line {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 10.5px;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-top: 5px;
+      text-shadow: 0 2px 6px rgba(0,0,0,0.9);
+    }
+    .p-pillars-line span {
+      color: #c8102e;
+      margin: 0 5px;
+    }
+
+    /* Orta Özellikler (Branşsız Genel Kulüp Avantajları) */
+    .p-center-features {
+      background: rgba(9, 13, 22, 0.82);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 8px;
+      padding: 10px 14px;
+      margin: 8px 0;
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+    }
+    .ratio-square .p-center-features,
+    .ratio-post .p-center-features {
+      padding: 7px 10px;
+      gap: 3px;
+      margin: 4px 0;
+    }
+    .p-feat-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      color: #f8fafc;
+      font-weight: 600;
+    }
+    .ratio-square .p-feat-row {
+      font-size: 10px;
+    }
+    .p-check-icon {
+      color: #c8102e;
+      font-size: 12px;
+      font-weight: 900;
+      flex-shrink: 0;
+    }
+
+    /* QR Kod Kayıt Alanı (Afiş & Baskı Uyumlu) */
+    .p-qr-section {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(9, 13, 22, 0.92);
+      border: 1.5px solid rgba(200, 16, 46, 0.6);
+      border-radius: 10px;
+      padding: 8px 12px;
+      margin: 6px 0;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.5);
+      position: relative;
+      z-index: 5;
+    }
+    .p-qr-frame {
+      width: 62px;
+      height: 62px;
+      background: white;
+      padding: 3px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+    .p-qr-img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+    .p-qr-details {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      text-align: left;
+    }
+    .p-qr-pill {
+      font-size: 9px;
+      font-weight: 800;
+      color: #ff8a99;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    .p-qr-title {
+      font-family: 'Manrope', sans-serif;
+      font-size: 12px;
+      font-weight: 800;
+      color: white;
+      line-height: 1.25;
+    }
+    .p-qr-sub {
+      font-size: 10px;
+      color: #cbd5e1;
+      line-height: 1.2;
+    }
+
+    /* Alt Kurumsal İletişim Bandı (Her Platformda Okunaklı) */
+    .p-bottom-contact-bar {
+      background: #090d16;
+      border-top: 2px solid #c8102e;
+      margin: 0 -18px -20px;
+      padding: 10px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      box-shadow: 0 -8px 25px rgba(0,0,0,0.8);
+      position: relative;
+      z-index: 5;
+    }
+    .p-bottom-call {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 9.5px;
+      font-weight: 900;
+      letter-spacing: 0.6px;
+      color: #ffffff;
+      text-transform: uppercase;
+      text-align: center;
+      line-height: 1.25;
+    }
+    .p-contact-lines {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      align-items: center;
+    }
+    .ratio-post .p-contact-lines,
+    .ratio-square .p-contact-lines,
+    .ratio-a3 .p-contact-lines {
+      flex-direction: row;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .p-contact-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+    }
+    .p-c-circle {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #c8102e;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      box-shadow: 0 2px 6px rgba(200, 16, 46, 0.6);
+      flex-shrink: 0;
+    }
+    .p-bottom-location {
+      font-size: 9px;
+      color: #cbd5e1;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    /* Kart Altındaki İndirme & Baskı Butonları */
+    .card-actions {
+      width: 100%;
+      display: flex;
+      gap: 10px;
+      margin-top: 16px;
+    }
+    .card-actions button {
+      flex: 1;
+      padding: 11px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 12.5px;
+    }
+
+    /* =================== MATBAA & YAZICI BASKI STİLLERİ (@media print) =================== */
+    @media print {
+      body {
+        background: #ffffff !important;
+        color: #000000 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+      }
+      .no-print, header, .studio-topbar, .universal-banner, .format-bar, .section-header-row, .card-actions, .poster-card-head {
+        display: none !important;
+      }
+      .studio-container {
+        padding: 0 !important;
+        margin: 0 !important;
+        max-width: none !important;
+      }
+      .gallery-grid {
+        display: block !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+      .poster-card {
+        padding: 0 !important;
+        margin: 0 !important;
+        border: none !important;
+        box-shadow: none !important;
+        background: transparent !important;
+      }
+      .poster-card:not(:has(.print-target)) {
+        display: none !important;
+      }
+      .print-target {
+        display: flex !important;
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border: none !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        page-break-inside: avoid !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+    }
+  </style>
+
+  <!-- HTML2Canvas Kütüphanesi -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+
+  <!-- Topbar -->
+  <header class="studio-topbar no-print">
+    <div class="studio-brand">
+      <img src="amblem.jpg" alt="MÜLK SK">
+      <div>
+        <h1>MÜLK SPOR KULÜBÜ</h1>
+        <span>Sosyal Medya & Baskı Tasarım Stüdyosu</span>
+      </div>
+    </div>
+    <div class="topbar-actions">
+      <a href="kayit_qr.png" download="Mulk_Spor_Kulubu_Kayit_QR.png" class="btn btn-primary" title="Yüksek Çözünürlüklü QR Kodu İndir">
+        <span>📲</span> QR Kodu İndir (PNG)
+      </a>
+      <a href="kayit.html" target="_blank" class="btn btn-secondary" title="Ön Kayıt Sayfasını Aç">
+        <span>📝</span> Kayıt Formu (kayit.html) ↗
+      </a>
+      <a href="panel.html" class="btn btn-secondary">
+        <span>⬅</span> Yönetim Paneline Dön
+      </a>
+      <a href="index.html" target="_blank" class="btn btn-secondary">
+        <span>🌐</span> Web Sitesi
+      </a>
+    </div>
+  </header>
+
+  <!-- Universal Info Notice -->
+  <div class="universal-banner no-print">
+    <div>
+      <strong>✨ Branşsız Evrensel Tasarım (Her Platform ve Baskı İçin Hazır):</strong>
+      <span>Afişlerde hiçbir özel branş ismi belirtilmemiş olup, tüm spor kulübünü temsil eden ortak kurumsal kimlik oluşturulmuştur. Aşağıdaki butonlarla tek tıkla Instagram Story, Post, Roll-Up veya Pano ölçüsüne dönüştürebilirsiniz.</span>
+    </div>
+    <div style="display:flex;gap:8px;">
+      <span class="p-badge">Tek Tıkla Format Değiştir</span>
+      <span class="p-badge">Sosyal Medya + Matbaa</span>
+      <span class="p-badge">300 DPI</span>
+    </div>
+  </div>
+
+  <!-- Format Switcher Bar (Her Yere Uyan Akıllı Boyutlandırıcı) -->
+  <nav class="format-bar no-print">
+    <span class="format-label">Paylaşım & Baskı Ölçüsü:</span>
+    <button class="format-btn active" onclick="setCanvasFormat('story')">
+      <span>📱</span> Instagram Story / Durum (9:16)
+    </button>
+    <button class="format-btn" onclick="setCanvasFormat('post')">
+      <span>📷</span> Instagram Gönderi / Post (4:5)
+    </button>
+    <button class="format-btn" onclick="setCanvasFormat('square')">
+      <span>⏹️</span> Kare Paylaşım (1:1)
+    </button>
+    <button class="format-btn" onclick="setCanvasFormat('rollup')">
+      <span>🏷️</span> Ayaklı Roll-Up Banner (85x200 cm)
+    </button>
+    <button class="format-btn" onclick="setCanvasFormat('a3')">
+      <span>🖼️</span> Duvar / Pano Afişi (A3 / 50x70)
+    </button>
+    <button class="format-btn" onclick="setCanvasFormat('a4')">
+      <span>📋</span> Veli El İlanı (A4)
+    </button>
+    <label style="display:inline-flex;align-items:center;gap:6px;font-size:12px;color:#cbd5e1;cursor:pointer;margin-left:auto;white-space:nowrap;user-select:none;background:rgba(255,255,255,0.06);padding:6px 12px;border-radius:6px;border:1px solid rgba(255,255,255,0.1);">
+      <input type="checkbox" id="toggleQrOnPosters" checked onchange="togglePostersQr(this.checked)" style="accent-color:var(--primary);cursor:pointer;">
+      <span>📲 Afişlerde QR Kodu Göster</span>
+    </label>
+  </nav>
+
+  <!-- Main Container -->
+  <main class="studio-container">
+
+    <div class="section-header-row no-print">
+      <div>
+        <h2>MÜLK Spor Kulübü — Evrensel Tanıtım Görselleri</h2>
+        <p id="currentFormatDesc">Şu anki format: <strong>📱 Instagram Story & WhatsApp Durum (1080 x 1920)</strong></p>
+      </div>
+      <div>
+        <span style="font-size:12.5px;color:#94a3b8;">* Seçtiğiniz formata göre afişler anında otomatik yeniden boyutlandırılır.</span>
+      </div>
+    </div>
+
+    <div class="gallery-grid" id="galleryGrid">
+
+      <!-- ========================================================================= -->
+      <!-- KONSEPT 1: DİNAMİK KIRMIZI-SİYAH (İLK DERSİNİZ ÜCRETSİZ!) -->
+      <!-- ========================================================================= -->
+      <div class="poster-card">
+        <div class="poster-card-head no-print">
+          <span class="poster-title">Konsept #1: Dinamik Spor Ruhu</span>
+          <span class="poster-ratio-tag" id="tag-concept-1">Story (9:16)</span>
+        </div>
+
+        <div class="canvas-box ratio-story" id="canvas-concept-1">
+          <img src="baski_rollup_1.jpg" class="canvas-bg" alt="Konsept 1">
+          <div class="canvas-gradient"></div>
+          <div class="canvas-stripes"></div>
+
+          <div class="canvas-content">
+            <!-- Brand -->
+            <div class="p-brand-row">
+              <img src="amblem.png" class="p-brand-logo" alt="Logo">
+              <div class="p-brand-title">
+                <h2>MÜLK SPOR KULÜBÜ</h2>
+                <span>Gençlik & Spor Kulübü</span>
+              </div>
+            </div>
+
+            <!-- Headline -->
+            <div class="p-hero-title-box">
+              <span class="p-badge-ribbon">KENDİNİ KEŞFETMEYE HAZIR MISIN?</span>
+              <div class="p-title-huge">
+                YENİ DÖNEM KAYITLARI BAŞLADI!
+                <span class="p-title-highlight-red">İLK DERSİNİZ ÜCRETSİZ!</span>
+              </div>
+              <div class="p-pillars-line">
+                DİSİPLİN <span>•</span> GELİŞİM <span>•</span> TAKIM RUHU <span>•</span> BAŞARI
+              </div>
+            </div>
+
+            <!-- Features Box (Branşsız Genel Avantajlar) -->
+            <div class="p-center-features" style="margin-top:auto;margin-bottom:8px;">
+              <div class="p-feat-row"><span class="p-check-icon">✓</span> Akademik Mezun Lisanslı Antrenör Kadrosu</div>
+              <div class="p-feat-row"><span class="p-check-icon">✓</span> Lisanslı Sporcu Olma ve Müsabaka İmkânı</div>
+              <div class="p-feat-row"><span class="p-check-icon">✓</span> Pedagojik ve Bireysel Gelişim Odaklı Yaklaşım</div>
+              <div class="p-feat-row"><span class="p-check-icon">✓</span> Modern, Güvenli ve Tam Donanımlı Spor Tesisleri</div>
+              <div class="p-feat-row"><span class="p-check-icon">✓</span> T.C. Gençlik ve Spor Bakanlığı Tescilli Kulüp</div>
+            </div>
+
+            <!-- QR Code Kayıt Bilgi Formu Alanı -->
+            <div class="p-qr-section">
+              <div class="p-qr-frame">
+                <img src="kayit_qr.png" alt="Kayıt QR Kodu" class="p-qr-img">
+              </div>
+              <div class="p-qr-details">
+                <span class="p-qr-pill">📲 KAMERANIZLA OKUTUN</span>
+                <strong class="p-qr-title">ÜCRETSİZ İLK DERS ÖN KAYIT FORMU</strong>
+                <span class="p-qr-sub">Kayıt bilgi formu otomatik kulüp sistemine iletilir · 30 sn</span>
+              </div>
+            </div>
+
+            <!-- Bottom Contact Bar -->
+            <div class="p-bottom-contact-bar">
+              <div class="p-bottom-call">DETAYLI BİLGİ VE KAYIT İÇİN BİZİMLE İLETİŞİME GEÇEBİLİRSİNİZ</div>
+              <div class="p-contact-lines">
+                <div class="p-contact-item"><span class="p-c-circle">📞</span> 0545 410 40 40</div>
+                <div class="p-contact-item"><span class="p-c-circle">✉️</span> info@mulksporkulubu.com</div>
+                <div class="p-contact-item"><span class="p-c-circle">🌐</span> www.mulksporkulubu.com</div>
+              </div>
+              <div class="p-bottom-location">📍 Ankara · Gazi Kampüsü · Beşevler · Çankaya</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-actions no-print">
+          <button class="btn btn-primary" onclick="downloadSmart('canvas-concept-1', 'Mulk_SK_Evrensel_Afis_1')">
+            <span>📥</span> HD Görsel İndir
+          </button>
+          <button class="btn btn-secondary" onclick="printSmart('canvas-concept-1')">
+            <span>🖨️</span> Yazdır / PDF
+          </button>
+        </div>
+      </div>
+
+      <!-- ========================================================================= -->
+      <!-- KONSEPT 2: GELECEĞİN YILDIZLARI (İLK DERS ÜCRETSİZ DENEME!) -->
+      <!-- ========================================================================= -->
+      <div class="poster-card">
+        <div class="poster-card-head no-print">
+          <span class="poster-title">Konsept #2: Geleceğin Yıldızları</span>
+          <span class="poster-ratio-tag" id="tag-concept-2">Story (9:16)</span>
+        </div>
+
+        <div class="canvas-box ratio-story" id="canvas-concept-2">
+          <img src="baski_rollup_2.jpg" class="canvas-bg" alt="Konsept 2">
+          <div class="canvas-gradient"></div>
+          <div class="canvas-stripes"></div>
+
+          <div class="canvas-content">
+            <!-- Brand -->
+            <div class="p-brand-row">
+              <img src="amblem.png" class="p-brand-logo" alt="Logo">
+              <div class="p-brand-title">
+                <h2>MÜLK SPOR KULÜBÜ</h2>
+                <span>Spor Okulları & Altyapı</span>
+              </div>
+            </div>
+
+            <!-- Headline -->
+            <div class="p-hero-title-box">
+              <span class="p-badge-ribbon">KAYITLARIMIZ DEVAM EDİYOR!</span>
+              <div class="p-title-huge">
+                GELECEĞİN YILDIZLARI
+                <span class="p-title-highlight-red">İLK DERS ÜCRETSİZ DENEME!</span>
+              </div>
+              <div class="p-pillars-line">
+                ÖZGÜVEN <span>•</span> KARAKTER <span>•</span> SAĞLIK <span>•</span> DOSTLUK
+              </div>
+            </div>
+
+            <!-- Features Box (Branşsız Altyapı Avantajları) -->
+            <div class="p-center-features" style="margin-top:auto;margin-bottom:8px;">
+              <div class="p-feat-row"><span class="p-check-icon">✓</span> 4 - 18 Yaş Gruplarına Özel Seviye Sınıfları</div>
+              <div class="p-feat-row"><span class="p-check-icon">✓</span> Beden Farkındalığı, Kondisyon ve Çeviklik Eğitimi</div>
+              <div class="p-feat-row"><span class="p-check-icon">✓</span> Düzenli Veli Bilgilendirme ve Gelişim Takip Karnesi</div>
+              <div class="p-feat-row"><span class="p-check-icon">✓</span> Kulüp Altyapı Takımlarında Oynama Fırsatı</div>
+              <div class="p-feat-row"><span class="p-check-icon">✓</span> İlk Deneme Antrenmanı Kulübümüzün Hediyesidir</div>
+            </div>
+
+            <!-- QR Code Kayıt Bilgi Formu Alanı -->
+            <div class="p-qr-section">
+              <div class="p-qr-frame">
+                <img src="kayit_qr.png" alt="Kayıt QR Kodu" class="p-qr-img">
+              </div>
+              <div class="p-qr-details">
+                <span class="p-qr-pill">📲 KAMERANIZLA OKUTUN</span>
+                <strong class="p-qr-title">ÜCRETSİZ İLK DERS ÖN KAYIT FORMU</strong>
+                <span class="p-qr-sub">Kayıt bilgi formu otomatik kulüp sistemine iletilir · 30 sn</span>
+              </div>
+            </div>
+
+            <!-- Bottom Contact Bar -->
+            <div class="p-bottom-contact-bar">
+              <div class="p-bottom-call">DETAYLI BİLGİ VE KAYIT İÇİN BİZİMLE İLETİŞİME GEÇEBİLİRSİNİZ</div>
+              <div class="p-contact-lines">
+                <div class="p-contact-item"><span class="p-c-circle">📞</span> 0545 410 40 40</div>
+                <div class="p-contact-item"><span class="p-c-circle">✉️</span> info@mulksporkulubu.com</div>
+                <div class="p-contact-item"><span class="p-c-circle">🌐</span> www.mulksporkulubu.com</div>
+              </div>
+              <div class="p-bottom-location">📍 Ankara · Gazi Kampüsü · Beşevler · Çankaya</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-actions no-print">
+          <button class="btn btn-primary" onclick="downloadSmart('canvas-concept-2', 'Mulk_SK_Evrensel_Afis_2')">
+            <span>📥</span> HD Görsel İndir
+          </button>
+          <button class="btn btn-secondary" onclick="printSmart('canvas-concept-2')">
+            <span>🖨️</span> Yazdır / PDF
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <script>
+    let activeRatio = 'story';
+
+    const ratioDescriptions = {
+      story: '📱 Instagram Story & WhatsApp Durum (1080 x 1920)',
+      post: '📷 Instagram Gönderi / Post (1080 x 1350)',
+      square: '⏹️ Kare Paylaşım / Profil / Facebook (1080 x 1080)',
+      rollup: '🏷️ Ayaklı Roll-Up Banner (85 x 200 cm Standart Baskı)',
+      a3: '🖼️ Duvar & Okul Panosu Afişi (A3 - 297 x 420 mm / 50x70)',
+      a4: '📋 Veli El İlanı & Tanıtım Broşürü (A4 - 210 x 297 mm)'
+    };
+
+    const ratioTags = {
+      story: 'Story (9:16)',
+      post: 'Post (4:5)',
+      square: 'Kare (1:1)',
+      rollup: 'Roll-Up (85x200cm)',
+      a3: 'Pano (A3 / 50x70)',
+      a4: 'Broşür (A4)'
+    };
+
+    // Tüm Afişlerin Boyutunu Anında Değiştirme
+    function setCanvasFormat(ratio) {
+      activeRatio = ratio;
+
+      // Buton aktifliği
+      document.querySelectorAll('.format-btn').forEach(btn => btn.classList.remove('active'));
+      event.currentTarget.classList.add('active');
+
+      // Başlık açıklaması
+      document.getElementById('currentFormatDesc').innerHTML = `Şu anki format: <strong>${ratioDescriptions[ratio]}</strong>`;
+
+      // Canvas sınıflarını güncelle
+      const canvases = document.querySelectorAll('.canvas-box');
+      canvases.forEach(c => {
+        c.className = `canvas-box ratio-${ratio}`;
+      });
+
+      // Kart etiketlerini güncelle
+      document.getElementById('tag-concept-1').innerText = ratioTags[ratio];
+      document.getElementById('tag-concept-2').innerText = ratioTags[ratio];
+    }
+
+    // Akıllı Yüksek Çözünürlüklü İndirme
+    function downloadSmart(elementId, baseName) {
+      const el = document.getElementById(elementId);
+      if (!el) return;
+
+      const btn = event.currentTarget;
+      const origText = btn.innerHTML;
+      btn.innerHTML = '⏳ Hazırlanıyor...';
+
+      // Ölçek belirleme: Rollup veya A3 için 4x, sosyal medya için 3x (3000px+ kristal netlik)
+      const scaleFactor = (activeRatio === 'rollup' || activeRatio === 'a3' || activeRatio === 'a4') ? 4 : 3;
+
+      html2canvas(el, {
+        scale: scaleFactor,
+        useCORS: true,
+        allowTaint: true,
+        backgroundColor: '#090d16'
+      }).then(canvas => {
+        const link = document.createElement('a');
+        link.download = `${baseName}_${activeRatio.toUpperCase()}_300DPI.png`;
+        link.href = canvas.toDataURL('image/png', 1.0);
+        link.click();
+        btn.innerHTML = '✓ İndirildi!';
+        setTimeout(() => { btn.innerHTML = origText; }, 2000);
+      }).catch(err => {
+        alert('Görsel oluşturulurken bir hata oluştu: ' + err);
+        btn.innerHTML = origText;
+      });
+    }
+
+    // Akıllı Yazdırma / PDF Çıktısı
+    function printSmart(canvasId) {
+      document.querySelectorAll('.print-target').forEach(el => el.classList.remove('print-target'));
+
+      const el = document.getElementById(canvasId);
+      if (!el) return;
+      el.classList.add('print-target');
+
+      let styleTag = document.getElementById('dynamic-page-size');
+      if (!styleTag) {
+        styleTag = document.createElement('style');
+        styleTag.id = 'dynamic-page-size';
+        document.head.appendChild(styleTag);
+      }
+
+      if (activeRatio === 'a4') {
+        styleTag.innerHTML = '@page { size: A4 portrait; margin: 0; }';
+      } else if (activeRatio === 'a3') {
+        styleTag.innerHTML = '@page { size: A3 portrait; margin: 0; }';
+      } else {
+        styleTag.innerHTML = '@page { size: auto; margin: 0; }';
+      }
+
+      window.print();
+    }
+
+    // Afişlerde QR Kodu Göster / Gizle
+    function togglePostersQr(show) {
+      document.querySelectorAll('.p-qr-section').forEach(el => {
+        el.style.display = show ? 'flex' : 'none';
+      });
+    }
+  </script>
+</body>
+</html>

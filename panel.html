@@ -896,6 +896,143 @@
       gap: 16px;
     }
 
+    /* ================= E-POSTA İSTEMCİSİ & WİDGET DÜZENİ ================= */
+    .mailbox-layout {
+      display: grid;
+      grid-template-columns: 240px 380px 1fr;
+      gap: 18px;
+      height: calc(100vh - 165px);
+      min-height: 640px;
+    }
+    .mail-sidebar {
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      overflow-y: auto;
+    }
+    .mail-account-pill {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 1.5px solid #e2e8f0;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 700;
+      transition: all 0.15s ease;
+      background: #f8fafc;
+      color: #334155;
+    }
+    .mail-account-pill:hover {
+      background: #f1f5f9;
+      border-color: #cbd5e1;
+    }
+    .mail-account-pill.active {
+      background: #eff6ff;
+      border-color: #3b82f6;
+      color: #1d4ed8;
+    }
+    .mail-account-pill.active.kurumsal {
+      background: #fef2f2;
+      border-color: #c8102e;
+      color: #991b1b;
+    }
+    .mail-folder-btn {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 12px;
+      border-radius: 6px;
+      background: none;
+      border: none;
+      font-size: 13px;
+      font-weight: 600;
+      color: #475569;
+      cursor: pointer;
+      text-align: left;
+      transition: background 0.15s;
+    }
+    .mail-folder-btn:hover {
+      background: #f1f5f9;
+      color: #0f172a;
+    }
+    .mail-folder-btn.active {
+      background: #e2e8f0;
+      color: #0f172a;
+      font-weight: 800;
+    }
+    .mail-list-panel {
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .mail-list-head {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--line);
+      background: #f8fafc;
+    }
+    .mail-items-scroll {
+      flex: 1;
+      overflow-y: auto;
+    }
+    .mail-item {
+      padding: 14px 16px;
+      border-bottom: 1px solid #f1f5f9;
+      cursor: pointer;
+      transition: background 0.15s;
+      position: relative;
+    }
+    .mail-item:hover {
+      background: #f8fafc;
+    }
+    .mail-item.active {
+      background: #eff6ff;
+      border-left: 3px solid #2563eb;
+    }
+    .mail-item.unread {
+      background: #f0fdf4;
+      font-weight: 700;
+    }
+    .mail-item.unread.active {
+      background: #eff6ff;
+    }
+    .mail-view-panel {
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .mail-view-head {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--line);
+      background: #ffffff;
+    }
+    .mail-view-body {
+      padding: 24px;
+      flex: 1;
+      overflow-y: auto;
+      font-size: 13.5px;
+      line-height: 1.7;
+      color: #1e293b;
+    }
+    @media (max-width: 1200px) {
+      .mailbox-layout { grid-template-columns: 200px 320px 1fr; }
+    }
+    @media (max-width: 900px) {
+      .mailbox-layout { grid-template-columns: 1fr; height: auto; }
+    }
+
     @media (max-width: 1024px) {
       .kpi-grid { grid-template-columns: repeat(2, 1fr); }
       .branches-grid { grid-template-columns: 1fr; }
@@ -974,6 +1111,12 @@
         <span class="count-badge" id="crmCount">0</span>
       </button>
 
+      <button class="nav-btn" onclick="switchTab('mailbox')">
+        <span class="icon">📬</span>
+        <span>Kulüp E-Postaları</span>
+        <span class="count-badge" id="mailboxBadge" style="background:#2563eb;">2</span>
+      </button>
+
       <button class="nav-btn" onclick="switchTab('schools')">
         <span class="icon">🏫</span>
         <span>Okullar & Branşlar</span>
@@ -1014,7 +1157,7 @@
 
     <div class="sidebar-footer">
       <a href="afisler.html" target="_blank" style="color:#ff8a99;font-weight:700;margin-bottom:4px;">
-        <span>🖨️</span> Matbaa & Baskı Afişleri (Roll-Up, A3, Broşür) ↗
+        <span>🎨</span> Sosyal Medya & Baskı Afişleri (Her Yere Uyumlu) ↗
       </a>
       <a href="index.html" target="_blank">
         <span>🌐</span> Kulüp Web Sitesine Git ↗
@@ -1130,6 +1273,26 @@
 
         </div>
 
+        <!-- Kulüp E-Posta Kutusu Hızlı Widget'ı (info & gmail) -->
+        <div class="card-box" style="margin-top:24px;">
+          <div class="cb-head">
+            <div style="display:flex;align-items:center;gap:12px;">
+              <div style="width:38px;height:38px;border-radius:10px;background:#eff6ff;color:#2563eb;display:flex;align-items:center;justify-content:center;font-size:18px;">📬</div>
+              <div>
+                <h3>Kulüp E-Posta Kutusu (Webmail & Gmail Entegre)</h3>
+                <span style="font-size:12px;color:var(--muted);">info@mulksporkulubu.com & mulksporkulubu@gmail.com gelen son iletiler</span>
+              </div>
+            </div>
+            <div class="cb-actions">
+              <button class="btn btn-secondary btn-sm" onclick="switchTab('mailbox')">Tüm Posta Kutusunu Aç ↗</button>
+              <button class="btn btn-primary btn-sm" onclick="openComposeModal()">+ Yeni E-posta Yaz</button>
+            </div>
+          </div>
+          <div id="dashMailWidgetList" style="padding:16px 20px;">
+            <!-- Dinamik doldurulacak -->
+          </div>
+        </div>
+
       </section>
 
       <!-- ================= TAB 2: VELİ CRM & ADAY TAKİP HATTI (YENİ MODÜL) ================= -->
@@ -1143,6 +1306,12 @@
               <span style="font-size:12px;color:var(--muted);">Aday veli görüşmeleri, deneme antrenmanı takibi, tek tıkla WhatsApp iletişimi ve veli görüşme notları</span>
             </div>
             <div class="cb-actions">
+              <button class="btn btn-secondary btn-sm" onclick="openModal('googleFormsSyncModal')" style="border-color:#3b82f6;color:#1d4ed8;background:#eff6ff;">
+                <span>📋</span> Google Form / CSV İçe Aktar
+              </button>
+              <button class="btn btn-secondary btn-sm" onclick="openModal('qrCodeInfoModal')" style="border-color:#c8102e;color:#c8102e;background:#fef2f2;">
+                <span>📲</span> Kayıt QR Kodu
+              </button>
               <button class="btn btn-secondary btn-sm" onclick="openModal('whatsappTemplatesModal')" style="border-color:#25D366;color:#128c7e;background:#f0fdf4;">
                 <span>💬</span> WhatsApp Şablonları
               </button>
@@ -1511,6 +1680,135 @@
         </div>
       </section>
 
+      <!-- ================= TAB: KULÜP E-POSTA KUTUSU (WEBMAIL & GMAIL ENTEGRE) ================= -->
+      <section id="tab-mailbox" class="tab-pane">
+        
+        <!-- Üst Kontrol & Entegrasyon Çubuğu -->
+        <div class="card-box" style="margin-bottom:16px;">
+          <div class="cb-head">
+            <div style="display:flex;align-items:center;gap:12px;">
+              <div style="width:40px;height:40px;border-radius:10px;background:#eff6ff;color:#2563eb;display:flex;align-items:center;justify-content:center;font-size:20px;">📬</div>
+              <div>
+                <h3>Kulüp E-Posta İletişim Merkezi</h3>
+                <span style="font-size:12px;color:var(--muted);">info@mulksporkulubu.com (Kurumsal Webmail) & mulksporkulubu@gmail.com entegre posta kutusu</span>
+              </div>
+            </div>
+            <div class="cb-actions">
+              <button class="btn btn-secondary btn-sm" onclick="openModal('mailServerSettingsModal')" style="border-color:#cbd5e1;">
+                <span>⚙️</span> IMAP / SMTP Kurulum
+              </button>
+              <a href="https://webmail.mulksporkulubu.com" target="_blank" class="btn btn-secondary btn-sm" style="border-color:#c8102e;color:#991b1b;background:#fef2f2;">
+                <span>🏢</span> Webmail Giriş ↗
+              </a>
+              <a href="https://mail.google.com" target="_blank" class="btn btn-secondary btn-sm" style="border-color:#ea4335;color:#c5221f;background:#fff5f5;">
+                <span>🔴</span> Gmail Giriş ↗
+              </a>
+              <button class="btn btn-secondary btn-sm" onclick="refreshMailbox()" style="border-color:#3b82f6;color:#1d4ed8;background:#eff6ff;">
+                <span>🔄</span> Yenile
+              </button>
+              <button class="btn btn-primary btn-sm" onclick="openComposeModal()">
+                <span>✏️</span> Yeni E-posta Yaz
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3 Sütunlu E-Posta İstemcisi -->
+        <div class="mailbox-layout">
+          
+          <!-- Sütun 1: Hesaplar ve Klasörler -->
+          <div class="mail-sidebar">
+            <div>
+              <span style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;display:block;margin-bottom:8px;">E-Posta Hesapları</span>
+              <div style="display:flex;flex-direction:column;gap:6px;">
+                <div class="mail-account-pill active kurumsal" id="pill-acc-all" onclick="selectMailAccount('all')">
+                  <span>🌐 Tüm Postalar (Birleşik)</span>
+                  <span class="badge badge-red" id="badge-all-count">0</span>
+                </div>
+                <div class="mail-account-pill kurumsal" id="pill-acc-info" onclick="selectMailAccount('info@mulksporkulubu.com')">
+                  <div style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
+                    <span style="display:block;font-size:11.5px;">🏢 info@mulksporkulubu.com</span>
+                    <small style="font-size:10px;color:var(--muted);font-weight:normal;">Kurumsal Webmail</small>
+                  </div>
+                  <span class="badge badge-red" id="badge-info-count">0</span>
+                </div>
+                <div class="mail-account-pill" id="pill-acc-gmail" onclick="selectMailAccount('mulksporkulubu@gmail.com')">
+                  <div style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
+                    <span style="display:block;font-size:11.5px;">🔴 mulksporkulubu@gmail.com</span>
+                    <small style="font-size:10px;color:var(--muted);font-weight:normal;">Google Workspace</small>
+                  </div>
+                  <span class="badge badge-blue" id="badge-gmail-count">0</span>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <span style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;display:block;margin-bottom:8px;">Klasörler</span>
+              <div style="display:flex;flex-direction:column;gap:2px;">
+                <button class="mail-folder-btn active" id="folder-inbox" onclick="selectMailFolder('inbox')">
+                  <span>📥 Gelen Kutusu</span>
+                  <span id="folder-inbox-count" style="font-size:11px;font-weight:700;color:#2563eb;">0</span>
+                </button>
+                <button class="mail-folder-btn" id="folder-starred" onclick="selectMailFolder('starred')">
+                  <span>⭐ Yıldızlı İletiler</span>
+                  <span id="folder-starred-count" style="font-size:11px;color:var(--muted);">0</span>
+                </button>
+                <button class="mail-folder-btn" id="folder-sent" onclick="selectMailFolder('sent')">
+                  <span>📤 Gönderilenler</span>
+                  <span id="folder-sent-count" style="font-size:11px;color:var(--muted);">0</span>
+                </button>
+                <button class="mail-folder-btn" id="folder-trash" onclick="selectMailFolder('trash')">
+                  <span>🗑️ Çöp Kutusu</span>
+                  <span id="folder-trash-count" style="font-size:11px;color:var(--muted);">0</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Doğrudan Webmail Giriş Kartı -->
+            <div style="margin-top:auto;background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:12px;font-size:11.5px;">
+              <strong style="color:#0f172a;display:block;margin-bottom:4px;">🌐 Harici Webmail Panelleri</strong>
+              <p style="color:#64748b;margin:0 0 8px;line-height:1.4;">E-postalarınızı doğrudan tarayıcı üzerinden açmak için:</p>
+              <div style="display:flex;flex-direction:column;gap:6px;">
+                <a href="https://webmail.mulksporkulubu.com" target="_blank" style="color:#c8102e;font-weight:700;text-decoration:none;display:flex;align-items:center;gap:4px;">
+                  <span>↗</span> cPanel / Titan Webmail
+                </a>
+                <a href="https://mail.google.com" target="_blank" style="color:#2563eb;font-weight:700;text-decoration:none;display:flex;align-items:center;gap:4px;">
+                  <span>↗</span> Google Gmail Girişi
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sütun 2: E-Posta Listesi -->
+          <div class="mail-list-panel">
+            <div class="mail-list-head">
+              <div style="position:relative;margin-bottom:10px;">
+                <input type="text" id="mailSearchInput" class="search-input" placeholder="Kimden, konu veya içerik ara..." oninput="filterEmails()" style="width:100%;padding-left:32px;">
+                <span style="position:absolute;left:10px;top:9px;color:var(--muted);font-size:13px;">🔍</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--muted);">
+                <span id="mailListStatusText">Gelen Kutusu (3 İleti)</span>
+                <div style="display:flex;gap:6px;">
+                  <button type="button" class="btn btn-sm btn-secondary" onclick="toggleMailFilter('unread')" id="btnFilterUnread" style="font-size:11px;padding:2px 8px;">Okunmamış</button>
+                  <button type="button" class="btn btn-sm btn-secondary" onclick="markAllEmailsAsRead()" style="font-size:11px;padding:2px 8px;">Tümünü Okundu Say</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="mail-items-scroll" id="mailItemsContainer">
+              <!-- Dinamik e-posta listesi -->
+            </div>
+          </div>
+
+          <!-- Sütun 3: E-Posta Okuma & Eylem Alanı -->
+          <div class="mail-view-panel" id="mailViewContainer">
+            <!-- Dinamik seçili e-posta detayı -->
+          </div>
+
+        </div>
+
+      </section>
+
       <!-- ================= TAB 8: AYARLAR ================= -->
       <section id="tab-settings" class="tab-pane">
         <div class="card-box" style="max-width:720px;">
@@ -1673,6 +1971,119 @@
     </div>
   </div>
 
+  <!-- ================= MODAL: YENİ E-POSTA YAZ ================= -->
+  <div id="composeMailModal" class="modal-overlay">
+    <div class="modal-box" style="max-width:680px;">
+      <div class="modal-head">
+        <div>
+          <h3>✏️ Yeni Kulüp E-Postası Gönder</h3>
+          <span style="font-size:12px;color:var(--muted);">info@mulksporkulubu.com veya mulksporkulubu@gmail.com üzerinden velilere ve kurumlara e-posta iletin</span>
+        </div>
+        <button class="close-btn" onclick="closeModal('composeMailModal')">✕</button>
+      </div>
+
+      <form onsubmit="handleSendMail(event)">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Gönderen Hesap *</label>
+            <select id="composeFromAccount" required style="font-weight:700;">
+              <option value="info@mulksporkulubu.com">🏢 info@mulksporkulubu.com (Kurumsal Webmail)</option>
+              <option value="mulksporkulubu@gmail.com">🔴 mulksporkulubu@gmail.com (Google Workspace / Gmail)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Kayıtlı Velilerden Hızlı Seç</label>
+            <select id="composeQuickParentSelect" onchange="applyQuickParentToCompose(this.value)">
+              <option value="">-- Kayıtlı Veliyi Seçin --</option>
+              <!-- JS ile doldurulur -->
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Alıcı E-Posta Adresi (Kime) *</label>
+          <input type="email" id="composeToEmail" placeholder="veli@ornek.com, veli2@ornek.com" required>
+        </div>
+
+        <div class="form-group">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+            <label style="margin:0;">Konu *</label>
+            <div style="display:flex;gap:4px;flex-wrap:wrap;">
+              <span style="font-size:11px;color:var(--muted);margin-right:4px;">Hızlı Şablon:</span>
+              <button type="button" class="btn btn-sm btn-secondary" style="font-size:10px;padding:2px 7px;" onclick="applyComposeTemplate('aidat')">Aidat</button>
+              <button type="button" class="btn btn-sm btn-secondary" style="font-size:10px;padding:2px 7px;" onclick="applyComposeTemplate('deneme')">Deneme Dersi</button>
+              <button type="button" class="btn btn-sm btn-secondary" style="font-size:10px;padding:2px 7px;" onclick="applyComposeTemplate('makbuz')">Makbuz</button>
+              <button type="button" class="btn btn-sm btn-secondary" style="font-size:10px;padding:2px 7px;" onclick="applyComposeTemplate('duyuru')">Duyuru</button>
+            </div>
+          </div>
+          <input type="text" id="composeSubject" placeholder="E-posta konusunu yazınız..." required>
+        </div>
+
+        <div class="form-group">
+          <label>Mesaj İçeriği *</label>
+          <textarea id="composeBody" rows="7" placeholder="Sayın Velimiz, ..." required style="line-height:1.6;"></textarea>
+        </div>
+
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:20px;padding-top:14px;border-top:1px solid var(--line);">
+          <small style="color:var(--muted);">🔒 KVKK Madde 12 gereği e-posta kayıtları güvenli oturumda saklanır.</small>
+          <div style="display:flex;gap:10px;">
+            <button type="button" class="btn btn-secondary" onclick="closeModal('composeMailModal')">İptal</button>
+            <button type="submit" class="btn btn-primary">✉️ E-postayı Gönder</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ================= MODAL: IMAP & SMTP SUNUCU AYARLARI ================= -->
+  <div id="mailServerSettingsModal" class="modal-overlay">
+    <div class="modal-box" style="max-width:620px;">
+      <div class="modal-head">
+        <div>
+          <h3>⚙️ E-Posta Sunucu & IMAP / SMTP Yapılandırması</h3>
+          <span style="font-size:12px;color:var(--muted);">Kurumsal webmail ve Gmail hesaplarınızın teknik bağlantı parametreleri</span>
+        </div>
+        <button class="close-btn" onclick="closeModal('mailServerSettingsModal')">✕</button>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:14px;font-size:13px;">
+        
+        <!-- Kurumsal Posta Ayarları -->
+        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:16px;">
+          <strong style="color:#c8102e;font-size:14px;display:flex;align-items:center;gap:6px;margin-bottom:8px;">
+            🏢 Kurumsal E-Posta (info@mulksporkulubu.com)
+          </strong>
+          <table style="width:100%;font-size:12.5px;line-height:1.8;">
+            <tr><td style="color:#64748b;width:170px;">Gelen Sunucu (IMAP):</td><td><strong>mail.mulksporkulubu.com</strong> (Port: <strong>993</strong>, SSL/TLS)</td></tr>
+            <tr><td style="color:#64748b;">Giden Sunucu (SMTP):</td><td><strong>mail.mulksporkulubu.com</strong> (Port: <strong>465</strong>, SSL/TLS)</td></tr>
+            <tr><td style="color:#64748b;">Kullanıcı Adı:</td><td><code>info@mulksporkulubu.com</code></td></tr>
+            <tr><td style="color:#64748b;">Webmail Doğrudan Giriş:</td><td><a href="https://webmail.mulksporkulubu.com" target="_blank" style="color:#2563eb;font-weight:700;">webmail.mulksporkulubu.com ↗</a></td></tr>
+          </table>
+        </div>
+
+        <!-- Gmail Hesabı Ayarları -->
+        <div style="background:#fef2f2;border:1px solid #fecaca;border-radius:10px;padding:16px;">
+          <strong style="color:#b91c1c;font-size:14px;display:flex;align-items:center;gap:6px;margin-bottom:8px;">
+            🔴 Kulüp Gmail Hesabı (mulksporkulubu@gmail.com)
+          </strong>
+          <table style="width:100%;font-size:12.5px;line-height:1.8;">
+            <tr><td style="color:#64748b;width:170px;">Google Workspace / Gmail:</td><td><code>mulksporkulubu@gmail.com</code></td></tr>
+            <tr><td style="color:#64748b;">Web Girişi:</td><td><a href="https://mail.google.com" target="_blank" style="color:#b91c1c;font-weight:700;">mail.google.com ↗</a></td></tr>
+            <tr><td style="color:#64748b;">Yönlendirme Durumu:</td><td><span class="badge badge-green">Aktif (Otomatik Eşleşme)</span></td></tr>
+          </table>
+        </div>
+
+        <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:12px;color:#1e40af;font-size:12px;line-height:1.5;">
+          💡 <strong>İpucu:</strong> Gmail ayarlarınızdan <em>"Hesaplar ve İçe Aktarma İşlemi > Başka bir e-posta adresi ekle"</em> adımını kullanarak <code>info@mulksporkulubu.com</code> adresinizi doğrudan Gmail arayüzünüzün içine de bağlayabilirsiniz.
+        </div>
+      </div>
+
+      <div style="margin-top:20px;display:flex;justify-content:flex-end;">
+        <button type="button" class="btn btn-primary" onclick="closeModal('mailServerSettingsModal')">Tamam</button>
+      </div>
+    </div>
+  </div>
+
   <!-- ================= MODAL: WHATSAPP KURUMSAL ŞABLONLARI ================= -->
   <div id="whatsappTemplatesModal" class="modal-overlay">
     <div class="modal-box" style="max-width:640px;">
@@ -1736,6 +2147,103 @@ MÜLK Spor Kulübü Ailesi</div>
 
       <div style="margin-top:16px;text-align:right;">
         <button type="button" class="btn btn-secondary" onclick="closeModal('whatsappTemplatesModal')">Kapat</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= MODAL: GOOGLE FORMS & CSV AKTARIMI ================= -->
+  <div id="googleFormsSyncModal" class="modal-overlay">
+    <div class="modal-box" style="max-width:680px;">
+      <div class="modal-head">
+        <div>
+          <h3>📋 Google Forms & CSV Otomatik Aktarımı</h3>
+          <span style="font-size:12px;color:var(--muted);">Velilerin doldurduğu Google Form / E-Tablo yanıtlarını tek tıkla CRM sistemine aktarın</span>
+        </div>
+        <button class="close-btn" onclick="closeModal('googleFormsSyncModal')">✕</button>
+      </div>
+
+      <!-- Google Forms Link Ayarı -->
+      <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:14px 18px;margin-bottom:16px;">
+        <strong style="color:#1d4ed8;font-size:13px;display:block;margin-bottom:4px;">1. Kulüp Google Forms Kayıt Linki:</strong>
+        <span style="font-size:12px;color:#475569;display:block;margin-bottom:8px;">Velilere veya sosyal medyada paylaşabileceğiniz resmî form bağlantınız:</span>
+        <div style="display:flex;gap:8px;">
+          <input type="text" id="gFormUrlInput" value="https://forms.gle/mulksporkulubu-kayit" style="font-size:12.5px;padding:8px 12px;background:white;color:#1e293b;border:1px solid #cbd5e1;border-radius:6px;flex:1;">
+          <button class="btn btn-secondary btn-sm" onclick="saveGoogleFormUrl()">💾 Kaydet</button>
+          <a href="#" id="btnOpenGForm" target="_blank" class="btn btn-primary btn-sm" onclick="this.href=document.getElementById('gFormUrlInput').value;">↗ Formu Aç</a>
+        </div>
+      </div>
+
+      <!-- CSV İçe Aktarma -->
+      <div style="background:#fafbfc;border:1px solid var(--line);border-radius:10px;padding:16px;margin-bottom:16px;">
+        <strong style="font-size:13px;color:#1e293b;display:block;margin-bottom:6px;">2. Google E-Tablolar / CSV Dosyası Yükleyin:</strong>
+        <p style="font-size:12px;color:var(--muted);margin-bottom:10px;">
+          Google Forms'un bağlı olduğu Google E-Tablo'dan <em>Dosya → İndir → Virgülle Ayrılmış Değerler (.csv)</em> diyerek indirdiğiniz dosyayı seçin:
+        </p>
+
+        <div style="border:2px dashed #cbd5e1;background:white;border-radius:8px;padding:18px;text-align:center;margin-bottom:12px;">
+          <input type="file" id="csvFileInput" accept=".csv" onchange="handleCsvFileSelect(event)" style="display:none;">
+          <button type="button" class="btn btn-secondary btn-sm" onclick="document.getElementById('csvFileInput').click()">
+            <span>📂</span> CSV Dosyası Seç (.csv)
+          </button>
+          <span id="selectedCsvFileName" style="display:block;font-size:11.5px;color:var(--muted);margin-top:6px;">Henüz dosya seçilmedi</span>
+        </div>
+
+        <details style="font-size:12px;color:#64748b;margin-bottom:10px;">
+          <summary style="cursor:pointer;font-weight:600;color:var(--primary);">Veya CSV Metnini Doğrudan Yapıştırın (Tıklayın)</summary>
+          <textarea id="csvPasteText" rows="4" placeholder="Zaman damgası;Sporcu Adı;Veli Adı;Telefon;E-posta;Branş;Notlar&#10;2026/11/09 14:30;Ali Kaya;Selin Kaya;0545 410 40 40;selin@gmail.com;Voleybol;İlk deneme dersi" style="width:100%;margin-top:8px;font-family:monospace;font-size:11.5px;padding:8px;border:1px solid #cbd5e1;border-radius:6px;"></textarea>
+        </details>
+      </div>
+
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <span style="font-size:11.5px;color:var(--muted);">✓ Çift kayıtlar engellenir, veriler anında CRM'e eklenir.</span>
+        <div style="display:flex;gap:8px;">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('googleFormsSyncModal')">Vazgeç</button>
+          <button type="button" class="btn btn-primary" onclick="importGoogleFormsCSV()">
+            <span>📥</span> Kayıtları CRM'e Aktar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= MODAL: KAYIT BİLGİ FORMU QR KODU ================= -->
+  <div id="qrCodeInfoModal" class="modal-overlay">
+    <div class="modal-box" style="max-width:580px;text-align:center;">
+      <div class="modal-head" style="justify-content:space-between;">
+        <div style="text-align:left;">
+          <h3>📲 Resmî Ön Kayıt & Bilgi Formu QR Kodu</h3>
+          <span style="font-size:12px;color:var(--muted);">Afişlerde, broşürlerde, sosyal medyada veya roll-up stantlarında kullanıma hazır</span>
+        </div>
+        <button class="close-btn" onclick="closeModal('qrCodeInfoModal')">✕</button>
+      </div>
+
+      <!-- QR Preview Card -->
+      <div style="background:#0f172a;border:1px solid #334155;border-radius:14px;padding:22px;margin:16px 0;display:inline-block;box-shadow:0 10px 30px rgba(0,0,0,0.4);">
+        <div style="background:white;padding:12px;border-radius:10px;display:inline-block;">
+          <img src="kayit_qr.png" alt="MÜLK Spor Kulübü Kayıt QR Kodu" style="width:220px;height:220px;object-fit:contain;display:block;">
+        </div>
+        <div style="margin-top:12px;font-family:'Manrope',sans-serif;font-weight:800;font-size:14px;color:white;letter-spacing:0.3px;">
+          MÜLK SPOR KULÜBÜ · ÖN KAYIT FORMU
+        </div>
+        <span style="font-size:11.5px;color:#94a3b8;display:block;margin-top:2px;">
+          URL: https://mulksporkulubu.com/kayit.html
+        </span>
+      </div>
+
+      <div style="background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:12px;text-align:left;font-size:12px;color:#991b1b;margin-bottom:18px;line-height:1.5;">
+        <strong>💡 Nasıl Çalışır?</strong> Veliler telefon kamerasıyla bu QR kodu okuttuğunda doğrudan telefonlarına uyumlu <em>kayit.html</em> ön kayıt sayfası açılır. Doldurulan bilgiler anında bu paneldeki <strong>Veli CRM & Adaylar</strong> tablosuna otomatik olarak düşer ve veli dilerse tek tıkla WhatsApp üzerinden kulübünüze iletebilir.
+      </div>
+
+      <div style="display:flex;justify-content:center;gap:10px;flex-wrap:wrap;">
+        <a href="kayit_qr.png" download="Mulk_Spor_Kulubu_Kayit_QR.png" class="btn btn-primary">
+          <span>⬇️</span> QR Kodu İndir (PNG - 984x984)
+        </a>
+        <a href="kayit_qr.svg" download="Mulk_Spor_Kulubu_Kayit_QR.svg" class="btn btn-secondary">
+          <span>📐</span> Vektörel İndir (SVG)
+        </a>
+        <a href="kayit.html" target="_blank" class="btn btn-secondary">
+          <span>🌐</span> Formu Canlı Test Et ↗
+        </a>
       </div>
     </div>
   </div>
@@ -1941,7 +2449,7 @@ MÜLK Spor Kulübü Ailesi</div>
 
   <!-- ================= MODAL: 3 GÜN ÖNCESİ HATIRLATMA E-POSTASI ================= -->
   <div id="reminderModal" class="modal-overlay">
-    <div class="modal-box" style="max-width:620px;">
+    <div class="modal-box" style="max-width:720px;width:95%;">
       <div class="modal-head">
         <div>
           <h3>⏰ Ödeme Gününe 3 Gün Kala Hatırlatma Otomasyonu</h3>
@@ -1950,34 +2458,78 @@ MÜLK Spor Kulübü Ailesi</div>
         <button class="close-btn" onclick="closeModal('reminderModal')">✕</button>
       </div>
 
+      <!-- Şablon Önizleme -->
       <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:10px;padding:14px 18px;margin-bottom:16px;">
-        <strong style="color:#b45309;font-size:13px;display:block;margin-bottom:4px;">Otomatik Gönderilecek E-posta Şablonu:</strong>
-        <div style="font-size:12.5px;color:#78350f;background:white;padding:12px;border-radius:6px;border:1px solid #fef3c7;font-family:monospace;white-space:pre-wrap;" id="reminderTemplatePreview">
-Konu: MÜLK Spor Kulübü - Aidat Hatırlatması
+        <strong style="color:#b45309;font-size:13px;display:block;margin-bottom:6px;">Otomatik Gönderilecek E-posta Şablonu:</strong>
+        <div style="font-size:12.5px;color:#78350f;background:white;padding:12px 14px;border-radius:6px;border:1px solid #fef3c7;font-family:monospace;white-space:pre-wrap;line-height:1.55;" id="reminderTemplatePreview">Konu: MÜLK Spor Kulübü - Aidat Hatırlatması
 
 Sayın Velimiz [Veli Adı],
 Sporcumuz [Sporcu Adı] için aylık aidat ödeme gününe 3 gün kalmıştır.
 
-Ödemenizi banka yoluyla yaparken lütfen açıklama kısmına sporcu kodunu yazınız:
-Ödeme Referans Kodu: [SPORCU-KODU]
+<strong style="color:#92400e;">⚠️ Ödemenizi banka yoluyla yaparken lütfen açıklama kısmına sporcu kodunu yazınız:</strong>
+<strong style="color:#92400e;">Ödeme Referans Kodu: [SPORCU-KODU]</strong>
 Tutar: 1.500 TL
 Kulüp IBAN: TR12 0006 2000 0001 2345 6789 01 (Ziraat Bankası)
-Alıcı: MÜLK Spor Kulübü Derneği (Sicil: 06-01-05948)
+Alıcı: MÜLK Spor Kulübü Derneği
 
-Düzenli desteğiniz için teşekkür eder, sporcumuza başarılar dileriz.
-MÜLK Spor Kulübü Yönetimi
+MÜLK Spor Kulübü Yönetimi</div>
+      </div>
+
+      <!-- Veli Seçim Alanı -->
+      <div style="margin-bottom:16px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;flex-wrap:wrap;gap:8px;">
+          <div>
+            <strong style="font-size:13px;color:#1e293b;">📋 Hatırlatma Gönderilecek Velileri Seçin</strong>
+            <span style="font-size:11.5px;color:var(--muted);display:block;">Tek tek veli seçebilir veya "Hepsini Seç" ile toplu gönderebilirsiniz.</span>
+          </div>
+          <div style="display:flex;gap:6px;align-items:center;">
+            <label style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:var(--primary);cursor:pointer;background:#fef2f2;padding:5px 12px;border-radius:6px;border:1px solid #fecaca;user-select:none;">
+              <input type="checkbox" id="selectAllReminderParents" onchange="toggleSelectAllReminderParents(this.checked)" checked style="cursor:pointer;accent-color:var(--primary);">
+              Hepsini Seç / Kaldır
+            </label>
+          </div>
+        </div>
+
+        <!-- Filtre Butonları -->
+        <div style="display:flex;gap:8px;margin-bottom:8px;">
+          <button type="button" class="btn btn-secondary btn-sm" onclick="filterReminderList('all')" id="btnRemindFilterAll" style="font-size:11.5px;padding:4px 10px;background:#e2e8f0;font-weight:700;">Tümü</button>
+          <button type="button" class="btn btn-secondary btn-sm" onclick="filterReminderList('bekliyor')" id="btnRemindFilterBekliyor" style="font-size:11.5px;padding:4px 10px;">Yalnızca Bekleyenler</button>
+          <button type="button" class="btn btn-secondary btn-sm" onclick="filterReminderList('gecikmede')" id="btnRemindFilterGecikmede" style="font-size:11.5px;padding:4px 10px;">Yalnızca Gecikenler</button>
+        </div>
+
+        <!-- Veli Listeleme Tablosu -->
+        <div style="max-height:210px;overflow-y:auto;border:1px solid var(--line);border-radius:8px;background:white;">
+          <table style="width:100%;border-collapse:collapse;font-size:12px;">
+            <thead style="background:#f8fafc;position:sticky;top:0;z-index:2;border-bottom:1px solid var(--line);">
+              <tr>
+                <th style="padding:8px 10px;width:38px;text-align:center;">Seç</th>
+                <th style="padding:8px 10px;text-align:left;">Sporcu & Kod</th>
+                <th style="padding:8px 10px;text-align:left;">Veli & İletişim</th>
+                <th style="padding:8px 10px;text-align:left;">Branş / Okul</th>
+                <th style="padding:8px 10px;text-align:center;">Durum</th>
+                <th style="padding:8px 10px;text-align:right;">Tutar</th>
+              </tr>
+            </thead>
+            <tbody id="reminderParentsTbody">
+              <!-- JS ile doldurulur -->
+            </tbody>
+          </table>
         </div>
       </div>
 
-      <div style="font-size:13px;color:#475569;margin-bottom:18px;">
-        Alıcı Listesi: <strong id="reminderTargetCount">0 Veliye</strong> otomatik hatırlatma e-postası iletilecektir.
-      </div>
-
-      <div style="display:flex;justify-content:flex-end;gap:10px;">
-        <button type="button" class="btn btn-secondary" onclick="closeModal('reminderModal')">İptal</button>
-        <button type="button" class="btn btn-primary" onclick="sendAutomatedReminders()">
-          ✉️ Tüm Bekleyen Velilere Hatırlatma Gönder
-        </button>
+      <!-- Alt Bar: Sayaç ve Gönder -->
+      <div style="display:flex;justify-content:space-between;align-items:center;padding-top:12px;border-top:1px solid #e2e8f0;">
+        <div style="font-size:12.5px;color:#475569;">
+          Seçilen: <strong id="reminderSelectedCount" style="color:var(--primary);font-size:14px;">0 Veli</strong>
+          <span id="reminderTotalAvailableText" style="color:#94a3b8;font-size:11.5px;margin-left:4px;"></span>
+          <span id="reminderTargetCount" style="display:none;">0</span>
+        </div>
+        <div style="display:flex;gap:10px;">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('reminderModal')">İptal</button>
+          <button type="button" class="btn btn-primary" id="btnSendAutomatedReminders" onclick="sendAutomatedReminders()">
+            ✉️ Seçili Velilere Hatırlatma Gönder
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -2093,6 +2645,121 @@ MÜLK Spor Kulübü Yönetimi
     let athletes = JSON.parse(localStorage.getItem('mulk_athletes')) || initialAthletes;
     let schools = JSON.parse(localStorage.getItem('mulk_schools')) || defaultSchools;
 
+    // Entegre E-posta Veritabanı (info@mulksporkulubu.com & mulksporkulubu@gmail.com)
+    const defaultEmails = [
+      {
+        id: 'MAIL-1',
+        account: 'info@mulksporkulubu.com',
+        folder: 'inbox',
+        fromName: 'Selin Kaya (Veli)',
+        fromEmail: 'selin.kaya@gmail.com',
+        to: 'info@mulksporkulubu.com',
+        subject: 'Ali Yağız Kaya - Bu Ayki Aidat Dekontu (Ref: MLK-KAYA-ALI)',
+        date: 'Bugün 18:30',
+        unread: true,
+        starred: true,
+        athleteName: 'Ali Yağız Kaya',
+        body: `Sayın MÜLK Spor Kulübü Yönetimi,
+
+Oğlumuz Ali Yağız Kaya için bu ayki kulüp aidatımızı Ziraat Bankası hesabınıza 'MLK-KAYA-ALI' referans koduyla 1.500 TL olarak FAST ile havale yaptık.
+
+Banka dekont işlem numaramız: 20261109049281.
+
+Ödememizi sisteminizde onaylamanızı ve hafta sonu idman takvimi hakkında veli bilgilendirmesi yapmanızı rica ederiz.
+
+Saygılarımla,
+Selin Kaya
+İletişim: 0532 111 22 33`
+      },
+      {
+        id: 'MAIL-2',
+        account: 'mulksporkulubu@gmail.com',
+        folder: 'inbox',
+        fromName: 'Ahmet Demir (Aday Veli)',
+        fromEmail: 'ahmet.demir84@hotmail.com',
+        to: 'mulksporkulubu@gmail.com',
+        subject: 'İlk Ders Ücretsiz Deneme İçin Randevu Talebi',
+        date: 'Bugün 16:15',
+        unread: true,
+        starred: false,
+        athleteName: 'Çınar Demir',
+        body: `Merhabalar Hocam,
+
+Sosyal medyada ve kulüp afişlerinizde paylaştığınız ilk dersin ücretsiz olduğuna dair tanıtımınızı gördük. 9 yaşındaki oğlumuz Çınar için hafta sonu Gazi Üniversitesi kampüsünüzdeki 'İlk Ders Ücretsiz Deneme' antrenmanına katılmak istiyoruz.
+
+Cumartesi günü saat kaçta hazır bulunmalıyız ve yanımızda getirmemiz gereken spor kıyafetleri nelerdir? Bilgi verebilirseniz çok seviniriz.
+
+Teşekkürler,
+Ahmet Demir
+Tel: 0544 555 66 77`
+      },
+      {
+        id: 'MAIL-3',
+        account: 'info@mulksporkulubu.com',
+        folder: 'inbox',
+        fromName: 'Ankara Gençlik ve Spor İl Müdürlüğü',
+        fromEmail: 'tescil@gsb.gov.tr',
+        to: 'info@mulksporkulubu.com',
+        subject: '2026-2027 Sezonu Kulüp Vize ve Sporcu Lisans İşlemleri Başladı',
+        date: 'Dün 11:00',
+        unread: false,
+        starred: true,
+        athleteName: '',
+        body: `Sayın MÜLK SPOR KULÜBÜ Derneği Başkanlığı'na,
+(Sicil No: 06-01-05948)
+
+2026-2027 yılı spor kulübü yıllık vize, antrenör sözleşme tescili ve yeni sporcu lisans başvuru işlemleri il müdürlüğümüz sicil-lisans biriminde başlamıştır.
+
+Kulüp yetki belgeniz, antrenör sözleşmeleriniz ve sporcu sağlık raporları ile birlikte işlemlerinizi şahsen veya e-Devlet spor bilgi sistemi üzerinden gerçekleştirebilirsiniz.
+
+Bilgilerinize rica olunur.
+T.C. Gençlik ve Spor Bakanlığı Ankara İl Müdürlüğü`
+      },
+      {
+        id: 'MAIL-4',
+        account: 'mulksporkulubu@gmail.com',
+        folder: 'inbox',
+        fromName: 'Google İşletme Profili',
+        fromEmail: 'google-business@google.com',
+        to: 'mulksporkulubu@gmail.com',
+        subject: 'MÜLK Spor Kulübü Google Haritalarda 580 Görüntülenme Aldı',
+        date: '8 Kas 2026',
+        unread: false,
+        starred: false,
+        athleteName: '',
+        body: `Tebrikler! MÜLK Spor Kulübü işletme profiliniz geçen hafta Google Haritalar ve Arama'da 580 veli tarafından görüntülendi ve 42 kişi doğrudan 'Yol Tarifi' aldı.
+
+Profilinizi güncel tutarak kulübünüze daha fazla sporcu adayı ve veli çekebilirsiniz.`
+      },
+      {
+        id: 'MAIL-5',
+        account: 'info@mulksporkulubu.com',
+        folder: 'inbox',
+        fromName: 'Ziraat Bankası Kurumsal',
+        fromEmail: 'bildirim@ziraatbank.com.tr',
+        to: 'info@mulksporkulubu.com',
+        subject: 'Hesabınıza Yeni FAST Transferi Geldi (Ref: MLK-KURT-EREN)',
+        date: '7 Kas 2026',
+        unread: false,
+        starred: false,
+        athleteName: 'Eren Can Kurt',
+        body: `Sayın MÜLK SPOR KULÜBÜ DERNEĞİ,
+
+TR12 0006 2000 0001 2345 6789 01 nolu hesabınıza 1.500,00 TL tutarında FAST transferi başarıyla ulaşmıştır.
+
+Gönderen: CENGİZ KURT
+Açıklama: MLK-KURT-EREN EREN CAN KURT AIDAT
+Tarih: 07.11.2026 14:45`
+      }
+    ];
+
+    let emails = JSON.parse(localStorage.getItem('mulk_emails')) || defaultEmails;
+    let currentMailAccount = 'all';
+    let currentMailFolder = 'inbox';
+    let selectedMailId = 'MAIL-1';
+    let mailSearchTerm = '';
+    let mailOnlyUnread = false;
+
     // Otomatik Referans Kodu (MLK-SOYAD-AD)
     function generateBankRefCode(athleteName) {
       if (!athleteName) return 'MLK-SPORCU';
@@ -2112,6 +2779,7 @@ MÜLK Spor Kulübü Yönetimi
 
       const titles = {
         'dashboard': 'Kulüp Genel Durumu',
+        'mailbox': 'Kulüp E-Posta Kutusu (Webmail & Gmail Entegre)',
         'crm': 'Veli & Aday Sporcu CRM Yönetimi',
         'schools': 'Okullar ve Branş Yönetimi',
         'athletes': 'Sporcu ve Veli Portföyü',
@@ -2121,6 +2789,20 @@ MÜLK Spor Kulübü Yönetimi
         'settings': 'Sistem & Kulüp Ayarları'
       };
       document.getElementById('pageTitle').innerText = titles[tabId] || 'Yönetim Paneli';
+
+      // Aktif sekmeyi kaydet ve URL hash'e yaz (Sayfa yenilendiğinde konumu korur)
+      try {
+        localStorage.setItem('mulk_active_tab', tabId);
+        if (window.history && window.history.replaceState) {
+          window.history.replaceState(null, '', '#' + tabId);
+        } else {
+          window.location.hash = '#' + tabId;
+        }
+      } catch (e) {}
+
+      if (tabId === 'mailbox') {
+        renderMailbox();
+      }
 
       const btns = document.querySelectorAll('.nav-btn');
       btns.forEach(btn => {
@@ -2136,6 +2818,16 @@ MÜLK Spor Kulübü Yönetimi
       if (el) el.style.display = 'flex';
       if (id === 'newBranchScheduleModal' || id === 'newAthleteModal' || id === 'newCrmLeadModal') {
         populateSchoolDropdowns();
+      }
+      if (id === 'reminderModal') {
+        renderReminderParentList();
+      }
+      if (id === 'googleFormsSyncModal') {
+        const savedUrl = localStorage.getItem('mulk_google_form_url');
+        if (savedUrl) {
+          const input = document.getElementById('gFormUrlInput');
+          if (input) input.value = savedUrl;
+        }
       }
     }
     function closeModal(id) {
@@ -2172,6 +2864,8 @@ MÜLK Spor Kulübü Yönetimi
       renderAttendanceList();
       renderFinanceTable();
       renderKvkkTable();
+      renderMailbox();
+      renderDashMailWidget();
       updateBadges();
       populateSchoolDropdowns();
     }
@@ -3026,10 +3720,17 @@ MÜLK Spor Kulübü Yönetimi
       const crmCount = document.getElementById('crmCount');
       const athletesCount = document.getElementById('athletesCount');
       const schoolsCount = document.getElementById('schoolsCount');
+      const mailboxBadge = document.getElementById('mailboxBadge');
 
       if (crmCount) crmCount.innerText = leads.length;
       if (athletesCount) athletesCount.innerText = athletes.length;
       if (schoolsCount) schoolsCount.innerText = schools.length;
+
+      const unreadTotal = emails.filter(m => m.unread && m.folder === 'inbox').length;
+      if (mailboxBadge) {
+        mailboxBadge.innerText = unreadTotal;
+        mailboxBadge.style.display = unreadTotal > 0 ? 'inline-block' : 'none';
+      }
     }
 
     // Banka Ekstresi Eşleştirme
@@ -3117,9 +3818,329 @@ MÜLK Spor Kulübü Yönetimi
       alert(`⏰ Sayın ${parent} kişisine 3 gün kala hatırlatması iletildi:\n"Sporcumuz ${athlete} için ödeme gününe 3 gün kalmıştır. Banka Referans Kodunuz: ${code}"`);
     }
 
+    // ================= 3 GÜN ÖNCESİ AİDAT HATIRLATMA OTOMASYONU =================
+    let reminderFilter = 'all';
+    let selectedReminderAthleteIds = new Set();
+
+    function renderReminderParentList() {
+      const tbody = document.getElementById('reminderParentsTbody');
+      if (!tbody) return;
+      tbody.innerHTML = '';
+
+      let list = athletes;
+      if (reminderFilter === 'bekliyor') {
+        list = athletes.filter(a => a.status === 'Bekliyor');
+      } else if (reminderFilter === 'gecikmede') {
+        list = athletes.filter(a => a.status === 'Gecikmede');
+      }
+
+      // İlk açılışta veya liste değiştiğinde seçimleri başlat
+      if (selectedReminderAthleteIds.size === 0 && athletes.length > 0) {
+        athletes.forEach(a => {
+          if (a.status !== 'Ödendi') selectedReminderAthleteIds.add(a.id);
+        });
+        if (selectedReminderAthleteIds.size === 0) {
+          athletes.forEach(a => selectedReminderAthleteIds.add(a.id));
+        }
+      }
+
+      if (list.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:22px;color:var(--muted);">Seçili filtreye uygun veli veya sporcu kaydı bulunamadı.</td></tr>`;
+        updateReminderCounter();
+        return;
+      }
+
+      list.forEach(ath => {
+        const isChecked = selectedReminderAthleteIds.has(ath.id);
+        const refCode = ath.refCode || generateBankRefCode(ath.name);
+        const statusBadge = ath.status === 'Gecikmede' 
+          ? '<span class="badge badge-late">Gecikmede</span>'
+          : (ath.status === 'Ödendi' ? '<span class="badge badge-paid">Ödendi</span>' : '<span class="badge badge-pending">Bekliyor</span>');
+
+        const tr = document.createElement('tr');
+        tr.style.borderBottom = '1px solid #f1f5f9';
+        tr.style.background = isChecked ? '#fff7ed' : 'white';
+        tr.innerHTML = `
+          <td style="text-align:center;padding:8px 10px;">
+            <input type="checkbox" class="remind-ath-chk" data-id="${ath.id}" ${isChecked ? 'checked' : ''} onchange="toggleReminderAthlete('${ath.id}', this.checked)" style="cursor:pointer;accent-color:var(--primary);">
+          </td>
+          <td style="padding:8px 10px;">
+            <strong style="color:#1e293b;display:block;">${ath.name}</strong>
+            <span style="font-size:11px;color:#b45309;font-family:monospace;font-weight:600;">Kod: ${refCode}</span>
+          </td>
+          <td style="padding:8px 10px;">
+            <span style="color:#334155;font-weight:600;display:block;">${ath.parent || 'Belirtilmemiş'}</span>
+            <span style="font-size:11px;color:var(--muted);">${ath.email || ath.phone || '-'}</span>
+          </td>
+          <td style="padding:8px 10px;font-size:11.5px;color:#475569;">
+            ${ath.branch || '-'} <br><span style="font-size:10.5px;color:var(--muted);">${ath.school || ''}</span>
+          </td>
+          <td style="text-align:center;padding:8px 10px;">${statusBadge}</td>
+          <td style="text-align:right;padding:8px 10px;font-weight:700;color:#0f172a;">${(ath.fee || 1500).toLocaleString('tr-TR')} TL</td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      updateReminderCounter();
+    }
+
+    function toggleReminderAthlete(id, checked) {
+      if (checked) {
+        selectedReminderAthleteIds.add(id);
+      } else {
+        selectedReminderAthleteIds.delete(id);
+      }
+      updateReminderCounter();
+      const rowChk = document.querySelector(`.remind-ath-chk[data-id="${id}"]`);
+      if (rowChk) {
+        const tr = rowChk.closest('tr');
+        if (tr) tr.style.background = checked ? '#fff7ed' : 'white';
+      }
+    }
+
+    function toggleSelectAllReminderParents(checked) {
+      let list = athletes;
+      if (reminderFilter === 'bekliyor') list = athletes.filter(a => a.status === 'Bekliyor');
+      else if (reminderFilter === 'gecikmede') list = athletes.filter(a => a.status === 'Gecikmede');
+
+      list.forEach(a => {
+        if (checked) selectedReminderAthleteIds.add(a.id);
+        else selectedReminderAthleteIds.delete(a.id);
+      });
+      renderReminderParentList();
+    }
+
+    function filterReminderList(filter) {
+      reminderFilter = filter;
+      ['all', 'bekliyor', 'gecikmede'].forEach(f => {
+        const btnId = f === 'all' ? 'btnRemindFilterAll' : (f === 'bekliyor' ? 'btnRemindFilterBekliyor' : 'btnRemindFilterGecikmede');
+        const btn = document.getElementById(btnId);
+        if (btn) {
+          if (filter === f) {
+            btn.style.background = '#e2e8f0';
+            btn.style.fontWeight = '700';
+          } else {
+            btn.style.background = 'white';
+            btn.style.fontWeight = 'normal';
+          }
+        }
+      });
+      renderReminderParentList();
+    }
+
+    function updateReminderCounter() {
+      const countEl = document.getElementById('reminderSelectedCount');
+      const totalEl = document.getElementById('reminderTotalAvailableText');
+      const sendBtn = document.getElementById('btnSendAutomatedReminders');
+      const selectAllChk = document.getElementById('selectAllReminderParents');
+
+      const count = selectedReminderAthleteIds.size;
+      if (countEl) countEl.innerText = count + ' Veli';
+      if (totalEl) totalEl.innerText = `(Mevcut toplam: ${athletes.length} veli)`;
+      if (sendBtn) {
+        sendBtn.disabled = count === 0;
+        sendBtn.innerHTML = `✉️ Seçili Velilere Hatırlatma Gönder (${count})`;
+        sendBtn.style.opacity = count === 0 ? '0.5' : '1';
+        sendBtn.style.cursor = count === 0 ? 'not-allowed' : 'pointer';
+      }
+
+      if (selectAllChk) {
+        let list = athletes;
+        if (reminderFilter === 'bekliyor') list = athletes.filter(a => a.status === 'Bekliyor');
+        else if (reminderFilter === 'gecikmede') list = athletes.filter(a => a.status === 'Gecikmede');
+
+        if (list.length > 0) {
+          const allSelected = list.every(a => selectedReminderAthleteIds.has(a.id));
+          selectAllChk.checked = allSelected;
+        } else {
+          selectAllChk.checked = false;
+        }
+      }
+    }
+
     function sendAutomatedReminders() {
-      alert('✓ Ödeme günü yaklaşan tüm bekleyen velilere kişiselleştirilmiş 3 gün öncesi hatırlatma e-postaları başarıyla gönderildi!');
+      const count = selectedReminderAthleteIds.size;
+      if (count === 0) {
+        alert('Lütfen en az bir veli seçiniz.');
+        return;
+      }
+
+      const selectedAthletes = athletes.filter(a => selectedReminderAthleteIds.has(a.id));
+      const now = new Date();
+      const timeStr = now.toLocaleDateString('tr-TR') + ' ' + now.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
+
+      selectedAthletes.forEach(ath => {
+        const refCode = ath.refCode || generateBankRefCode(ath.name);
+        const parentName = ath.parent || 'Sayın Velimiz';
+        const emailTo = ath.email || (ath.parent ? ath.parent.toLowerCase().replace(/[^a-z0-9]/g, '.') + '@mail.com' : 'veli@mail.com');
+
+        const mailObj = {
+          id: 'MAIL-SENT-' + Date.now() + '-' + Math.floor(Math.random() * 1000),
+          account: 'info@mulksporkulubu.com',
+          folder: 'sent',
+          fromName: 'MÜLK Spor Kulübü',
+          fromEmail: 'info@mulksporkulubu.com',
+          to: `${parentName} <${emailTo}>`,
+          subject: `MÜLK Spor Kulübü - Aidat Hatırlatması (${ath.name} - ${refCode})`,
+          date: timeStr,
+          read: true,
+          starred: false,
+          athleteName: ath.name,
+          body: `Sayın Velimiz ${parentName},
+
+Sporcumuz ${ath.name} için aylık aidat ödeme gününe 3 gün kalmıştır.
+
+Ödemenizi banka yoluyla yaparken lütfen açıklama kısmına sporcu kodunu yazınız:
+Ödeme Referans Kodu: ${refCode}
+Tutar: ${(ath.fee || 1500).toLocaleString('tr-TR')} TL
+Kulüp IBAN: TR12 0006 2000 0001 2345 6789 01 (Ziraat Bankası)
+Alıcı: MÜLK Spor Kulübü Derneği
+
+MÜLK Spor Kulübü Yönetimi`
+        };
+
+        emails.unshift(mailObj);
+      });
+
+      try {
+        localStorage.setItem('mulk_emails', JSON.stringify(emails));
+      } catch(e) {}
+
+      if (typeof renderMailbox === 'function') renderMailbox();
+      if (typeof renderDashMailWidget === 'function') renderDashMailWidget();
+
+      alert(`✓ Seçilen ${count} veliye kişiselleştirilmiş 3 gün öncesi hatırlatma e-postaları başarıyla gönderildi!\n\nGönderilen e-postalar Kulüp E-Postaları > Gönderilenler kutusuna kaydedildi.`);
       closeModal('reminderModal');
+    }
+
+    // ================= GOOGLE FORMS & CSV İÇE AKTARIMI =================
+    let selectedCsvContent = '';
+
+    function handleCsvFileSelect(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      document.getElementById('selectedCsvFileName').innerText = '✓ ' + file.name + ' (' + Math.round(file.size / 1024) + ' KB)';
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        selectedCsvContent = evt.target.result;
+      };
+      reader.readAsText(file, 'UTF-8');
+    }
+
+    function saveGoogleFormUrl() {
+      const url = document.getElementById('gFormUrlInput').value.trim();
+      if (url) {
+        localStorage.setItem('mulk_google_form_url', url);
+        alert('✓ Google Forms kayıt bağlantısı kaydedildi: ' + url);
+      }
+    }
+
+    function importGoogleFormsCSV() {
+      let raw = selectedCsvContent;
+      const pasteText = document.getElementById('csvPasteText').value.trim();
+      if (pasteText) raw = pasteText;
+
+      if (!raw) {
+        alert('Lütfen bir CSV dosyası seçin veya metin alanına CSV verisi yapıştırın.');
+        return;
+      }
+
+      const lines = raw.split(/\r?\n/).map(l => l.trim()).filter(l => l.length > 0);
+      if (lines.length === 0) {
+        alert('CSV dosyasında veri bulunamadı.');
+        return;
+      }
+
+      let addedCount = 0;
+      const firstLine = lines[0].toLowerCase();
+      const hasHeader = firstLine.includes('zaman') || firstLine.includes('tarih') || firstLine.includes('sporcu') || firstLine.includes('isim') || firstLine.includes('veli') || firstLine.includes('name');
+      const startIdx = hasHeader ? 1 : 0;
+
+      for (let i = startIdx; i < lines.length; i++) {
+        const line = lines[i];
+        let parts = [];
+        if (line.includes(';')) {
+          parts = line.split(';').map(p => p.replace(/^["']|["']$/g, '').trim());
+        } else {
+          parts = line.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(p => p.replace(/^["']|["']$/g, '').trim());
+        }
+
+        if (parts.length < 2) continue;
+
+        let dateVal = new Date().toLocaleDateString('tr-TR');
+        let athleteName = '';
+        let ageVal = 'Gelişim Grubu';
+        let branchVal = 'Genel';
+        let parentVal = '';
+        let phoneVal = '';
+        let emailVal = '';
+        let notesVal = 'Google Forms (CSV) ile içe aktarıldı.';
+
+        if (parts.length >= 5) {
+          if (parts[0].includes('/') || parts[0].includes('-') || parts[0].includes('.')) {
+            dateVal = parts[0].split(' ')[0];
+            athleteName = parts[1] || '';
+            if (/^\d+$/.test(parts[2]) || parts[2].includes('Yaş')) {
+              ageVal = parts[2] + (parts[2].includes('Yaş') ? '' : ' Yaş');
+              branchVal = parts[3] || 'Genel';
+              parentVal = parts[4] || '';
+              phoneVal = parts[5] || '';
+              emailVal = parts[6] || '';
+              notesVal = parts[7] || notesVal;
+            } else {
+              branchVal = parts[2] || 'Genel';
+              parentVal = parts[3] || '';
+              phoneVal = parts[4] || '';
+              emailVal = parts[5] || '';
+              notesVal = parts[6] || notesVal;
+            }
+          } else {
+            athleteName = parts[0];
+            parentVal = parts[1] || '';
+            phoneVal = parts[2] || '';
+            branchVal = parts[3] || 'Genel';
+            emailVal = parts[4] || '';
+            notesVal = parts[5] || notesVal;
+          }
+        } else {
+          athleteName = parts[0] || 'Aday Sporcu';
+          parentVal = parts[1] || 'Veli';
+          phoneVal = parts[2] || '';
+          branchVal = parts[3] || 'Genel';
+        }
+
+        if (!athleteName) continue;
+
+        const exists = leads.some(l => l.name.toLowerCase() === athleteName.toLowerCase() && (phoneVal && l.phone === phoneVal));
+        if (!exists) {
+          const newLead = {
+            id: 'LEAD-' + Date.now() + '-' + addedCount,
+            name: athleteName,
+            age: ageVal,
+            branch: branchVal,
+            parent: parentVal || 'Sayın Velimiz',
+            phone: phoneVal || '-',
+            email: emailVal || '',
+            notes: notesVal,
+            source: 'Google Forms (CSV)',
+            date: dateVal,
+            status: 'Yeni Başvuru'
+          };
+          leads.unshift(newLead);
+          addedCount++;
+        }
+      }
+
+      if (addedCount > 0) {
+        try {
+          localStorage.setItem('mulk_leads', JSON.stringify(leads));
+        } catch(e) {}
+        renderCrmTable();
+        alert(`✓ Başarılı: Google Forms verilerinden ${addedCount} yeni aday sporcu/veli CRM hattına aktarıldı!`);
+        closeModal('googleFormsSyncModal');
+      } else {
+        alert('Seçilen CSV dosyasında yeni kayıt bulunamadı (Tüm kayıtlar zaten sistemde mevcut olabilir).');
+      }
     }
 
     // Adayı Lisanslı Sporcuya Dönüştür (CRM -> Sporcular)
@@ -3207,6 +4228,404 @@ MÜLK Spor Kulübü Yönetimi
     function saveState() {
       localStorage.setItem('mulk_athletes', JSON.stringify(athletes));
       localStorage.setItem('mulk_leads', JSON.stringify(leads));
+      localStorage.setItem('mulk_emails', JSON.stringify(emails));
+    }
+
+    // ================= E-POSTA İSTEMCİSİ & WİDGET KONTROLCÜSÜ =================
+    function saveEmails() {
+      localStorage.setItem('mulk_emails', JSON.stringify(emails));
+      updateBadges();
+    }
+
+    function renderMailbox() {
+      // 1. Sayaçları Güncelle
+      const unreadTotal = emails.filter(m => m.unread && m.folder === 'inbox').length;
+      const unreadInfo = emails.filter(m => m.unread && m.folder === 'inbox' && m.account === 'info@mulksporkulubu.com').length;
+      const unreadGmail = emails.filter(m => m.unread && m.folder === 'inbox' && m.account === 'mulksporkulubu@gmail.com').length;
+
+      const inboxCount = emails.filter(m => m.folder === 'inbox' && (currentMailAccount === 'all' || m.account === currentMailAccount)).length;
+      const starredCount = emails.filter(m => m.starred && (currentMailAccount === 'all' || m.account === currentMailAccount)).length;
+      const sentCount = emails.filter(m => m.folder === 'sent' && (currentMailAccount === 'all' || m.account === currentMailAccount)).length;
+      const trashCount = emails.filter(m => m.folder === 'trash' && (currentMailAccount === 'all' || m.account === currentMailAccount)).length;
+
+      const badgeAll = document.getElementById('badge-all-count');
+      const badgeInfo = document.getElementById('badge-info-count');
+      const badgeGmail = document.getElementById('badge-gmail-count');
+      const fInbox = document.getElementById('folder-inbox-count');
+      const fStarred = document.getElementById('folder-starred-count');
+      const fSent = document.getElementById('folder-sent-count');
+      const fTrash = document.getElementById('folder-trash-count');
+
+      if (badgeAll) badgeAll.innerText = unreadTotal;
+      if (badgeInfo) badgeInfo.innerText = unreadInfo;
+      if (badgeGmail) badgeGmail.innerText = unreadGmail;
+      if (fInbox) fInbox.innerText = inboxCount;
+      if (fStarred) fStarred.innerText = starredCount;
+      if (fSent) fSent.innerText = sentCount;
+      if (fTrash) fTrash.innerText = trashCount;
+
+      // 2. Filtreleme
+      let filtered = emails.filter(m => {
+        if (currentMailAccount !== 'all' && m.account !== currentMailAccount) return false;
+        if (currentMailFolder === 'starred') {
+          if (!m.starred) return false;
+        } else {
+          if (m.folder !== currentMailFolder) return false;
+        }
+        if (mailOnlyUnread && !m.unread) return false;
+        if (mailSearchTerm) {
+          const q = mailSearchTerm.toLowerCase();
+          const match = (m.subject && m.subject.toLowerCase().includes(q)) ||
+                        (m.fromName && m.fromName.toLowerCase().includes(q)) ||
+                        (m.fromEmail && m.fromEmail.toLowerCase().includes(q)) ||
+                        (m.body && m.body.toLowerCase().includes(q));
+          if (!match) return false;
+        }
+        return true;
+      });
+
+      const statusText = document.getElementById('mailListStatusText');
+      if (statusText) {
+        const folderNames = { inbox: 'Gelen Kutusu', starred: 'Yıldızlılar', sent: 'Gönderilenler', trash: 'Çöp Kutusu' };
+        statusText.innerText = `${folderNames[currentMailFolder] || 'Gelen Kutusu'} (${filtered.length} İleti)`;
+      }
+
+      // 3. E-posta Listesini Çiz
+      const container = document.getElementById('mailItemsContainer');
+      if (!container) return;
+
+      if (filtered.length === 0) {
+        container.innerHTML = `
+          <div style="text-align:center;padding:40px 20px;color:var(--muted);font-size:13px;">
+            📭 Bu klasörde görüntülenecek e-posta bulunmuyor.
+          </div>
+        `;
+        renderSelectedEmail(null);
+        return;
+      }
+
+      if (!filtered.find(m => m.id === selectedMailId)) {
+        selectedMailId = filtered[0].id;
+      }
+
+      container.innerHTML = filtered.map(mail => {
+        const isSelected = (mail.id === selectedMailId);
+        const accBadge = mail.account === 'info@mulksporkulubu.com'
+          ? `<span style="font-size:10px;background:#fef2f2;color:#991b1b;padding:2px 6px;border-radius:4px;font-weight:700;">🏢 info@</span>`
+          : `<span style="font-size:10px;background:#eff6ff;color:#1d4ed8;padding:2px 6px;border-radius:4px;font-weight:700;">🔴 gmail</span>`;
+
+        return `
+          <div class="mail-item ${mail.unread ? 'unread' : ''} ${isSelected ? 'active' : ''}" onclick="viewEmail('${mail.id}')">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+              <div style="display:flex;align-items:center;gap:6px;">
+                ${accBadge}
+                <span style="font-size:12.5px;color:#0f172a;font-weight:${mail.unread ? '800' : '600'};">${mail.fromName || mail.fromEmail}</span>
+              </div>
+              <span style="font-size:11px;color:#64748b;">${mail.date}</span>
+            </div>
+            <div style="font-size:13px;color:#1e293b;font-weight:${mail.unread ? '700' : '500'};margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+              ${mail.unread ? '🔵 ' : ''}${mail.subject}
+            </div>
+            <div style="font-size:11.5px;color:#64748b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.4;">
+              ${mail.body.substring(0, 80).replace(/\n/g, ' ')}...
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      const currentMail = filtered.find(m => m.id === selectedMailId);
+      renderSelectedEmail(currentMail);
+    }
+
+    function renderSelectedEmail(mail) {
+      const viewContainer = document.getElementById('mailViewContainer');
+      if (!viewContainer) return;
+
+      if (!mail) {
+        viewContainer.innerHTML = `
+          <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;color:var(--muted);text-align:center;padding:40px;">
+            <div style="font-size:48px;margin-bottom:12px;">✉️</div>
+            <h4 style="color:#334155;margin:0 0 6px;">İleti Seçilmedi</h4>
+            <p style="font-size:13px;margin:0;">Okumak istediğiniz e-postayı sol listeden seçiniz.</p>
+          </div>
+        `;
+        return;
+      }
+
+      const accBadge = mail.account === 'info@mulksporkulubu.com'
+        ? `<span style="font-size:11px;background:#fef2f2;color:#991b1b;padding:3px 8px;border-radius:4px;font-weight:700;border:1px solid #fecaca;">🏢 Kurumsal Hesap: info@mulksporkulubu.com</span>`
+        : `<span style="font-size:11px;background:#eff6ff;color:#1d4ed8;padding:3px 8px;border-radius:4px;font-weight:700;border:1px solid #bfdbfe;">🔴 Google Hesabı: mulksporkulubu@gmail.com</span>`;
+
+      const matchedAthlete = athletes.find(a => (a.parent && mail.fromName.toLowerCase().includes(a.parent.toLowerCase())) || (a.email && a.email.toLowerCase() === mail.fromEmail.toLowerCase()));
+
+      viewContainer.innerHTML = `
+        <div class="mail-view-head">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;">
+            <div>
+              <div style="margin-bottom:6px;">${accBadge}</div>
+              <h3 style="font-size:17px;font-weight:800;color:#0f172a;margin:0;line-height:1.3;">${mail.subject}</h3>
+            </div>
+            <div style="display:flex;gap:6px;">
+              <button class="btn btn-sm btn-secondary" onclick="toggleStarEmail('${mail.id}')" title="Yıldızla">
+                ${mail.starred ? '⭐ Yıldızlı' : '☆ Yıldızla'}
+              </button>
+              <button class="btn btn-sm btn-secondary" onclick="deleteEmail('${mail.id}')" style="color:#ef4444;" title="Sil">
+                🗑️ Sil
+              </button>
+            </div>
+          </div>
+
+          <div style="display:flex;align-items:center;gap:12px;padding-top:10px;border-top:1px solid #f1f5f9;">
+            <div style="width:38px;height:38px;border-radius:50%;background:#e2e8f0;color:#334155;font-weight:800;display:flex;align-items:center;justify-content:center;font-size:14px;">
+              ${(mail.fromName || 'M').charAt(0).toUpperCase()}
+            </div>
+            <div style="flex:1;">
+              <div style="font-size:13.5px;font-weight:700;color:#0f172a;">${mail.fromName} <span style="font-size:12px;font-weight:normal;color:#64748b;">&lt;${mail.fromEmail}&gt;</span></div>
+              <div style="font-size:11.5px;color:#64748b;">Kime: <strong>${mail.to}</strong> · ${mail.date}</div>
+            </div>
+          </div>
+
+          ${matchedAthlete ? `
+            <div style="margin-top:12px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:8px 12px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+              <span style="font-size:12px;color:#166534;font-weight:600;">
+                ✓ Kayıtlı Velimiz: <strong>${matchedAthlete.parent}</strong> (Sporcu: <strong>${matchedAthlete.name}</strong> - ${matchedAthlete.branch})
+              </span>
+              <button class="btn btn-sm btn-secondary" style="font-size:11px;padding:2px 8px;background:#ffffff;border-color:#86efac;color:#15803d;" onclick="openWhatsAppForParent('${matchedAthlete.phone}')">
+                💬 WhatsApp ile Yanıtla
+              </button>
+            </div>
+          ` : ''}
+        </div>
+
+        <div class="mail-view-body">
+          <div style="white-space:pre-wrap;font-family:inherit;">${mail.body}</div>
+        </div>
+
+        <div style="padding:14px 20px;border-top:1px solid var(--line);background:#f8fafc;display:flex;justify-content:space-between;align-items:center;">
+          <span style="font-size:12px;color:var(--muted);">Gelen kutusu şifreli yerel oturumda korunmaktadır.</span>
+          <div style="display:flex;gap:8px;">
+            <button class="btn btn-secondary btn-sm" onclick="openComposeModal('${mail.id}')">
+              <span>↩️</span> Yanıtla
+            </button>
+            <button class="btn btn-primary btn-sm" onclick="openComposeModal('${mail.id}')">
+              <span>✏️</span> Yeni İleti Olarak İlet
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    function viewEmail(id) {
+      selectedMailId = id;
+      const mail = emails.find(m => m.id === id);
+      if (mail && mail.unread) {
+        mail.unread = false;
+        saveEmails();
+      }
+      renderMailbox();
+    }
+
+    function toggleStarEmail(id) {
+      const mail = emails.find(m => m.id === id);
+      if (mail) {
+        mail.starred = !mail.starred;
+        saveEmails();
+        renderMailbox();
+      }
+    }
+
+    function deleteEmail(id) {
+      const idx = emails.findIndex(m => m.id === id);
+      if (idx !== -1) {
+        if (emails[idx].folder === 'trash') {
+          if (confirm('Bu e-posta kalıcı olarak silinsin mi?')) {
+            emails.splice(idx, 1);
+          }
+        } else {
+          emails[idx].folder = 'trash';
+        }
+        saveEmails();
+        renderMailbox();
+      }
+    }
+
+    function selectMailAccount(acc) {
+      currentMailAccount = acc;
+      document.querySelectorAll('.mail-account-pill').forEach(p => p.classList.remove('active'));
+      if (acc === 'all') document.getElementById('pill-acc-all')?.classList.add('active');
+      if (acc === 'info@mulksporkulubu.com') document.getElementById('pill-acc-info')?.classList.add('active');
+      if (acc === 'mulksporkulubu@gmail.com') document.getElementById('pill-acc-gmail')?.classList.add('active');
+      renderMailbox();
+    }
+
+    function selectMailFolder(folder) {
+      currentMailFolder = folder;
+      document.querySelectorAll('.mail-folder-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById('folder-' + folder)?.classList.add('active');
+      renderMailbox();
+    }
+
+    function filterEmails() {
+      mailSearchTerm = document.getElementById('mailSearchInput').value.trim();
+      renderMailbox();
+    }
+
+    function toggleMailFilter(type) {
+      if (type === 'unread') {
+        mailOnlyUnread = !mailOnlyUnread;
+        const btn = document.getElementById('btnFilterUnread');
+        if (btn) {
+          btn.style.background = mailOnlyUnread ? '#dbeafe' : '';
+          btn.style.color = mailOnlyUnread ? '#1e40af' : '';
+          btn.style.borderColor = mailOnlyUnread ? '#bfdbfe' : '';
+        }
+        renderMailbox();
+      }
+    }
+
+    function markAllEmailsAsRead() {
+      emails.forEach(m => {
+        if (m.folder === 'inbox' && (currentMailAccount === 'all' || m.account === currentMailAccount)) {
+          m.unread = false;
+        }
+      });
+      saveEmails();
+      renderMailbox();
+    }
+
+    function refreshMailbox() {
+      renderMailbox();
+      renderDashMailWidget();
+      alert('✓ E-posta kutuları kontrol edildi (info@mulksporkulubu.com & mulksporkulubu@gmail.com senkronize).');
+    }
+
+    function openComposeModal(replyToId = null) {
+      const select = document.getElementById('composeQuickParentSelect');
+      if (select) {
+        let opts = '<option value="">-- Kayıtlı Veliyi Seçin --</option>';
+        athletes.forEach(a => {
+          opts += `<option value="${a.email || ''}" data-name="${a.parent}" data-ath="${a.name}" data-code="${generateBankRefCode(a.name)}">${a.parent} (Sporcu: ${a.name} - ${a.branch})</option>`;
+        });
+        select.innerHTML = opts;
+      }
+
+      if (replyToId) {
+        const mail = emails.find(m => m.id === replyToId);
+        if (mail) {
+          document.getElementById('composeFromAccount').value = mail.account;
+          document.getElementById('composeToEmail').value = mail.fromEmail;
+          document.getElementById('composeSubject').value = mail.subject.startsWith('Ynt:') ? mail.subject : 'Ynt: ' + mail.subject;
+          document.getElementById('composeBody').value = `\n\n--- ${mail.date} tarihinde ${mail.fromName} yazdı ---\n${mail.body}`;
+        }
+      } else {
+        document.getElementById('composeToEmail').value = '';
+        document.getElementById('composeSubject').value = '';
+        document.getElementById('composeBody').value = '';
+      }
+
+      openModal('composeMailModal');
+    }
+
+    function applyQuickParentToCompose(emailVal) {
+      const select = document.getElementById('composeQuickParentSelect');
+      const selectedOpt = select.options[select.selectedIndex];
+      if (!selectedOpt || !selectedOpt.value) return;
+
+      const parentName = selectedOpt.getAttribute('data-name');
+      const athName = selectedOpt.getAttribute('data-ath');
+      const refCode = selectedOpt.getAttribute('data-code');
+
+      document.getElementById('composeToEmail').value = selectedOpt.value || (parentName.toLowerCase().replace(/ /g, '.') + '@gmail.com');
+      document.getElementById('composeBody').value = `Sayın Velimiz ${parentName},\n\nSporcumuz ${athName} (Banka Kodunuz: ${refCode}) ile ilgili bilgilendirmemiz aşağıdadır:\n\n...\n\nSaygılarımızla,\nMÜLK Spor Kulübü Yönetimi`;
+    }
+
+    function applyComposeTemplate(tplType) {
+      if (tplType === 'aidat') {
+        document.getElementById('composeSubject').value = 'MÜLK Spor Kulübü - Aylık Aidat Hatırlatması';
+        document.getElementById('composeBody').value = `Sayın Velimiz,\n\nSporcumuz için bu ayki aidat ödeme gününe 3 gün kalmıştır.\n\nÖdemenizi banka yoluyla yaparken lütfen açıklama kısmına sporcu kodunu yazınız.\nTutar: 1.500 TL\nKulüp IBAN: TR12 0006 2000 0001 2345 6789 01 (Ziraat Bankası)\nAlıcı: MÜLK Spor Kulübü Derneği\n\nSaygılarımızla,\nMÜLK Spor Kulübü Yönetimi`;
+      } else if (tplType === 'deneme') {
+        document.getElementById('composeSubject').value = 'MÜLK Spor Kulübü - Ücretsiz Deneme Antrenmanı Daveti';
+        document.getElementById('composeBody').value = `Sayın Velimiz,\n\nKulübümüze göstermiş olduğunuz ilgi için teşekkür ederiz. Çocuğunuz için planlanan 'İlk Ders Ücretsiz Deneme' antrenmanımıza sizleri davet etmekten mutluluk duyarız.\n\n📍 Tesis: Gazi Üniversitesi Kapalı Spor Salonu (Beşevler / Ankara)\n📅 Tarih & Saat: Bu Cumartesi 10:30\n\nKatılım durumunuzu teyit etmenizi rica ederiz.\n\nSaygılarımızla,\nMÜLK Spor Kulübü Yönetimi\nTel: 0545 410 40 40`;
+      } else if (tplType === 'makbuz') {
+        document.getElementById('composeSubject').value = 'MÜLK Spor Kulübü - Resmî Aidat Tahsilat Makbuzu';
+        document.getElementById('composeBody').value = `Sayın Velimiz,\n\nSporcumuz için 1.500 TL tutarındaki kulüp aidatınız banka hesabımıza ulaşmış ve tahsilat onaylanmıştır. Resmî dijital makbuzunuz kulüp bilgi sistemimizde arşivlenmiştir.\n\nSaygılarımızla,\nMÜLK Spor Kulübü Yönetimi`;
+      } else if (tplType === 'duyuru') {
+        document.getElementById('composeSubject').value = 'MÜLK Spor Kulübü - Önemli Kulüp Duyurusu';
+        document.getElementById('composeBody').value = `Değerli Sporcularımız ve Saygıdeğer Velilerimiz,\n\nÖnümüzdeki hafta sonu yapılacak olan antrenman saatleri ve müsabaka takvimi hakkında bilgilendirmemiz aşağıdadır:\n\n...\n\nSaygılarımızla,\nMÜLK Spor Kulübü Yönetimi`;
+      }
+    }
+
+    function handleSendMail(e) {
+      e.preventDefault();
+      const fromAcc = document.getElementById('composeFromAccount').value;
+      const toEmail = document.getElementById('composeToEmail').value.trim();
+      const subject = document.getElementById('composeSubject').value.trim();
+      const body = document.getElementById('composeBody').value.trim();
+
+      const newMail = {
+        id: 'MAIL-' + Date.now(),
+        account: fromAcc,
+        folder: 'sent',
+        fromName: 'MÜLK Spor Kulübü',
+        fromEmail: fromAcc,
+        to: toEmail,
+        subject: subject,
+        date: 'Bugün ' + new Date().toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' }),
+        unread: false,
+        starred: false,
+        athleteName: '',
+        body: body
+      };
+
+      emails.unshift(newMail);
+      saveEmails();
+      closeModal('composeMailModal');
+      renderMailbox();
+      renderDashMailWidget();
+      alert(`✓ E-postanız başarıyla gönderildi!\n\nGönderen: ${fromAcc}\nAlıcı: ${toEmail}\nKonu: ${subject}`);
+    }
+
+    function renderDashMailWidget() {
+      const widgetContainer = document.getElementById('dashMailWidgetList');
+      if (!widgetContainer) return;
+
+      const inboxMails = emails.filter(m => m.folder === 'inbox').slice(0, 3);
+      if (inboxMails.length === 0) {
+        widgetContainer.innerHTML = `<div style="text-align:center;padding:12px;color:var(--muted);font-size:12.5px;">Gelen kutunuzda yeni ileti bulunmuyor.</div>`;
+        return;
+      }
+
+      widgetContainer.innerHTML = `
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          ${inboxMails.map(m => {
+            const accBadge = m.account === 'info@mulksporkulubu.com'
+              ? `<span style="font-size:10px;background:#fef2f2;color:#991b1b;padding:2px 6px;border-radius:4px;font-weight:700;">🏢 info@</span>`
+              : `<span style="font-size:10px;background:#eff6ff;color:#1d4ed8;padding:2px 6px;border-radius:4px;font-weight:700;">🔴 gmail</span>`;
+
+            return `
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:#f8fafc;border:1px solid #f1f5f9;border-radius:8px;cursor:pointer;transition:all 0.15s;" onmouseover="this.style.background='#eff6ff'" onmouseout="this.style.background='#f8fafc'" onclick="openMailFromWidget('${m.id}')">
+                <div style="display:flex;align-items:center;gap:10px;flex:1;overflow:hidden;">
+                  ${accBadge}
+                  <div style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
+                    <strong style="font-size:12.5px;color:#0f172a;">${m.fromName}</strong>
+                    <span style="font-size:12px;color:#64748b;margin-left:6px;">${m.subject}</span>
+                  </div>
+                </div>
+                <div style="display:flex;align-items:center;gap:10px;">
+                  <span style="font-size:11px;color:#94a3b8;white-space:nowrap;">${m.date}</span>
+                  ${m.unread ? '<span style="width:8px;height:8px;border-radius:50%;background:#2563eb;display:inline-block;"></span>' : ''}
+                  <button class="btn btn-secondary btn-sm" style="font-size:11px;padding:2px 8px;" onclick="event.stopPropagation();openMailFromWidget('${m.id}')">Aç ↗</button>
+                </div>
+              </div>
+            `;
+          }).join('')}
+        </div>
+      `;
+    }
+
+    function openMailFromWidget(mailId) {
+      switchTab('mailbox');
+      viewEmail(mailId);
     }
 
     function filterAthletesTable() {
@@ -3315,6 +4734,26 @@ MÜLK Spor Kulübü Yönetimi
         document.getElementById('loginScreen').style.display = 'none';
         applyRolePermissions(role);
         renderTables();
+
+        // Sayfa yenilendiğinde son bulunulan aktif sekmeyi geri yükle
+        let targetTab = 'dashboard';
+        const hashTab = (window.location.hash || '').replace('#', '').trim();
+        const storedTab = localStorage.getItem('mulk_active_tab');
+
+        if (hashTab && document.getElementById('tab-' + hashTab)) {
+          targetTab = hashTab;
+        } else if (storedTab && document.getElementById('tab-' + storedTab)) {
+          targetTab = storedTab;
+        }
+
+        // Antrenör rol kısıtlaması
+        if (role === 'coach') {
+          if (targetTab !== 'attendance' && targetTab !== 'athletes') {
+            targetTab = 'attendance';
+          }
+        }
+
+        switchTab(targetTab);
       } else {
         document.getElementById('loginScreen').style.display = 'flex';
       }
@@ -3377,6 +4816,19 @@ MÜLK Spor Kulübü Yönetimi
         errorDiv.style.display = 'none';
         applyRolePermissions(authenticatedRole);
         renderTables();
+
+        let targetTab = 'dashboard';
+        const hashTab = (window.location.hash || '').replace('#', '').trim();
+        const storedTab = localStorage.getItem('mulk_active_tab');
+        if (hashTab && document.getElementById('tab-' + hashTab)) {
+          targetTab = hashTab;
+        } else if (storedTab && document.getElementById('tab-' + storedTab)) {
+          targetTab = storedTab;
+        }
+        if (authenticatedRole === 'coach') {
+          targetTab = 'attendance';
+        }
+        switchTab(targetTab);
       } else {
         errorDiv.style.display = 'block';
         errorDiv.innerHTML = '✕ Hatalı kullanıcı adı veya parola!<br><small style="color:#64748b;font-weight:normal;">Yönetici için: <strong>info</strong> / Parola: <strong>Mulk@2026!Ankara,Gazi</strong></small>';
@@ -3400,7 +4852,7 @@ MÜLK Spor Kulübü Yönetimi
         // Antrenör finansal verileri, CRM hattını, okulları ve ayarları GÖREMEZ (KVKK Madde 12)
         navBtns.forEach(btn => {
           const onclickAttr = btn.getAttribute('onclick') || '';
-          if (onclickAttr.includes('dashboard') || onclickAttr.includes('crm') || onclickAttr.includes('schools') || onclickAttr.includes('finance') || onclickAttr.includes('kvkk') || onclickAttr.includes('settings')) {
+          if (onclickAttr.includes('dashboard') || onclickAttr.includes('crm') || onclickAttr.includes('mailbox') || onclickAttr.includes('schools') || onclickAttr.includes('finance') || onclickAttr.includes('kvkk') || onclickAttr.includes('settings')) {
             btn.style.display = 'none';
           } else {
             btn.style.display = 'flex';
@@ -3449,6 +4901,10 @@ MÜLK Spor Kulübü Yönetimi
         localStorage.removeItem('mulk_auth_remember');
         localStorage.removeItem('mulk_role_remember');
         localStorage.removeItem('mulk_coach_key_remember');
+        localStorage.removeItem('mulk_active_tab');
+        if (window.history && window.history.replaceState) {
+          window.history.replaceState(null, '', window.location.pathname);
+        }
         location.reload();
       }
     }
