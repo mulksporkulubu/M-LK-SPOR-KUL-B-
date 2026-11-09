@@ -347,7 +347,7 @@
               <input type="date" id="regBirthDate" required>
             </div>
 
-            <div class="form-group">
+            <div class="form-group full">
               <label for="regBranch">İlgilendiği Branş <span class="req">*</span></label>
               <select id="regBranch" required>
                 <option value="">Seçiniz</option>
@@ -358,16 +358,6 @@
                 <option value="Okçuluk">🏹 Okçuluk</option>
                 <option value="Kros">🏃 Kros & Atletizm</option>
                 <option value="Kararsızım">❓ Kararsızım (Antrenör Yönlendirsin)</option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label for="regSchool">Tercih Edilen Spor Salonu / Kampüs</label>
-              <select id="regSchool">
-                <option value="Gazi Kampüsü Spor Salonu">Gazi Kampüsü Spor Salonu (Beşevler)</option>
-                <option value="Çankaya Altyapı Tesisleri">Çankaya Altyapı Tesisleri</option>
-                <option value="Yenimahalle Spor Tesisleri">Yenimahalle Spor Tesisleri</option>
-                <option value="Fark etmez">Fark etmez (En yakın salon)</option>
               </select>
             </div>
           </div>
@@ -404,8 +394,8 @@
             </div>
 
             <div class="form-group full">
-              <label for="regNotes">İlave Notlar / Spor Geçmişi / Varsa Sağlık Durumu</label>
-              <textarea id="regNotes" rows="2" placeholder="Daha önce spor yaptı mı, özel bir sağlık durumu var mı? (İsteğe bağlı)"></textarea>
+              <label for="regNotes">İlave Notlar / Spor Geçmişi / Sağlık Bilgisi</label>
+              <textarea id="regNotes" rows="2" placeholder="Daha önce spor yaptı mı, özel bir sağlık durumu veya belirtmek istediğiniz detay var mı?"></textarea>
             </div>
           </div>
 
@@ -468,7 +458,6 @@
       const athleteName = document.getElementById('regAthleteName').value.trim();
       const birthDate = document.getElementById('regBirthDate').value;
       const branch = document.getElementById('regBranch').value;
-      const school = document.getElementById('regSchool').value;
       const parentName = document.getElementById('regParentName').value.trim();
       const relation = document.getElementById('regParentRelation').value;
       const phone = document.getElementById('regPhone').value.trim();
@@ -498,7 +487,6 @@
         age: ageStr,
         birthDate: birthDate,
         branch: branch || 'Genel',
-        school: school || 'Gazi Kampüsü',
         parent: parentName + (relation ? ` (${relation})` : ''),
         phone: phone,
         email: email || '',
@@ -537,14 +525,13 @@
 
     function downloadCurrentSubmissionCSV() {
       if (!lastSubmission) return;
-      const headers = ['Basvuru_ID', 'Sporcu_Adi', 'Yas', 'Dogum_Tarihi', 'Brans', 'Kampus', 'Veli_Adi', 'Telefon', 'Eposta', 'Notlar', 'Kaynak', 'Tarih', 'Durum'];
+      const headers = ['Basvuru_ID', 'Sporcu_Adi', 'Yas', 'Dogum_Tarihi', 'Brans', 'Veli_Adi', 'Telefon', 'Eposta', 'Notlar', 'Kaynak', 'Tarih', 'Durum'];
       const row = [
         lastSubmission.id,
         `"${lastSubmission.name}"`,
         `"${lastSubmission.age}"`,
         `"${lastSubmission.birthDate || ''}"`,
         `"${lastSubmission.branch}"`,
-        `"${lastSubmission.school}"`,
         `"${lastSubmission.parent}"`,
         `"${lastSubmission.phone}"`,
         `"${lastSubmission.email}"`,
