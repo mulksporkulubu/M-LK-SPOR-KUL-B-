@@ -327,7 +327,12 @@ function readSheetObjects(name, headers) {
     if (!row[0] && row.join('') === '') continue;
     var obj = {};
     for (var c = 0; c < cols.length; c++) {
-      obj[cols[c]] = row[c] === undefined || row[c] === null ? '' : String(row[c]);
+      var cell = row[c];
+      if (cell instanceof Date) {
+        obj[cols[c]] = Utilities.formatDate(cell, 'Europe/Istanbul', cols[c] === 'updatedAt' ? "yyyy-MM-dd'T'HH:mm:ss" : 'yyyy-MM-dd');
+      } else {
+        obj[cols[c]] = (cell === undefined || cell === null) ? '' : String(cell);
+      }
     }
     list.push(obj);
   }
@@ -346,10 +351,10 @@ function writeSheetObjects(name, headers, items) {
         return headers.map(function(h) {
           var v = item[h];
           if (h === 'updatedAt' && !v) return new Date().toISOString();
-          return (v === undefined || v === null) ? '' : v;
+          return (v === undefined || v === null) ? '' : String(v);
         });
       });
-      sheet.getRange(2, 1, rows.length, headers.length).setValues(rows);
+      sheet.getRange(2, 1, rows.length, headers.length).setNumberFormat('@').setValues(rows);
     }
   } finally {
     lock.releaseLock();
@@ -395,9 +400,10 @@ function handlePublicAddLead(lead) {
     // En yeni kayıt 2. satıra eklenir
     if (sheet.getLastRow() <= 1 && sheet.getMaxRows() < 2) {
       sheet.appendRow(row);
+      sheet.getRange(sheet.getLastRow(), 1, 1, headers.length).setNumberFormat('@');
     } else {
       sheet.insertRowBefore(2);
-      sheet.getRange(2, 1, 1, headers.length).setValues([row]);
+      sheet.getRange(2, 1, 1, headers.length).setNumberFormat('@').setValues([row]);
     }
   } finally {
     lock.releaseLock();
@@ -454,7 +460,7 @@ function handleSaveAttendance(session, payload) {
       var rows = merged.map(function(m) {
         return headers.map(function(h) { return m[h] || ''; });
       });
-      sheet.getRange(2, 1, rows.length, headers.length).setValues(rows);
+      sheet.getRange(2, 1, rows.length, headers.length).setNumberFormat('@').setValues(rows);
     }
 
     var visibleAtt = merged;
@@ -485,10 +491,10 @@ function handleSyncAll(session, payload) {
     var filteredAthletes = athletes.filter(function(a) {
       return (a.branch || '').toLowerCase().indexOf(branchLower) !== -1;
     }).map(function(a) {
-      // KVKK: Antrenöre yalnızca sporcu adı, yaş, branş, okul ve acil veli/telefon görünür; aidat/ücret bilgisi gizlenir
+      // KVKK: Antrenöre yalnızca sporcu adı, yaş, branş, okul, acil veli/telefon ve sağlık/özel durum notu görünür; aidat/ücret bilgisi gizlenir
       return {
         id: a.id, name: a.name, age: a.age, school: a.school, branch: a.branch,
-        parent: a.parent, phone: a.phone, status: 'Gizli'
+        parent: a.parent, phone: a.phone, notes: a.notes || '', status: 'Gizli'
       };
     });
     var filteredAtt = attendance.filter(function(att) {

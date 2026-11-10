@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Manrope:wght@400;500;600;700;800&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
-  <script src="cloud_config.js"></script>
+  <script src="cloud_config.js?v=2.2"></script>
 
   <style>
     :root {
@@ -386,7 +386,7 @@
 
             <div class="form-group">
               <label for="regPhone">İletişim / WhatsApp Telefon Numarası <span class="req">*</span></label>
-              <input type="tel" id="regPhone" required placeholder="0545 410 40 40">
+              <input type="tel" id="regPhone" required placeholder="+90 55X XXX XX XX" inputmode="tel" maxlength="17">
             </div>
 
             <div class="form-group">
@@ -396,7 +396,7 @@
 
             <div class="form-group full">
               <label for="regNotes">İlave Notlar / Spor Geçmişi / Sağlık Bilgisi</label>
-              <textarea id="regNotes" rows="2" placeholder="Daha önce spor yaptı mı, özel bir sağlık durumu veya belirtmek istediğiniz detay var mı?"></textarea>
+              <textarea id="regNotes" rows="2" placeholder="Daha önce spor yaptı mı, özel bir sağlık durumu (astım, alerji, düzenli ilaç vb.) veya antrenörün bilmesi gereken detay var mı?"></textarea>
             </div>
           </div>
 
@@ -413,9 +413,12 @@
           </button>
         </form>
 
-        <div class="alt-pill">
-          Alternatif olarak Google Forms kullanmak isterseniz: 
-          <a href="https://forms.gle/mulksporkulubu" target="_blank" id="googleFormsAltLink">Google Forms Kayıt Sayfası ↗</a>
+        <div class="alt-pill" id="altRegistrationBox">
+          Formu doldurmak yerine WhatsApp'tan hızlı kayıt için:
+          <a href="https://wa.me/905454104040?text=Merhaba%20M%C3%9CLK%20Spor%20Kul%C3%BCb%C3%BC%2C%20%C3%BCcretsiz%20deneme%20dersi%20i%C3%A7in%20%C3%B6n%20kay%C4%B1t%20yapt%C4%B1rmak%20istiyorum." target="_blank" id="altWaQuickLink">💬 WhatsApp ile Ön Kayıt Oluştur ↗</a>
+          <span id="googleFormsAltWrap" style="display:none;">
+            · <a href="#" target="_blank" id="googleFormsAltLink">Google Forms Sayfası ↗</a>
+          </span>
         </div>
       </div>
 
@@ -462,13 +465,20 @@
       const branch = document.getElementById('regBranch').value;
       const parentName = document.getElementById('regParentName').value.trim();
       const relation = document.getElementById('regParentRelation').value;
-      const phone = document.getElementById('regPhone').value.trim();
+      const rawPhone = document.getElementById('regPhone').value.trim();
+      const phoneDigits = (typeof window.normalizeTrPhoneDigits === 'function') ? window.normalizeTrPhoneDigits(rawPhone) : rawPhone.replace(/\D/g, '');
+      const phone = (typeof window.formatTrPhoneValue === 'function') ? window.formatTrPhoneValue(rawPhone, false) : rawPhone;
       const email = document.getElementById('regEmail').value.trim();
       const notes = document.getElementById('regNotes').value.trim();
       const kvkk = document.getElementById('regKvkkConsent').checked;
 
       if (!athleteName || !parentName || !phone) {
         alert('Lütfen zorunlu alanları doldurunuz.');
+        return;
+      }
+      if (phoneDigits.length < 10) {
+        alert('Lütfen geçerli bir cep telefonu numarası giriniz (+90 5XX XXX XX XX).');
+        document.getElementById('regPhone').focus();
         return;
       }
 
@@ -497,7 +507,7 @@
         parent: parentName + (relation ? ` (${relation})` : ''),
         phone: phone,
         email: email || '',
-        notes: notes || 'Web QR Kayıt Formu üzerinden başvuru yapıldı.',
+        notes: notes || '',
         source: 'Web QR Kayıt Formu',
         date: new Date().toLocaleDateString('tr-TR'),
         status: 'Yeni'
@@ -566,6 +576,26 @@
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
     }
+
+    if (typeof window.attachTrPhoneMask === 'function') {
+      window.attachTrPhoneMask('#regPhone');
+    }
+
+    (function initAltGoogleFormLink() {
+      try {
+        const saved = (localStorage.getItem('mulk_google_form_url') || '').trim();
+        const cfgUrl = (window.MULK_CLOUD_CONFIG && window.MULK_CLOUD_CONFIG.googleFormUrl ? window.MULK_CLOUD_CONFIG.googleFormUrl : '').trim();
+        const gfUrl = saved || cfgUrl;
+        if (gfUrl && gfUrl.indexOf('https://') === 0 && gfUrl.indexOf('mulksporkulubu') === -1) {
+          const wrap = document.getElementById('googleFormsAltWrap');
+          const link = document.getElementById('googleFormsAltLink');
+          if (wrap && link) {
+            link.href = gfUrl;
+            wrap.style.display = 'inline';
+          }
+        }
+      } catch (e) {}
+    })();
   </script>
 </body>
 </html>

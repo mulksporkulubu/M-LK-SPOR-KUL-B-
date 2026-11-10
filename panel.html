@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-  <script src="cloud_config.js?v=2.1"></script>
+  <script src="cloud_config.js?v=2.2"></script>
 
   <style>
     :root {
@@ -1533,6 +1533,7 @@
                 <th>Aktif Branş</th>
                 <th>Veli Ad Soyad</th>
                 <th>Telefon</th>
+                <th>Sağlık / Özel Not</th>
                 <th class="coach-hide-col">Aidat Durumu</th>
                 <th class="coach-hide-col">Hızlı WhatsApp</th>
                 <th class="coach-hide-col">İşlem</th>
@@ -2075,7 +2076,7 @@
           </div>
           <div class="form-group">
             <label>Veli Telefonu (WhatsApp) *</label>
-            <input type="tel" id="crmLeadPhone" required placeholder="05XX XXX XX XX">
+            <input type="tel" id="crmLeadPhone" required placeholder="+90 55X XXX XX XX" inputmode="tel" maxlength="17">
           </div>
         </div>
 
@@ -2391,9 +2392,9 @@ MÜLK Spor Kulübü Ailesi</div>
         <strong style="color:#1d4ed8;font-size:13px;display:block;margin-bottom:4px;">1. Kulüp Google Forms Kayıt Linki:</strong>
         <span style="font-size:12px;color:#475569;display:block;margin-bottom:8px;">Velilere veya sosyal medyada paylaşabileceğiniz resmî form bağlantınız:</span>
         <div style="display:flex;gap:8px;">
-          <input type="text" id="gFormUrlInput" value="https://forms.gle/mulksporkulubu-kayit" style="font-size:12.5px;padding:8px 12px;background:white;color:#1e293b;border:1px solid #cbd5e1;border-radius:6px;flex:1;">
+          <input type="text" id="gFormUrlInput" value="" placeholder="https://docs.google.com/forms/d/e/.../viewform (Kendi Google Form linkiniz)" style="font-size:12.5px;padding:8px 12px;background:white;color:#1e293b;border:1px solid #cbd5e1;border-radius:6px;flex:1;">
           <button class="btn btn-secondary btn-sm" onclick="saveGoogleFormUrl()">💾 Kaydet</button>
-          <a href="#" id="btnOpenGForm" target="_blank" class="btn btn-primary btn-sm" onclick="this.href=document.getElementById('gFormUrlInput').value;">↗ Formu Aç</a>
+          <a href="#" id="btnOpenGForm" target="_blank" class="btn btn-primary btn-sm" onclick="const u=(document.getElementById('gFormUrlInput').value||'').trim();if(!u||u.includes('mulksporkulubu')){event.preventDefault();alert('Henüz kendi Google Forms adresinizi girmediniz. forms.new üzerinden form oluşturup linkini buraya yapıştırabilirsiniz.');return;}this.href=u;">↗ Formu Aç</a>
         </div>
       </div>
 
@@ -2620,7 +2621,7 @@ MÜLK Spor Kulübü Ailesi</div>
           </div>
           <div class="form-group">
             <label>Veli Telefon Numarası *</label>
-            <input type="tel" id="athPhone" required placeholder="05XX XXX XX XX">
+            <input type="tel" id="athPhone" required placeholder="+90 55X XXX XX XX" inputmode="tel" maxlength="17">
           </div>
         </div>
 
@@ -3630,6 +3631,27 @@ MÜLK Spor Kulübü Yönetimi</div>
       if (typeof cloudSyncPush === 'function') cloudSyncPush('schools');
     }
 
+    function escapeHtml(str) {
+      return String(str || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function editAthleteNote(athId) {
+      if (!isPrimaryAdmin()) return;
+      const ath = athletes.find(a => String(a.id) === String(athId));
+      if (!ath) return;
+      const current = (ath.notes || '').trim();
+      const updated = prompt(`🏥 ${ath.name} - Sağlık / Özel Durum Notu:\n(Antrenörler ve yönetim bu bilgiyi görebilir; silmek için boş bırakıp Tamam'a basın)`, current);
+      if (updated === null) return;
+      ath.notes = updated.trim();
+      saveState();
+      renderTables();
+    }
+
     // ================= 4. SPORCULAR TABLOSU =================
     function renderAthletesTable() {
       const athletesTbody = document.getElementById('athletesTbody');
@@ -3650,7 +3672,7 @@ MÜLK Spor Kulübü Yönetimi</div>
           : 'Sağ üstteki "+ Yeni Sporcu Kaydı" butonuyla veya CRM dönüşüm hattından ilk sporcunuzu ekleyebilirsiniz.';
         athletesTbody.innerHTML = `
           <tr>
-            <td colspan="${role === 'coach' ? 6 : 9}" style="text-align:center;padding:36px;color:var(--muted);">
+            <td colspan="${role === 'coach' ? 7 : 10}" style="text-align:center;padding:36px;color:var(--muted);">
               <span style="font-size:26px;display:block;margin-bottom:8px;">🏃</span>
               <strong style="color:#475569;display:block;margin-bottom:4px;">Kayıtlı Sporcu Bulunmuyor</strong>
               <span style="font-size:12px;">${emptySub}</span>
@@ -3663,6 +3685,16 @@ MÜLK Spor Kulübü Yönetimi</div>
       visibleList.forEach(ath => {
         const tr = document.createElement('tr');
         const badgeClass = ath.status === 'Ödendi' ? 'badge-green' : (ath.status === 'Bekliyor' ? 'badge-yellow' : 'badge-red');
+        const rawNote = (ath.notes || '').trim();
+        const safeIdAttr = String(ath.id).replace(/'/g, "\\'");
+
+        const noteBadge = rawNote
+          ? `<span style="display:inline-block;background:#fffbeb;border:1px solid #fde68a;color:#92400e;font-size:11.5px;font-weight:600;padding:4px 8px;border-radius:6px;line-height:1.35;">🏥 ${escapeHtml(rawNote)}</span>`
+          : `<span style="color:#94a3b8;font-size:12px;">Özel durum yok</span>`;
+
+        const adminEditNoteBtn = (role !== 'coach')
+          ? ` <button type="button" onclick="editAthleteNote('${safeIdAttr}')" title="Not Ekle / Düzenle" style="background:none;border:none;cursor:pointer;font-size:13px;padding:2px 4px;vertical-align:middle;">✏️</button>`
+          : '';
 
         let adminOnlyCols = '';
         if (role !== 'coach') {
@@ -3676,12 +3708,13 @@ MÜLK Spor Kulübü Yönetimi</div>
         }
 
         tr.innerHTML = `
-          <td><code>${ath.id}</code></td>
-          <td><strong>${ath.name}</strong></td>
-          <td><small style="color:#2563eb;font-weight:600;">🏫 ${ath.school || 'Belirtilmedi'}</small></td>
-          <td><span class="badge badge-blue">${ath.branch}</span></td>
-          <td>${ath.parent}</td>
-          <td>${ath.phone}</td>
+          <td><code>${escapeHtml(ath.id)}</code></td>
+          <td><strong>${escapeHtml(ath.name)}</strong></td>
+          <td><small style="color:#2563eb;font-weight:600;">🏫 ${escapeHtml(ath.school || 'Belirtilmedi')}</small></td>
+          <td><span class="badge badge-blue">${escapeHtml(ath.branch)}</span></td>
+          <td>${escapeHtml(ath.parent)}</td>
+          <td>${escapeHtml(ath.phone)}</td>
+          <td style="max-width:240px;">${noteBadge}${adminEditNoteBtn}</td>
           ${adminOnlyCols}
         `;
         athletesTbody.appendChild(tr);
@@ -3739,13 +3772,17 @@ MÜLK Spor Kulübü Yönetimi</div>
         const curStatus = existingLog ? existingLog.status : 'Geldi';
         const curNote = existingLog ? (existingLog.note || '') : '';
 
+        const healthAlert = (ath.notes && ath.notes.trim())
+          ? `<div style="margin-top:4px;font-size:11px;color:#92400e;background:#fffbeb;border:1px solid #fde68a;border-radius:5px;padding:2px 7px;display:inline-block;">🏥 ${escapeHtml(ath.notes.trim())}</div>`
+          : '';
+
         const tr = document.createElement('tr');
         tr.dataset.branch = ath.branch || '';
         tr.dataset.athName = ath.name || '';
         tr.innerHTML = `
-          <td><code>${ath.id}</code></td>
-          <td><strong>${ath.name}</strong><br><small style="color:var(--muted);">${ath.age || 'Öğrenci'}</small></td>
-          <td><small style="color:#2563eb;">${ath.school || ''}</small><br><strong>${ath.branch}</strong></td>
+          <td><code>${escapeHtml(ath.id)}</code></td>
+          <td><strong>${escapeHtml(ath.name)}</strong><br><small style="color:var(--muted);">${escapeHtml(ath.age || 'Öğrenci')}</small>${healthAlert ? '<br>' + healthAlert : ''}</td>
+          <td><small style="color:#2563eb;">${escapeHtml(ath.school || '')}</small><br><strong>${escapeHtml(ath.branch)}</strong></td>
           <td>
             <div style="display:flex;gap:6px;">
               <button type="button" class="att-btn present ${curStatus === 'Geldi' ? 'active' : ''}" onclick="setAttStatus(this, 'present')">Geldi</button>
@@ -4518,20 +4555,36 @@ MÜLK Spor Kulübü Yönetimi`
       }
     }
 
+    function extractLeadNotesText(lead) {
+      if (!lead || !lead.notes) return '';
+      const filler = 'Web QR Kayıt Formu üzerinden başvuru yapıldı.';
+      if (Array.isArray(lead.notes)) {
+        return lead.notes
+          .map(n => (n && n.text ? String(n.text).trim() : ''))
+          .filter(t => t && t !== filler)
+          .join(' · ');
+      }
+      const s = String(lead.notes).trim();
+      return (s === filler) ? '' : s;
+    }
+
     // Adayı Lisanslı Sporcuya Dönüştür (CRM -> Sporcular)
     function convertLeadToAthlete(id) {
       const lead = leads.find(l => String(l.id) === String(id));
       if (!lead) return;
       const newId = 'M-' + (100 + athletes.length + 1);
+      const inheritedNotes = extractLeadNotesText(lead);
       athletes.push({
         id: newId,
         name: lead.name,
+        birthDate: lead.birthDate || '',
         age: lead.age,
         school: lead.school || (schools.length > 0 ? schools[0].name : 'Merkez'),
         branch: lead.branch,
         parent: lead.parent,
         phone: lead.phone,
         email: lead.email || '',
+        notes: inheritedNotes,
         fee: 1500,
         status: 'Bekliyor',
         kvkkDate: lead.date || new Date().toLocaleDateString('tr-TR')
@@ -4558,6 +4611,7 @@ MÜLK Spor Kulübü Yönetimi`
           ath.name = "ANONİM SPORCU (" + id + ")";
           ath.parent = "ANONİMLEŞTİRİLDİ";
           ath.phone = "05** *** ** **";
+          ath.notes = "";
           saveState();
           renderTables();
           alert('Kişisel veriler başarıyla anonimleştirildi.');
@@ -4577,6 +4631,7 @@ MÜLK Spor Kulübü Yönetimi`
       const email = document.getElementById('athEmail').value;
       const fee = document.getElementById('athFee').value;
       const status = document.getElementById('athStatus').value;
+      const healthNote = document.getElementById('athHealth') ? document.getElementById('athHealth').value.trim() : '';
 
       athletes.push({
         id: newId,
@@ -4588,6 +4643,7 @@ MÜLK Spor Kulübü Yönetimi`
         parent: parent,
         phone: phone,
         email: email,
+        notes: healthNote,
         fee: parseInt(fee) || 1500,
         status: status,
         kvkkDate: new Date().toLocaleDateString('tr-TR')
@@ -5884,6 +5940,12 @@ window.mulkCloudRequest = async function(action, payload) {
 };
 
 window.mulkSha256 = ${window.mulkSha256.toString()};
+
+window.normalizeTrPhoneDigits = ${window.normalizeTrPhoneDigits ? window.normalizeTrPhoneDigits.toString() : 'function(r){return String(r||"").replace(/\\D/g,"").slice(0,10);}'};
+
+window.formatTrPhoneValue = ${window.formatTrPhoneValue ? window.formatTrPhoneValue.toString() : 'function(r){return String(r||"");}'};
+
+window.attachTrPhoneMask = ${window.attachTrPhoneMask ? window.attachTrPhoneMask.toString() : 'function(){}'};
 `;
       const blob = new Blob([helperScript], { type: 'application/javascript;charset=utf-8;' });
       const dlUrl = URL.createObjectURL(blob);
@@ -6175,6 +6237,11 @@ window.mulkSha256 = ${window.mulkSha256.toString()};
 
     // Tarih seçici başlangıç
     document.getElementById('attDate').valueAsDate = new Date();
+
+    // Telefon (+90 5XX XXX XX XX) otomatik biçimlendirme
+    if (typeof window.attachTrPhoneMask === 'function') {
+      window.attachTrPhoneMask('#crmLeadPhone, #athPhone');
+    }
 
     // Canlı E-posta Arka Plan Senkronizasyonunu Başlat
     initLiveEmailSync();
