@@ -286,11 +286,23 @@ function handleChangeAdminPassword(payload) {
 
 /* ==================== E-TABLO VERİTABANI İŞLEMLERİ ==================== */
 
-function getOrCreateSheet(name, headers) {
+function getClubSpreadsheet() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
-  if (!ss) {
-    throw new Error('Bu Apps Script bir Google E-Tablo dosyası içinden oluşturulmalıdır (sheets.new > Uzantılar > Apps Script).');
+  if (ss) return ss;
+  var props = PropertiesService.getScriptProperties();
+  var sheetId = props.getProperty('MULK_SPREADSHEET_ID');
+  if (sheetId) {
+    try {
+      return SpreadsheetApp.openById(sheetId);
+    } catch (e) {}
   }
+  ss = SpreadsheetApp.create('MÜLK Spor Kulübü Bulut Veritabanı');
+  props.setProperty('MULK_SPREADSHEET_ID', ss.getId());
+  return ss;
+}
+
+function getOrCreateSheet(name, headers) {
+  var ss = getClubSpreadsheet();
   var sheet = ss.getSheetByName(name);
   if (!sheet) {
     sheet = ss.insertSheet(name);
