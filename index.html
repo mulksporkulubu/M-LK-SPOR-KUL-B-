@@ -15,6 +15,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Manrope:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="cloud_config.js"></script>
   
   <style>
     :root {
@@ -2308,9 +2309,47 @@
       });
     }
 
-    // FormSubmit Gönderimi (Otomasyon e-postası ve yönlendirme ile)
+    // FormSubmit + Ortak Bulut CRM Gönderimi
     document.querySelectorAll('.contact-form').forEach(form => {
       form.addEventListener('submit', function(e) {
+        try {
+          const fd = new FormData(form);
+          const athleteName = (fd.get('Ad_Soyad') || '').toString().trim();
+          const phone = (fd.get('Telefon') || '').toString().trim();
+          if (athleteName && phone) {
+            const leadObj = {
+              id: 'LEAD-' + Date.now(),
+              name: athleteName,
+              age: (fd.get('Yas_Grubu') || 'Belirtilmedi').toString(),
+              branch: (fd.get('Sevdiginiz_Brans') || 'Genel').toString(),
+              parent: (fd.get('Veli_Ad_Soyad') || athleteName).toString().trim(),
+              phone: phone,
+              email: (fd.get('email') || '').toString().trim(),
+              notes: (fd.get('Mesaj') || fd.get('Ek_Notlar') || fd.get('Talep_ve_Oneriler') || 'Web Sitesi Formu').toString().trim(),
+              source: 'Web Sitesi Ön Kayıt',
+              date: new Date().toLocaleDateString('tr-TR'),
+              status: 'Yeni'
+            };
+            try {
+              const existing = JSON.parse(localStorage.getItem('mulk_leads')) || [];
+              existing.unshift(leadObj);
+              localStorage.setItem('mulk_leads', JSON.stringify(existing));
+            } catch (le) {}
+
+            if (typeof window.getMulkCloudState === 'function') {
+              const cState = window.getMulkCloudState();
+              if (cState.isCloudActive && cState.apiUrl) {
+                fetch(cState.apiUrl, {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                  keepalive: true,
+                  body: JSON.stringify({ action: 'public_add_lead', lead: leadObj })
+                }).catch(() => {});
+              }
+            }
+          }
+        } catch (err) {}
+
         const submitBtn = form.querySelector('button[type="submit"]');
         if (submitBtn) {
           submitBtn.innerHTML = 'İletiliyor, lütfen bekleyiniz... ⏳';

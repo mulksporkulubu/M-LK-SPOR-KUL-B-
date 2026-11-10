@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Manrope:wght@400;500;600;700;800&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
+  <script src="cloud_config.js"></script>
 
   <style>
     :root {
@@ -452,9 +453,10 @@
   <script>
     let lastSubmission = null;
 
-    function handleRegistrationSubmit(e) {
+    async function handleRegistrationSubmit(e) {
       e.preventDefault();
 
+      const submitBtn = document.getElementById('submitBtn');
       const athleteName = document.getElementById('regAthleteName').value.trim();
       const birthDate = document.getElementById('regBirthDate').value;
       const branch = document.getElementById('regBranch').value;
@@ -468,6 +470,11 @@
       if (!athleteName || !parentName || !phone) {
         alert('Lütfen zorunlu alanları doldurunuz.');
         return;
+      }
+
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<span>⏳</span> Kaydınız Kulüp Sistemine İletiliyor...';
       }
 
       // Yaş hesapla
@@ -493,18 +500,25 @@
         notes: notes || 'Web QR Kayıt Formu üzerinden başvuru yapıldı.',
         source: 'Web QR Kayıt Formu',
         date: new Date().toLocaleDateString('tr-TR'),
-        status: 'Yeni Başvuru'
+        status: 'Yeni'
       };
 
       lastSubmission = newLead;
 
-      // 1. Panel CRM Veritabanına (mulk_leads) Otomatik Ekle
+      // 1. Yerel tarayıcı hafızasına ekle
       try {
         let existingLeads = JSON.parse(localStorage.getItem('mulk_leads')) || [];
         existingLeads.unshift(newLead);
         localStorage.setItem('mulk_leads', JSON.stringify(existingLeads));
-      } catch (err) {
-        console.error('LocalStorage error:', err);
+      } catch (err) {}
+
+      // 2. Ortak Bulut Veritabanına (Google Workspace) anında aktar
+      try {
+        if (typeof window.getMulkCloudState === 'function' && window.getMulkCloudState().isCloudActive) {
+          await window.mulkCloudRequest('public_add_lead', { lead: newLead });
+        }
+      } catch (cloudErr) {
+        console.warn('Cloud sync info:', cloudErr);
       }
 
       // 2. WhatsApp Mesaj Linki Hazırla

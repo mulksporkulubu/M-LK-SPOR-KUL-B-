@@ -10,6 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <script src="cloud_config.js"></script>
 
   <style>
     :root {
@@ -1172,10 +1173,19 @@
     <!-- Topbar -->
     <header class="topbar">
       <div class="topbar-left">
-        <h1 id="pageTitle">Kulüp Genel Durumu</h1>
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+          <h1 id="pageTitle">Kulüp Genel Durumu</h1>
+          <button type="button" id="cloudStatusBadge" onclick="handleCloudBadgeClick()" title="Ortak Veritabanı Senkronizasyon Durumu" style="display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:700;border:1px solid #fde68a;background:#fffbeb;color:#92400e;cursor:pointer;">
+            <span id="cloudStatusDot">🟡</span>
+            <span id="cloudStatusLabel">Yerel Depolama (Tek Cihaz)</span>
+          </button>
+        </div>
         <span>MÜLK Spor Kulübü Operasyonel Yönetim Platformu</span>
       </div>
       <div class="topbar-right">
+        <button class="btn btn-secondary btn-sm" id="btnManualCloudSync" onclick="manualCloudRefresh()" title="Bulut veritabanından son yoklama ve kayıtları çek">
+          <span>🔄</span> Eşitle
+        </button>
         <button class="btn btn-secondary btn-sm" onclick="exportDataToCSV()">
           <span>📥</span> Verileri Dışa Aktar (CSV)
         </button>
@@ -1520,11 +1530,12 @@
               <span style="font-size:12px;color:var(--muted);">Antrenörlerin sahada tek dokunuşla yoklama alabileceği ekran</span>
             </div>
             <div class="cb-actions">
-              <input type="date" id="attDate" class="search-input" style="width:160px;">
-              <select id="attGroup" class="search-input" style="width:220px;" onchange="loadAttendanceList()">
+              <input type="date" id="attDate" class="search-input" style="width:160px;" onchange="renderAttendanceList()">
+              <select id="attGroup" class="search-input" style="width:220px;" onchange="renderAttendanceList()">
                 <option value="Tümü">Tüm Branşlar</option>
               </select>
-              <button class="btn btn-success btn-sm" onclick="saveAttendance()">✓ Yoklamayı Kaydet</button>
+              <button class="btn btn-secondary btn-sm" onclick="manualCloudRefresh()" title="Antrenörlerin girdiği son yoklamaları buluttan çek">🔄 Yenile</button>
+              <button class="btn btn-success btn-sm" id="btnSaveAttendance" onclick="saveAttendance()">✓ Yoklamayı Kaydet</button>
             </div>
           </div>
 
@@ -1552,6 +1563,19 @@
               <!-- Dinamik yüklenecek -->
             </tbody>
           </table>
+        </div>
+
+        <!-- Kayıtlı Yoklama Oturumları Geçmişi -->
+        <div class="card-box" style="margin-top:20px;">
+          <div class="cb-head">
+            <div>
+              <h3>📋 Kayıtlı Yoklama Geçmişi & Antrenör Bildirimleri</h3>
+              <span style="font-size:12px;color:var(--muted);">Antrenörler veya yönetici tarafından alınan tüm yoklama kayıtları (Tarih &amp; Branş bazlı)</span>
+            </div>
+          </div>
+          <div id="attendanceHistoryContainer" style="padding:16px 24px;">
+            <!-- Dinamik yüklenecek -->
+          </div>
         </div>
       </section>
 
@@ -1878,9 +1902,12 @@
 
       <!-- ================= TAB 8: AYARLAR ================= -->
       <section id="tab-settings" class="tab-pane">
-        <div class="card-box" style="max-width:720px;">
+        <div class="card-box" style="max-width:780px;">
           <div class="cb-head">
-            <h3>Kulüp & Sistem Yapılandırması</h3>
+            <div>
+              <h3>Kulüp &amp; Ortak Bulut Veritabanı Yapılandırması</h3>
+              <span style="font-size:12px;color:var(--muted);">Antrenör telefonları, veli QR formları ve admin paneli arası canlı senkronizasyon</span>
+            </div>
           </div>
           <div style="padding:24px;">
             <div class="form-group">
@@ -1897,14 +1924,61 @@
                 <input type="text" value="info@mulksporkulubu.com" readonly style="background:#f1f5f9;">
               </div>
             </div>
+
             <div class="form-group">
-              <label>Veritabanı Saklama Modu</label>
-              <select style="background:white;">
-                <option value="local">Güvenli Yerel Depolama (Tarayıcı & KVKK Uyumlu Şifreli)</option>
-                <option value="cloud">Bulut Veritabanı (Supabase / PostgreSQL Entegrasyonu)</option>
-                <option value="sheets">Google Workspace E-Tablo Entegrasyonu</option>
+              <label for="dbStorageMode">Veritabanı Saklama Modu</label>
+              <select id="dbStorageMode" style="background:white;" onchange="toggleCloudSettingsBox()">
+                <option value="local">Güvenli Yerel Depolama (Yalnızca Bu Cihaz / Tarayıcı)</option>
+                <option value="cloud">Google Workspace Bulut Veritabanı (Tüm Cihazlar Canlı Senkronize — Önerilen)</option>
               </select>
             </div>
+
+            <!-- Google Workspace Bulut Veritabanı Ayarları -->
+            <div id="cloudSettingsBox" style="display:none;background:#f8fafc;border:1px solid #cbd5e1;border-radius:12px;padding:18px;margin-top:14px;">
+              <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:12px;">
+                <strong style="color:#0f172a;font-size:14px;">☁️ Google Workspace Ortak Veritabanı Bağlantısı</strong>
+                <span id="settingsCloudConnStatus" class="badge badge-yellow">Bağlantı Bekleniyor</span>
+              </div>
+
+              <p style="font-size:12.5px;color:#475569;line-height:1.55;margin-bottom:12px;">
+                Tüm yoklamalar, sporcular, aidatlar ve QR ön kayıtlar yalnızca <strong>mulksporkulubu@gmail.com</strong> Google Drive hesabınızdaki şifreli E-Tablo veritabanında saklanır. Antrenörler şifreyle giriş yapmadan veya sunucu token'ı doğrulamadan hiçbir veri dışarı sızmaz.
+              </p>
+
+              <div class="form-group" style="margin-bottom:12px;">
+                <label for="cloudApiUrlInput" style="font-size:12px;">Google Apps Script Web Uygulaması URL'si *</label>
+                <input type="url" id="cloudApiUrlInput" placeholder="https://script.google.com/macros/s/.../exec" style="background:white;font-family:'JetBrains Mono',monospace;font-size:12px;">
+              </div>
+
+              <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;">
+                <button type="button" class="btn btn-secondary btn-sm" onclick="openCloudSetupGuideModal()">
+                  <span>📖</span> 2 Dakikalık Kurulum Rehberi &amp; Kodu Al
+                </button>
+                <button type="button" class="btn btn-secondary btn-sm" id="btnTestCloudConn" onclick="testCloudConnection()">
+                  <span>⚡</span> Bağlantıyı Test Et
+                </button>
+                <button type="button" class="btn btn-primary btn-sm" id="btnSaveCloudSettings" onclick="saveSystemSettings()">
+                  <span>💾</span> Bağlantıyı Kaydet &amp; Verileri Eşitle
+                </button>
+              </div>
+
+              <!-- Antrenör & QR Çoklu Cihaz Paylaşım Araçları -->
+              <div id="cloudDistributionTools" style="display:none;background:#ecfdf5;border:1px solid #a7f3d0;border-radius:10px;padding:14px;margin-top:10px;">
+                <strong style="color:#065f46;font-size:13px;display:block;margin-bottom:6px;">📲 Antrenör Telefonları &amp; QR Formu Nasıl Bağlanır?</strong>
+                <p style="font-size:12px;color:#047857;line-height:1.5;margin-bottom:10px;">
+                  <strong>1. Kalıcı Yöntem (Önerilen):</strong> Aşağıdaki <code>cloud_config.js</code> dosyasını indirip GitHub reponuza yüklediğinizde, tüm antrenörler ve veli QR formu (<code>kayit.html</code>) hiçbir ayar gerekmeden otomatik bağlanır.<br>
+                  <strong>2. Anında Antrenör Linki:</strong> GitHub'ı güncellemeden hemen kullanmak için aşağıdaki antrenör linkini kopyalayıp antrenörlerinize WhatsApp'tan atabilirsiniz.
+                </p>
+                <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                  <button type="button" class="btn btn-success btn-sm" onclick="downloadCloudConfigFile()">
+                    <span>📥</span> cloud_config.js İndir (GitHub İçin)
+                  </button>
+                  <button type="button" class="btn btn-secondary btn-sm" onclick="copyCoachQuickLink()" style="background:white;">
+                    <span>🔗</span> Antrenör Hızlı Giriş Linkini Kopyala
+                  </button>
+                </div>
+              </div>
+            </div>
+
             <div style="margin-top:28px;padding-top:20px;border-top:1px solid var(--line);">
               <h4 style="margin:0 0 12px;font-family:'Manrope',sans-serif;font-size:14px;color:var(--ink);">🔐 Yönetici Parolasını Değiştir</h4>
               <div class="form-row">
@@ -1921,8 +1995,9 @@
                 </div>
               </div>
             </div>
+
             <div style="margin-top:20px;">
-              <button class="btn btn-primary" onclick="alert('Ayarlar kaydedildi.')">Değişiklikleri Kaydet</button>
+              <button type="button" class="btn btn-primary" onclick="saveSystemSettings()">Değişiklikleri Kaydet</button>
             </div>
           </div>
         </div>
@@ -2717,6 +2792,46 @@ MÜLK Spor Kulübü Yönetimi</div>
     </div>
   </div>
 
+  <!-- ================= MODAL: BULUT VERİTABANI KURULUM REHBERİ ================= -->
+  <div id="cloudSetupGuideModal" class="modal-overlay">
+    <div class="modal-box" style="max-width:680px;">
+      <div class="modal-head">
+        <div>
+          <h3>☁️ 2 Dakikada Google Workspace Ortak Veritabanı Kurulumu</h3>
+          <span style="font-size:12px;color:var(--muted);">Tamamen ücretsiz, şifreli ve tüm cihazlarda anlık senkronize</span>
+        </div>
+        <button class="close-btn" onclick="closeModal('cloudSetupGuideModal')">✕</button>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:12px;font-size:13px;line-height:1.55;color:#1e293b;">
+        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:14px;">
+          <ol style="padding-left:18px;margin:0;display:flex;flex-direction:column;gap:8px;">
+            <li><strong>Yeni E-Tablo Açın:</strong> <code>mulksporkulubu@gmail.com</code> hesabınız açıkken <a href="https://sheets.new" target="_blank" style="color:#2563eb;font-weight:700;">sheets.new ↗</a> adresine gidin ve üstten dosyaya <em>"MÜLK SK Veritabanı"</em> adını verin.</li>
+            <li><strong>Apps Script'i Açın:</strong> E-Tablonun üst menüsünden <strong>Uzantılar &gt; Apps Script</strong> yoluna tıklayın.</li>
+            <li><strong>Sunucu Kodunu Yapıştırın:</strong> Açılan editördeki varsayılan metni tamamen silip aşağıdaki kodu yapıştırın ve 💾 <strong>Kaydet</strong>'e basın.</li>
+            <li><strong>Web Uygulaması Olarak Yayınlayın:</strong> Sağ üstteki mavi <strong>Dağıt &gt; Yeni dağıtım</strong> butonuna basın:
+              <br>• Tür: <strong>Web uygulaması</strong> seçin
+              <br>• Yürütme şekli: <strong>Ben (mulksporkulubu@gmail.com)</strong>
+              <br>• Erişimi olanlar: <strong>Herkes (Anyone)</strong> seçip <strong>Dağıt</strong> deyin ve Google izinlerini onaylayın.</li>
+            <li><strong>URL'yi Yapıştırın:</strong> Çıkan <code>https://script.google.com/macros/s/.../exec</code> adresini kopyalayıp <strong>Kulüp Ayarları</strong> ekranına yapıştırın!</li>
+          </ol>
+        </div>
+
+        <div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+            <strong style="font-size:12.5px;">Sunucu Kodu (<code>google_apps_script_Code.gs</code>)</strong>
+            <button type="button" class="btn btn-primary btn-sm" onclick="copyAppsScriptSource()">📋 Kodu Kopyala</button>
+          </div>
+          <textarea id="appsScriptCodePreview" rows="7" readonly style="width:100%;font-family:'JetBrains Mono',monospace;font-size:11px;background:#0f172a;color:#e2e8f0;padding:12px;border-radius:8px;border:1px solid #334155;" placeholder="Sunucu kodu yükleniyor..."></textarea>
+        </div>
+      </div>
+
+      <div style="margin-top:16px;text-align:right;">
+        <button type="button" class="btn btn-secondary" onclick="closeModal('cloudSetupGuideModal')">Kapat</button>
+      </div>
+    </div>
+  </div>
+
   <!-- ================= JAVASCRIPT LOGIC ================= -->
   <script>
     // ================= SIFIR BAŞLANGIÇ TEMİZLİĞİ =================
@@ -2772,6 +2887,7 @@ MÜLK Spor Kulübü Yönetimi</div>
     let leads = JSON.parse(localStorage.getItem('mulk_leads')) || initialLeads;
     let athletes = JSON.parse(localStorage.getItem('mulk_athletes')) || initialAthletes;
     let schools = JSON.parse(localStorage.getItem('mulk_schools')) || defaultSchools;
+    let attendanceLogs = JSON.parse(localStorage.getItem('mulk_attendance_log')) || [];
 
     // Entegre Canlı E-posta Veritabanı (info@mulksporkulubu.com & mulksporkulubu@gmail.com)
     // Sentetik ve sahte mailler kaldırılmıştır; yalnızca arka planda senkronize edilen gerçek e-postalar tutulur.
@@ -2826,6 +2942,10 @@ MÜLK Spor Kulübü Yönetimi</div>
 
       if (tabId === 'mailbox') {
         renderMailbox();
+      } else if (tabId === 'attendance') {
+        renderAttendanceList();
+      } else if (tabId === 'settings' && typeof loadSettingsUI === 'function') {
+        loadSettingsUI();
       }
 
       const btns = document.querySelectorAll('.nav-btn');
@@ -2906,7 +3026,7 @@ MÜLK Spor Kulübü Yönetimi</div>
     // 1. Dashboard Render
     function renderDashboard() {
       const totalAthletes = athletes.length;
-      const newLeadsCount = leads.filter(l => l.status === 'Yeni' || !l.status).length;
+      const newLeadsCount = leads.filter(l => l.status === 'Yeni' || l.status === 'Yeni Başvuru' || !l.status).length;
       
       let totalRevenue = 0;
       athletes.forEach(a => {
@@ -2915,7 +3035,7 @@ MÜLK Spor Kulübü Yönetimi</div>
         }
       });
 
-      const attLogs = JSON.parse(localStorage.getItem('mulk_attendance_log')) || [];
+      const attLogs = Array.isArray(attendanceLogs) ? attendanceLogs : (JSON.parse(localStorage.getItem('mulk_attendance_log')) || []);
       let attRateStr = '%0';
       if (attLogs.length > 0) {
         const presentCount = attLogs.filter(l => l.status === 'Geldi').length;
@@ -3018,10 +3138,14 @@ MÜLK Spor Kulübü Yönetimi</div>
 
         // Son görüşme notu
         let noteHtml = '';
-        if (lead.notes && lead.notes.length > 0) {
+        if (typeof lead.notes === 'string' && lead.notes.trim() !== '') {
+          noteHtml = `<div class="crm-card-notes"><strong>Not:</strong> ${lead.notes}</div>`;
+        } else if (Array.isArray(lead.notes) && lead.notes.length > 0) {
           const lastNote = lead.notes[lead.notes.length - 1];
-          noteHtml = `<div class="crm-card-notes"><strong>${lastNote.type}:</strong> ${lastNote.text} <small style="display:block;color:#64748b;font-size:10px;">${lastNote.date}</small></div>`;
+          noteHtml = `<div class="crm-card-notes"><strong>${lastNote.type || 'Not'}:</strong> ${lastNote.text || ''} <small style="display:block;color:#64748b;font-size:10px;">${lastNote.date || ''}</small></div>`;
         }
+
+        const safeIdAttr = String(lead.id).replace(/'/g, "\\'");
 
         card.innerHTML = `
           <div class="crm-card-head">
@@ -3044,16 +3168,16 @@ MÜLK Spor Kulübü Yönetimi</div>
             <button class="btn-wa" onclick="sendDirectWhatsApp('${lead.phone}', '${lead.name}', '${lead.branch}')">
               <span>💬</span> WhatsApp
             </button>
-            <button class="btn btn-secondary btn-sm" onclick="openCrmNoteModal(${lead.id})">📝 Not</button>
-            <select class="crm-stage-select" onchange="changeCrmLeadStage(${lead.id}, this.value)">
+            <button class="btn btn-secondary btn-sm" onclick="openCrmNoteModal('${safeIdAttr}')">📝 Not</button>
+            <select class="crm-stage-select" onchange="changeCrmLeadStage('${safeIdAttr}', this.value)">
               <option value="Yeni" ${currentStage==='Yeni'?'selected':''}>📥 Yeni</option>
               <option value="Görüşüldü" ${currentStage==='Görüşüldü'?'selected':''}>📞 Görüşüldü</option>
               <option value="Deneme" ${currentStage==='Deneme'?'selected':''}>🏅 Deneme</option>
               <option value="Kayıt Yapıldı" ${currentStage==='Kayıt Yapıldı'?'selected':''}>✅ Kayıt</option>
               <option value="Beklemede" ${currentStage==='Beklemede'?'selected':''}>⏳ Beklemede</option>
             </select>
-            ${currentStage !== 'Kayıt Yapıldı' ? `<button class="btn btn-primary btn-sm" onclick="convertLeadToAthlete(${lead.id})" title="Lisanslı Sporculara Aktar">🏆 Sporcu Yap</button>` : ''}
-            <button class="btn btn-secondary btn-sm" style="color:#ef4444;" onclick="deleteLead(${lead.id})">Sil</button>
+            ${currentStage !== 'Kayıt Yapıldı' ? `<button class="btn btn-primary btn-sm" onclick="convertLeadToAthlete('${safeIdAttr}')" title="Lisanslı Sporculara Aktar">🏆 Sporcu Yap</button>` : ''}
+            <button class="btn btn-secondary btn-sm" style="color:#ef4444;" onclick="deleteLead('${safeIdAttr}')">Sil</button>
           </div>
         `;
 
@@ -3087,7 +3211,7 @@ MÜLK Spor Kulübü Yönetimi</div>
     }
 
     function changeCrmLeadStage(leadId, newStage) {
-      const lead = leads.find(l => l.id === leadId);
+      const lead = leads.find(l => String(l.id) === String(leadId));
       if (lead) {
         lead.status = newStage;
         saveState();
@@ -3139,7 +3263,7 @@ MÜLK Spor Kulübü Yönetimi</div>
 
     // Görüşme Notu Modalı Aç
     function openCrmNoteModal(leadId) {
-      const lead = leads.find(l => l.id === leadId);
+      const lead = leads.find(l => String(l.id) === String(leadId));
       if (!lead) return;
       document.getElementById('crmNoteLeadId').value = lead.id;
       document.getElementById('crmNoteLeadTarget').innerText = `${lead.parent} (${lead.name} Velisi - ${lead.branch})`;
@@ -3149,13 +3273,16 @@ MÜLK Spor Kulübü Yönetimi</div>
 
     function handleCrmNoteSubmit(e) {
       e.preventDefault();
-      const leadId = parseInt(document.getElementById('crmNoteLeadId').value);
+      const leadId = document.getElementById('crmNoteLeadId').value;
       const type = document.getElementById('crmNoteType').value;
       const content = document.getElementById('crmNoteContent').value.trim();
 
-      const lead = leads.find(l => l.id === leadId);
+      const lead = leads.find(l => String(l.id) === String(leadId));
       if (lead) {
-        if (!lead.notes) lead.notes = [];
+        if (!Array.isArray(lead.notes)) {
+          const prevText = (typeof lead.notes === 'string' && lead.notes.trim()) ? [{ type: 'Not', text: lead.notes.trim(), date: lead.date || '' }] : [];
+          lead.notes = prevText;
+        }
         lead.notes.push({
           type: type,
           text: content,
@@ -3215,7 +3342,7 @@ MÜLK Spor Kulübü Yönetimi</div>
       if (!container) return;
       container.innerHTML = '';
 
-      const attLogs = JSON.parse(localStorage.getItem('mulk_attendance_log')) || [];
+      const attLogs = Array.isArray(attendanceLogs) ? attendanceLogs : (JSON.parse(localStorage.getItem('mulk_attendance_log')) || []);
       const absentMap = {};
       attLogs.forEach(log => {
         if (log.status === 'Gelmedi') {
@@ -3475,6 +3602,7 @@ MÜLK Spor Kulübü Yönetimi</div>
 
     function saveSchools() {
       localStorage.setItem('mulk_schools', JSON.stringify(schools));
+      if (typeof cloudSyncPush === 'function') cloudSyncPush('schools');
     }
 
     // ================= 4. SPORCULAR TABLOSU =================
@@ -3541,13 +3669,25 @@ MÜLK Spor Kulübü Yönetimi</div>
 
       const role = getCurrentUserRole();
       const coach = getCurrentCoachData();
-      const groupVal = document.getElementById('attGroup') ? document.getElementById('attGroup').value : 'Tümü';
+      const groupEl = document.getElementById('attGroup');
+      const groupVal = groupEl ? groupEl.value : 'Tümü';
+      const dateEl = document.getElementById('attDate');
+      const selectedDate = (dateEl && dateEl.value) ? dateEl.value : new Date().toISOString().slice(0, 10);
+
+      const titleEl = document.getElementById('currentGroupTitle');
+      if (titleEl) {
+        if (role === 'coach' && coach) {
+          titleEl.innerText = coach.branch + ' Grubu';
+        } else {
+          titleEl.innerText = groupVal === 'Tümü' ? 'Tüm Branşlar' : groupVal + ' Grubu';
+        }
+      }
 
       let filtered = athletes;
       if (role === 'coach' && coach) {
-        filtered = athletes.filter(a => a.branch.toLowerCase().includes(coach.branch.toLowerCase()));
+        filtered = athletes.filter(a => (a.branch || '').toLowerCase().includes(coach.branch.toLowerCase()));
       } else if (groupVal && groupVal !== 'Tümü') {
-        filtered = athletes.filter(a => a.branch.toLowerCase().includes(groupVal.toLowerCase()));
+        filtered = athletes.filter(a => (a.branch || '').toLowerCase().includes(groupVal.toLowerCase()));
       }
 
       const totalCountEl = document.getElementById('attTotalCount');
@@ -3563,26 +3703,132 @@ MÜLK Spor Kulübü Yönetimi</div>
             </td>
           </tr>
         `;
+        renderAttendanceHistory();
         return;
       }
 
       filtered.forEach(ath => {
+        const existingLog = attendanceLogs.find(l => l.date === selectedDate && String(l.id) === String(ath.id));
+        const curStatus = existingLog ? existingLog.status : 'Geldi';
+        const curNote = existingLog ? (existingLog.note || '') : '';
+
         const tr = document.createElement('tr');
+        tr.dataset.branch = ath.branch || '';
+        tr.dataset.athName = ath.name || '';
         tr.innerHTML = `
           <td><code>${ath.id}</code></td>
           <td><strong>${ath.name}</strong><br><small style="color:var(--muted);">${ath.age || 'Öğrenci'}</small></td>
           <td><small style="color:#2563eb;">${ath.school || ''}</small><br><strong>${ath.branch}</strong></td>
           <td>
             <div style="display:flex;gap:6px;">
-              <button class="att-btn present active" onclick="setAttStatus(this, 'present')">Geldi</button>
-              <button class="att-btn absent" onclick="setAttStatus(this, 'absent')">Gelmedi</button>
-              <button class="att-btn excused" onclick="setAttStatus(this, 'excused')">İzinli</button>
+              <button type="button" class="att-btn present ${curStatus === 'Geldi' ? 'active' : ''}" onclick="setAttStatus(this, 'present')">Geldi</button>
+              <button type="button" class="att-btn absent ${curStatus === 'Gelmedi' ? 'active' : ''}" onclick="setAttStatus(this, 'absent')">Gelmedi</button>
+              <button type="button" class="att-btn excused ${curStatus === 'İzinli' ? 'active' : ''}" onclick="setAttStatus(this, 'excused')">İzinli</button>
             </div>
           </td>
-          <td><input type="text" placeholder="Gelişim / antrenman notu..." style="padding:6px 10px;border:1px solid var(--line);border-radius:6px;font-size:12px;width:100%;"></td>
+          <td><input type="text" value="${curNote.replace(/"/g, '&quot;')}" placeholder="Gelişim / antrenman notu..." style="padding:6px 10px;border:1px solid var(--line);border-radius:6px;font-size:12px;width:100%;"></td>
         `;
         attTbody.appendChild(tr);
       });
+
+      renderAttendanceHistory();
+    }
+
+    function renderAttendanceHistory() {
+      const container = document.getElementById('attendanceHistoryContainer');
+      if (!container) return;
+
+      const role = getCurrentUserRole();
+      const coach = getCurrentCoachData();
+
+      let visibleLogs = Array.isArray(attendanceLogs) ? attendanceLogs : [];
+      if (role === 'coach' && coach) {
+        visibleLogs = visibleLogs.filter(l => (l.branch || '').toLowerCase().includes(coach.branch.toLowerCase()));
+      }
+
+      if (visibleLogs.length === 0) {
+        container.innerHTML = `
+          <div style="text-align:center;padding:24px;color:var(--muted);font-size:13px;">
+            Henüz kaydedilmiş geçmiş yoklama oturumu bulunmuyor.
+          </div>
+        `;
+        return;
+      }
+
+      // Tarih + Branş bazında oturumları grupla
+      const groups = {};
+      visibleLogs.forEach(log => {
+        const d = log.date || 'Tarihsiz';
+        const b = log.branch || 'Genel';
+        const gKey = d + '||' + b;
+        if (!groups[gKey]) {
+          groups[gKey] = {
+            date: d,
+            branch: b,
+            coachName: log.coachName || 'Kulüp Personeli',
+            present: 0,
+            absent: 0,
+            excused: 0,
+            total: 0,
+            updatedAt: log.updatedAt || ''
+          };
+        }
+        groups[gKey].total++;
+        if (log.status === 'Geldi') groups[gKey].present++;
+        else if (log.status === 'Gelmedi') groups[gKey].absent++;
+        else if (log.status === 'İzinli') groups[gKey].excused++;
+      });
+
+      const sessions = Object.values(groups).sort((a, b) => b.date.localeCompare(a.date));
+
+      let html = `
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Tarih</th>
+              <th>Branş</th>
+              <th>Yoklamayı Alan</th>
+              <th>Katılım Özeti</th>
+              <th>Oran</th>
+              <th>İşlem</th>
+            </tr>
+          </thead>
+          <tbody>
+      `;
+
+      sessions.forEach(s => {
+        const rate = s.total > 0 ? Math.round((s.present / s.total) * 100) : 0;
+        const rateBadge = rate >= 80 ? 'badge-green' : (rate >= 50 ? 'badge-yellow' : 'badge-red');
+        html += `
+          <tr>
+            <td><strong>${s.date}</strong></td>
+            <td><span class="badge badge-blue">${s.branch}</span></td>
+            <td><small style="color:#475569;font-weight:600;">${s.coachName}</small></td>
+            <td style="font-size:12px;">
+              <span style="color:#059669;font-weight:700;">✓ ${s.present} Geldi</span> ·
+              <span style="color:#dc2626;font-weight:700;">✕ ${s.absent} Gelmedi</span> ·
+              <span style="color:#d97706;">${s.excused} İzinli</span>
+            </td>
+            <td><span class="badge ${rateBadge}">%${rate}</span></td>
+            <td><button type="button" class="btn btn-secondary btn-sm" onclick="viewAttendanceSession('${s.date}', '${s.branch.replace(/'/g, "\\'")}')">İncele ↗</button></td>
+          </tr>
+        `;
+      });
+
+      html += '</tbody></table>';
+      container.innerHTML = html;
+    }
+
+    function viewAttendanceSession(dateStr, branchName) {
+      const dateEl = document.getElementById('attDate');
+      const groupEl = document.getElementById('attGroup');
+      if (dateEl) dateEl.value = dateStr;
+      if (groupEl && getCurrentUserRole() === 'admin') {
+        const hasOpt = Array.from(groupEl.options).some(o => o.value === branchName);
+        groupEl.value = hasOpt ? branchName : 'Tümü';
+      }
+      renderAttendanceList();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     function setAttStatus(btn, type) {
@@ -3609,25 +3855,90 @@ MÜLK Spor Kulübü Yönetimi</div>
       if (title) title.innerText = branchName + ' Grubu';
     }
 
-    function saveAttendance() {
-      const notes = [];
+    async function saveAttendance() {
+      const selectedDate = (document.getElementById('attDate') && document.getElementById('attDate').value)
+        ? document.getElementById('attDate').value
+        : new Date().toISOString().slice(0, 10);
+      const role = getCurrentUserRole();
+      const coach = getCurrentCoachData();
+      const coachLabel = (role === 'coach' && coach) ? coach.title : 'Yönetici (info)';
+
+      const records = [];
       document.querySelectorAll('#attendanceTbody tr').forEach(tr => {
         const codeEl = tr.querySelector('code');
         if (!codeEl) return;
-        const id = codeEl.innerText;
-        const note = tr.querySelector('input').value;
+        const id = codeEl.innerText.trim();
+        const note = tr.querySelector('input').value.trim();
         const statusBtn = tr.querySelector('.att-btn.active');
-        const status = statusBtn ? statusBtn.innerText : 'Geldi';
-        notes.push({ id, status, note, date: document.getElementById('attDate').value });
+        const status = statusBtn ? statusBtn.innerText.trim() : 'Geldi';
+        const branch = tr.dataset.branch || (coach ? coach.branch : 'Genel');
+        const athleteName = tr.dataset.athName || '';
+        records.push({
+          key: selectedDate + '__' + id,
+          date: selectedDate,
+          branch: branch,
+          id: id,
+          athleteName: athleteName,
+          status: status,
+          note: note,
+          coachName: coachLabel,
+          updatedAt: new Date().toISOString()
+        });
       });
-      localStorage.setItem('mulk_attendance_log', JSON.stringify(notes));
-      const role = getCurrentUserRole();
-      if (role === 'coach') {
-        alert('✓ Antrenör Yoklaması ve Sporcu Gelişim Notları Başarıyla Ortak Kulüp Havuzuna Kaydedildi! Yönetim anında görüntüleyebilir.');
-      } else {
-        alert('✓ Yoklama ve sporcu gelişim kayıtları ortak sisteme kaydedildi!');
+
+      if (records.length === 0) {
+        alert('Kaydedilecek sporcu satırı bulunmuyor.');
+        return;
       }
+
+      // Diğer tarih ve branş kayıtlarını koruyarak mevcut oturumu güncelle
+      const mergedMap = {};
+      (Array.isArray(attendanceLogs) ? attendanceLogs : []).forEach(item => {
+        const k = item.key || (item.date + '__' + item.id);
+        mergedMap[k] = item;
+      });
+      records.forEach(r => {
+        mergedMap[r.key] = r;
+      });
+      attendanceLogs = Object.values(mergedMap);
+      try {
+        localStorage.setItem('mulk_attendance_log', JSON.stringify(attendanceLogs));
+      } catch (e) {}
+
+      const saveBtn = document.getElementById('btnSaveAttendance');
+      const cloudState = (typeof window.getMulkCloudState === 'function') ? window.getMulkCloudState() : { isCloudActive: false };
+
+      if (cloudState.isCloudActive && typeof window.mulkCloudRequest === 'function') {
+        if (saveBtn) {
+          saveBtn.disabled = true;
+          saveBtn.innerText = '⏳ Buluta Kaydediliyor...';
+        }
+        try {
+          const res = await window.mulkCloudRequest('save_attendance', { records: records });
+          if (res && res.ok) {
+            if (Array.isArray(res.attendance)) {
+              attendanceLogs = res.attendance;
+              localStorage.setItem('mulk_attendance_log', JSON.stringify(attendanceLogs));
+            }
+            alert('✓ Yoklama ve gelişim notları Ortak Bulut Veritabanına kaydedildi! Yönetici ve yetkili cihazlar anında görüntüleyebilir.');
+          } else {
+            throw new Error((res && res.error) || 'Bulut yanıt hatası');
+          }
+        } catch (err) {
+          alert('⚠️ Yoklama cihaza kaydedildi ancak Bulut Veritabanına gönderilirken sorun oluştu:\n' + err.message);
+        } finally {
+          if (saveBtn) {
+            saveBtn.disabled = false;
+            saveBtn.innerText = '✓ Yoklamayı Kaydet';
+          }
+        }
+      } else {
+        alert('✓ Yoklama yalnızca bu cihazın yerel tarayıcı hafızasına kaydedildi.\n\nNot: Antrenör yoklamalarının sizin admin bilgisayarınızda da otomatik görünmesi için Kulüp Ayarları sekmesinden Bulut Veritabanını aktif ediniz.');
+      }
+
       renderDashboard();
+      renderAbsenceAlerts();
+      renderAttendanceHistory();
     }
 
     // ================= 6. AİDAT & FİNANS =================
@@ -4165,10 +4476,8 @@ MÜLK Spor Kulübü Yönetimi`
       }
 
       if (addedCount > 0) {
-        try {
-          localStorage.setItem('mulk_leads', JSON.stringify(leads));
-        } catch(e) {}
-        renderCrmTable();
+        saveState();
+        renderTables();
         alert(`✓ Başarılı: Google Forms verilerinden ${addedCount} yeni aday sporcu/veli CRM hattına aktarıldı!`);
         closeModal('googleFormsSyncModal');
       } else {
@@ -4178,7 +4487,7 @@ MÜLK Spor Kulübü Yönetimi`
 
     // Adayı Lisanslı Sporcuya Dönüştür (CRM -> Sporcular)
     function convertLeadToAthlete(id) {
-      const lead = leads.find(l => l.id === id);
+      const lead = leads.find(l => String(l.id) === String(id));
       if (!lead) return;
       const newId = 'M-' + (100 + athletes.length + 1);
       athletes.push({
@@ -4203,7 +4512,7 @@ MÜLK Spor Kulübü Yönetimi`
 
     function deleteLead(id) {
       if (confirm('Bu adayı silmek istediğinize emin misiniz?')) {
-        leads = leads.filter(l => l.id !== id);
+        leads = leads.filter(l => String(l.id) !== String(id));
         saveState();
         renderTables();
       }
@@ -4211,7 +4520,7 @@ MÜLK Spor Kulübü Yönetimi`
 
     function anonymizeAthlete(id) {
       if (confirm('KVKK Unutulma Hakkı (Madde 7): Bu sporcunun tüm kişisel verileri kanuna uygun şekilde anonimleştirilsin mi?')) {
-        const ath = athletes.find(a => a.id === id);
+        const ath = athletes.find(a => String(a.id) === String(id));
         if (ath) {
           ath.name = "ANONİM SPORCU (" + id + ")";
           ath.parent = "ANONİMLEŞTİRİLDİ";
@@ -4262,6 +4571,9 @@ MÜLK Spor Kulübü Yönetimi`
       localStorage.setItem('mulk_athletes', JSON.stringify(athletes));
       localStorage.setItem('mulk_leads', JSON.stringify(leads));
       localStorage.setItem('mulk_emails', JSON.stringify(emails));
+      if (typeof cloudSyncPush === 'function') {
+        cloudSyncPush('athletes_and_leads');
+      }
     }
 
     // ================= E-POSTA İSTEMCİSİ & WİDGET KONTROLCÜSÜ =================
@@ -4621,44 +4933,68 @@ MÜLK Spor Kulübü Yönetimi`
       let newCount = 0;
 
       try {
-        let resp = null;
+        let incoming = [];
 
-        // 1. Web Sunucusu (cPanel PHP) IMAP motoru
+        // 0. Google Workspace Bulut Motoru (Gmail Kutusu Doğrudan Senkronizasyonu - Admin Yetkili)
+        const cState = (typeof window.getMulkCloudState === 'function') ? window.getMulkCloudState() : { isCloudActive: false };
+        if (cState.isCloudActive && getCurrentUserRole() === 'admin' && typeof window.mulkCloudRequest === 'function') {
+          try {
+            const gRes = await window.mulkCloudRequest('fetch_gmail', {});
+            if (gRes && gRes.ok && Array.isArray(gRes.emails)) {
+              incoming = incoming.concat(gRes.emails);
+            }
+          } catch(e) {}
+        }
+
+        // 1. Web Sunucusu (cPanel PHP) IMAP motoru (sadece JSON dönen sunucularda)
+        let resp = null;
         try {
-          resp = await fetch('sync_mail.php?action=fetch', { cache: 'no-cache' });
+          const rPhp = await fetch('sync_mail.php?action=fetch', { cache: 'no-cache' });
+          const ct = rPhp.headers.get('content-type') || '';
+          if (rPhp.ok && ct.includes('application/json')) {
+            resp = rPhp;
+          }
         } catch(e) {}
 
         // 2. Yerel Python (mail_sync.py) REST API motoru
-        if (!resp || !resp.ok) {
+        if (!resp) {
           try {
-            resp = await fetch('http://127.0.0.1:8080/api/emails', { cache: 'no-cache' });
+            const rPy = await fetch('http://127.0.0.1:8080/api/emails', { cache: 'no-cache' });
+            if (rPy.ok) resp = rPy;
           } catch(e) {}
         }
 
         // 3. emails.json dosyası
-        if (!resp || !resp.ok) {
+        if (!resp) {
           try {
-            resp = await fetch('emails.json', { cache: 'no-cache' });
+            const rJson = await fetch('emails.json', { cache: 'no-cache' });
+            if (rJson.ok) resp = rJson;
           } catch(e) {}
         }
 
         if (resp && resp.ok) {
-          const data = await resp.json();
-          const incoming = Array.isArray(data) ? data : (data.emails || []);
-          if (Array.isArray(incoming) && incoming.length > 0) {
-            incoming.forEach(m => {
-              const exists = emails.some(e => e.id === m.id || (e.fromEmail === m.fromEmail && e.subject === m.subject && e.date === m.date));
-              if (!exists) {
-                emails.unshift(m);
-                newCount++;
-              }
-            });
-
-            if (newCount > 0) {
-              try { localStorage.setItem('mulk_emails', JSON.stringify(emails)); } catch(e) {}
-              renderMailbox();
-              renderDashMailWidget();
+          try {
+            const data = await resp.json();
+            const list = Array.isArray(data) ? data : (data.emails || []);
+            if (Array.isArray(list) && list.length > 0) {
+              incoming = incoming.concat(list);
             }
+          } catch(e) {}
+        }
+
+        if (incoming.length > 0) {
+          incoming.forEach(m => {
+            const exists = emails.some(e => e.id === m.id || (e.fromEmail === m.fromEmail && e.subject === m.subject && e.date === m.date));
+            if (!exists) {
+              emails.unshift(m);
+              newCount++;
+            }
+          });
+
+          if (newCount > 0) {
+            try { localStorage.setItem('mulk_emails', JSON.stringify(emails)); } catch(e) {}
+            renderMailbox();
+            renderDashMailWidget();
           }
         }
       } catch (err) {
@@ -4941,58 +5277,70 @@ MÜLK Spor Kulübü Yönetimi`
       alert('6698 sayılı Kişisel Verilerin Korunması Kanunu Denetim Dosyası hazırlanıyor:\n- Veri Envanteri: Hazır\n- Açık Rıza Kayıtları: Doğrulandı\n- Yetki Matrisi: Aktif\n\nDosya güvenli şekilde dışa aktarılıyor.');
     }
 
-    // ================= GÜVENLİK, ROL VE YETKİ MATRİSİ (RBAC) =================
+    // ================= GÜVENLİK, ROL VE YETKİ MATRİSİ (RBAC - HASH & BULUT DOĞRULAMA) =================
     const ADMIN_USER = 'info';
     const ADMIN_EMAIL = 'info@mulksporkulubu.com';
-    const DEFAULT_ADMIN_PASS = 'Mulk@2026!Ankara,Gazi';
+    const DEFAULT_ADMIN_HASH = 'a6d6e2883baa41d3a082dd48dbd7b7c22dbc74b81b8b98eae2c600dd9a114d15';
 
     const BRANCH_COACHES = {
       'futbol': {
         email: 'futbol@mulksporkulubu.com',
-        pass: ['Antrenorfutbolmulk26!', 'Antrenorfutbolmülk26!'],
+        passHashes: ['6fe09b3e3b2094a56fa7ff4fe46c42b8f97d117147886c016deb3ed6b65e7671', '138dffff330acd521e5ca2afc441e082c22d38797e24bc5f37f26afd7cab1ee9'],
         branch: 'Futbol',
         icon: '⚽',
         title: 'Futbol Antrenörü'
       },
       'voleybol': {
         email: 'voleybol@mulksporkulubu.com',
-        pass: ['Antrenorvoleybolmulk26!', 'Antrenorvoleybolmülk26!'],
+        passHashes: ['8cfb15225c20f09aac4adfa0a5d85084cad9a35eef2dcdc1ff2f9416dce104ed', '639ec39a4b0dcaffabb018d4d79498193d9e47789bc8f7ba408144b894e8659d'],
         branch: 'Voleybol',
         icon: '🏐',
         title: 'Voleybol Antrenörü'
       },
       'basketbol': {
         email: 'basketbol@mulksporkulubu.com',
-        pass: ['Antrenorbasketbolmulk26!', 'Antrenorbasketbolmülk26!'],
+        passHashes: ['6d51f8c7b21107b0cc54aad67ee106dd2d2eaf04c447057767b7d8fb1a5a5d8ab', '5c726deccb3c7df58a53f6f2432606b6977494b78be01c16934d0ac63eb0bfff'],
         branch: 'Basketbol',
         icon: '🏀',
         title: 'Basketbol Antrenörü'
       },
       'jimnastik': {
         email: 'jimnastik@mulksporkulubu.com',
-        pass: ['Antrenorjimnastikmulk26!', 'Antrenorjimnastikmülk26!'],
+        passHashes: ['7ba9aac979de5617a7547d62ce39d36e6952e509d08d9a7ba11357769d01e51e', 'a84847c709803abeea908459d88c2a41181061b09f3ee13efccd818328c52489'],
         branch: 'Jimnastik',
         icon: '🤸',
         title: 'Jimnastik Antrenörü'
       },
       'okculuk': {
         email: 'okculuk@mulksporkulubu.com',
-        pass: ['Antrenorokculukmulk26!', 'Antrenorokculukmülk26!'],
+        passHashes: ['a104fa8a7b2fca4cb5f7fd1fb8f96b9e6af8882384b550a6aef251f87e22d0fc', '7916861f86b629fde384b71a0eb78474270943abb75529ef570a8899421987a7'],
         branch: 'Okçuluk',
         icon: '🏹',
         title: 'Okçuluk Antrenörü'
       },
       'kros': {
         email: 'kros@mulksporkulubu.com',
-        pass: ['Antrenorkrosmulk26!', 'Antrenorkrosmülk26!'],
+        passHashes: ['8a769b502d879257177889c44ffd042d489c8d6e9989674e3e7532ee89deccac', 'a853a87973283e7673c64662276b41b9357e3cdf99842d2bdfac4d7855b8eeb7'],
         branch: 'Kros',
         icon: '🏃',
         title: 'Kros & Kondisyon Antrenörü'
       }
     };
 
-    function getAdminPassword() {
-      return localStorage.getItem('mulk_admin_pass') || DEFAULT_ADMIN_PASS;
+    // Eski açık metin yerel parola kalıntısı varsa otomatik hash'e çevirip sil
+    (async function migrateLegacyPass() {
+      try {
+        const legacy = localStorage.getItem('mulk_admin_pass');
+        if (legacy && typeof window.mulkSha256 === 'function') {
+          const h = await window.mulkSha256(legacy);
+          localStorage.setItem('mulk_admin_pass_hash', h);
+          localStorage.removeItem('mulk_admin_pass');
+        }
+      } catch (e) {}
+    })();
+
+    function getAdminPasswordHash() {
+      return localStorage.getItem('mulk_admin_pass_hash') || DEFAULT_ADMIN_HASH;
     }
 
     function getCurrentUserRole() {
@@ -5004,12 +5352,450 @@ MÜLK Spor Kulübü Yönetimi`
       return coachKey && BRANCH_COACHES[coachKey] ? BRANCH_COACHES[coachKey] : null;
     }
 
+    // ================= BULUT VERİTABANI SENKRONİZASYON MOTORU =================
+    let cloudSyncIntervalTimer = null;
+    let isCloudPulling = false;
+
+    function updateCloudStatusUI(statusOverride) {
+      const badge = document.getElementById('cloudStatusBadge');
+      const dot = document.getElementById('cloudStatusDot');
+      const label = document.getElementById('cloudStatusLabel');
+      const settingsBadge = document.getElementById('settingsCloudConnStatus');
+      const distTools = document.getElementById('cloudDistributionTools');
+
+      const state = (typeof window.getMulkCloudState === 'function') ? window.getMulkCloudState() : { isCloudActive: false, apiUrl: '' };
+
+      if (statusOverride === 'syncing') {
+        if (dot) dot.innerText = '⏳';
+        if (label) label.innerText = 'Bulut Eşitleniyor...';
+        return;
+      }
+
+      if (statusOverride === 'auth_needed') {
+        if (badge) {
+          badge.style.background = '#fef2f2';
+          badge.style.borderColor = '#fecaca';
+          badge.style.color = '#991b1b';
+        }
+        if (dot) dot.innerText = '🔒';
+        if (label) label.innerText = 'Bulut Oturumu Gerekli';
+        return;
+      }
+
+      if (state.isCloudActive) {
+        if (badge) {
+          badge.style.background = '#ecfdf5';
+          badge.style.borderColor = '#a7f3d0';
+          badge.style.color = '#065f46';
+        }
+        if (dot) dot.innerText = '🟢';
+        if (label) label.innerText = 'Ortak Bulut Aktif';
+        if (settingsBadge) {
+          settingsBadge.className = 'badge badge-green';
+          settingsBadge.innerText = '🟢 Aktif & Bağlı';
+        }
+        if (distTools) distTools.style.display = 'block';
+      } else {
+        if (badge) {
+          badge.style.background = '#fffbeb';
+          badge.style.borderColor = '#fde68a';
+          badge.style.color = '#92400e';
+        }
+        if (dot) dot.innerText = '🟡';
+        if (label) label.innerText = 'Yerel Mod (Tek Cihaz)';
+        if (settingsBadge) {
+          settingsBadge.className = 'badge badge-yellow';
+          settingsBadge.innerText = state.apiUrl ? 'Yerel Mod Seçili' : 'Henüz Bağlanmadı';
+        }
+        if (distTools && !state.apiUrl) distTools.style.display = 'none';
+      }
+    }
+
+    function handleCloudBadgeClick() {
+      const role = getCurrentUserRole();
+      if (role === 'admin') {
+        switchTab('settings');
+      } else {
+        manualCloudRefresh();
+      }
+    }
+
+    async function cloudSyncPull(options) {
+      const opts = options || {};
+      const state = (typeof window.getMulkCloudState === 'function') ? window.getMulkCloudState() : { isCloudActive: false };
+      if (!state.isCloudActive || isCloudPulling) return false;
+      if (!getCurrentUserRole()) return false;
+
+      const hasToken = sessionStorage.getItem('mulk_cloud_token') || localStorage.getItem('mulk_cloud_token_remember');
+      if (!hasToken) {
+        updateCloudStatusUI('auth_needed');
+        return false;
+      }
+
+      isCloudPulling = true;
+      if (!opts.silent) updateCloudStatusUI('syncing');
+
+      try {
+        const res = await window.mulkCloudRequest('sync_all', { includeGmail: false });
+        if (res && res.ok) {
+          if (Array.isArray(res.athletes)) {
+            athletes = res.athletes;
+            localStorage.setItem('mulk_athletes', JSON.stringify(athletes));
+          }
+          if (Array.isArray(res.attendance)) {
+            attendanceLogs = res.attendance;
+            localStorage.setItem('mulk_attendance_log', JSON.stringify(attendanceLogs));
+          }
+          if (res.role === 'admin' && Array.isArray(res.leads)) {
+            leads = res.leads;
+            localStorage.setItem('mulk_leads', JSON.stringify(leads));
+          }
+          if (Array.isArray(res.schools) && res.schools.length > 0) {
+            schools = res.schools;
+            localStorage.setItem('mulk_schools', JSON.stringify(schools));
+          }
+          renderTables();
+          updateCloudStatusUI();
+          return true;
+        }
+      } catch (err) {
+        if (err && err.message === 'AUTH_EXPIRED') {
+          updateCloudStatusUI('auth_needed');
+        } else {
+          updateCloudStatusUI();
+        }
+      } finally {
+        isCloudPulling = false;
+      }
+      return false;
+    }
+
+    async function cloudSyncPush(scope) {
+      const state = (typeof window.getMulkCloudState === 'function') ? window.getMulkCloudState() : { isCloudActive: false };
+      if (!state.isCloudActive) return;
+      if (getCurrentUserRole() !== 'admin') return;
+
+      const hasToken = sessionStorage.getItem('mulk_cloud_token') || localStorage.getItem('mulk_cloud_token_remember');
+      if (!hasToken) {
+        updateCloudStatusUI('auth_needed');
+        return;
+      }
+
+      updateCloudStatusUI('syncing');
+      try {
+        if (scope === 'schools') {
+          await window.mulkCloudRequest('save_schools', { schools: schools });
+        } else if (scope === 'athletes_and_leads') {
+          await Promise.all([
+            window.mulkCloudRequest('save_athletes', { athletes: athletes }),
+            window.mulkCloudRequest('save_leads', { leads: leads })
+          ]);
+        }
+        updateCloudStatusUI();
+      } catch (err) {
+        updateCloudStatusUI();
+      }
+    }
+
+    async function manualCloudRefresh() {
+      const state = (typeof window.getMulkCloudState === 'function') ? window.getMulkCloudState() : { isCloudActive: false };
+      if (!state.isCloudActive) {
+        alert('Bulut Veritabanı henüz aktif değil. Kulüp Ayarları sekmesinden ortak veritabanını bağlayabilirsiniz.');
+        return;
+      }
+      const btn = document.getElementById('btnManualCloudSync');
+      if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = '<span>⏳</span> Eşitleniyor...';
+      }
+      const ok = await cloudSyncPull({ silent: false });
+      if (btn) {
+        btn.disabled = false;
+        btn.innerHTML = '<span>🔄</span> Eşitle';
+      }
+      if (ok) {
+        alert('✓ Tüm sporcular, yoklama kayıtları ve veli başvuruları ortak Bulut Veritabanından güncellendi!');
+      } else {
+        const hasToken = sessionStorage.getItem('mulk_cloud_token') || localStorage.getItem('mulk_cloud_token_remember');
+        if (!hasToken) {
+          alert('🔒 Bulut veritabanı oturumu doğrulaması için lütfen Çıkış Yapıp şifrenizle tekrar giriş yapınız.');
+        }
+      }
+    }
+
+    function startCloudAutoSync() {
+      if (cloudSyncIntervalTimer) clearInterval(cloudSyncIntervalTimer);
+      const state = (typeof window.getMulkCloudState === 'function') ? window.getMulkCloudState() : { isCloudActive: false };
+      if (!state.isCloudActive) return;
+      cloudSyncPull({ silent: true });
+      cloudSyncIntervalTimer = setInterval(() => cloudSyncPull({ silent: true }), 20000);
+    }
+
+    // ================= AYARLAR & BULUT KURULUM ARAÇLARI =================
+    function loadSettingsUI() {
+      const state = (typeof window.getMulkCloudState === 'function') ? window.getMulkCloudState() : { mode: 'local', apiUrl: '' };
+      const modeSel = document.getElementById('dbStorageMode');
+      const urlInp = document.getElementById('cloudApiUrlInput');
+      if (modeSel) modeSel.value = state.isCloudActive ? 'cloud' : (localStorage.getItem('mulk_cloud_mode') || 'local');
+      if (urlInp) urlInp.value = state.apiUrl || '';
+      toggleCloudSettingsBox();
+      updateCloudStatusUI();
+    }
+
+    function toggleCloudSettingsBox() {
+      const modeSel = document.getElementById('dbStorageMode');
+      const box = document.getElementById('cloudSettingsBox');
+      if (!modeSel || !box) return;
+      box.style.display = (modeSel.value === 'cloud') ? 'block' : 'none';
+    }
+
+    async function openCloudSetupGuideModal() {
+      openModal('cloudSetupGuideModal');
+      const preview = document.getElementById('appsScriptCodePreview');
+      if (!preview) return;
+      preview.value = 'Sunucu kodu yükleniyor...';
+      try {
+        const r = await fetch('google_apps_script_Code.gs', { cache: 'no-cache' });
+        if (r.ok) {
+          preview.value = await r.text();
+          return;
+        }
+      } catch (e) {}
+      preview.value = '// Not: Yerel dosya (file://) üzerinden açıldığında tarayıcı güvenlik gereği harici dosyayı okuyamayabilir.\n// Klasörünüzdeki "google_apps_script_Code.gs" dosyasını herhangi bir metin düzenleyici ile açıp içindeki tüm kodu kopyalayabilirsiniz.';
+    }
+
+    function copyAppsScriptSource() {
+      const preview = document.getElementById('appsScriptCodePreview');
+      if (!preview || !preview.value || preview.value.startsWith('// Not:')) {
+        alert('Lütfen klasörünüzdeki "google_apps_script_Code.gs" dosyasını açıp içindeki kodu kopyalayın (veya siteyi mulksporkulubu.com üzerinden açın).');
+        return;
+      }
+      navigator.clipboard.writeText(preview.value).then(() => {
+        alert('✓ Sunucu kodu panoya kopyalandı! Şimdi Google Apps Script editörüne yapıştırabilirsiniz.');
+      }).catch(() => {
+        preview.select();
+        document.execCommand('copy');
+        alert('✓ Sunucu kodu kopyalandı!');
+      });
+    }
+
+    async function pingCloudUrl(url) {
+      const start = Date.now();
+      const resp = await fetch(url + (url.includes('?') ? '&' : '?') + 'action=ping', { cache: 'no-cache' });
+      if (!resp.ok) throw new Error('HTTP ' + resp.status);
+      const data = await resp.json();
+      if (!data || !data.ok) throw new Error((data && data.error) || 'Geçersiz sunucu yanıtı');
+      return { data, ms: Date.now() - start };
+    }
+
+    async function testCloudConnection() {
+      const urlInp = document.getElementById('cloudApiUrlInput');
+      const url = (urlInp ? urlInp.value : '').trim();
+      if (!url || !url.startsWith('https://script.google.com/macros/s/')) {
+        alert('Lütfen geçerli bir Google Apps Script Web Uygulaması URL\'si giriniz.\nÖrnek: https://script.google.com/macros/s/.../exec');
+        return;
+      }
+      const btn = document.getElementById('btnTestCloudConn');
+      const orig = btn ? btn.innerHTML : '';
+      if (btn) btn.innerHTML = '<span>⏳</span> Test Ediliyor...';
+      try {
+        const res = await pingCloudUrl(url);
+        alert(`🟢 BAĞLANTI BAŞARILI! (${res.ms} ms)\n\nServis: ${res.data.service}\nSürüm: ${res.data.version}\n\nŞimdi "Bağlantıyı Kaydet & Verileri Eşitle" butonuna basarak tüm verileri ortak sisteme bağlayabilirsiniz.`);
+      } catch (err) {
+        alert('🔴 Bulut sunucusuna bağlanılamadı:\n' + err.message + '\n\nLütfen Apps Script dağıtımında "Erişimi olanlar: Herkes (Anyone)" seçtiğinizden ve URL\'nin "/exec" ile bittiğinden emin olun.');
+      } finally {
+        if (btn) btn.innerHTML = orig;
+      }
+    }
+
+    async function saveSystemSettings() {
+      const modeSel = document.getElementById('dbStorageMode');
+      const mode = modeSel ? modeSel.value : 'local';
+
+      if (mode === 'local') {
+        localStorage.setItem('mulk_cloud_mode', 'local');
+        if (cloudSyncIntervalTimer) clearInterval(cloudSyncIntervalTimer);
+        updateCloudStatusUI();
+        alert('✓ Sistem Yerel Depolama moduna alındı.');
+        return;
+      }
+
+      const urlInp = document.getElementById('cloudApiUrlInput');
+      const url = (urlInp ? urlInp.value : '').trim();
+      if (!url || !url.startsWith('https://script.google.com/macros/s/')) {
+        alert('Lütfen geçerli bir Google Apps Script Web Uygulaması URL\'si giriniz.');
+        return;
+      }
+
+      const btn = document.getElementById('btnSaveCloudSettings');
+      const orig = btn ? btn.innerHTML : '';
+      if (btn) { btn.disabled = true; btn.innerHTML = '<span>⏳</span> Bağlanıyor...'; }
+
+      try {
+        await pingCloudUrl(url);
+        localStorage.setItem('mulk_cloud_mode', 'cloud');
+        localStorage.setItem('mulk_cloud_api_url', url);
+
+        // Oturum token'ı yoksa Yönetici parolasıyla sunucudan güvenli token al
+        let token = sessionStorage.getItem('mulk_cloud_token') || localStorage.getItem('mulk_cloud_token_remember');
+        if (!token) {
+          const pwd = prompt('🔒 Ortak Bulut Veritabanını aktifleştirmek için Yönetici (info) parolanızı doğrulayınız:');
+          if (!pwd) {
+            updateCloudStatusUI('auth_needed');
+            return;
+          }
+          const loginRes = await window.mulkCloudRequest('login', { username: 'info', password: pwd.trim(), remember: true });
+          if (!loginRes || !loginRes.ok || !loginRes.token) {
+            throw new Error((loginRes && loginRes.error) || 'Yönetici parolası doğrulanamadı.');
+          }
+          token = loginRes.token;
+          sessionStorage.setItem('mulk_cloud_token', token);
+          localStorage.setItem('mulk_cloud_token_remember', token);
+        }
+
+        // İlk kez kurulumsa yerel verileri buluta aktar; bulutta veri varsa çek
+        const syncRes = await window.mulkCloudRequest('sync_all', { includeGmail: false });
+        if (syncRes && syncRes.ok) {
+          const serverHasData = (syncRes.athletes && syncRes.athletes.length > 0) ||
+                                (syncRes.leads && syncRes.leads.length > 0) ||
+                                (syncRes.attendance && syncRes.attendance.length > 0);
+          const localHasData = (athletes.length > 0 || leads.length > 0 || attendanceLogs.length > 0);
+
+          if (!serverHasData && localHasData) {
+            await window.mulkCloudRequest('save_athletes', { athletes: athletes });
+            await window.mulkCloudRequest('save_leads', { leads: leads });
+            if (attendanceLogs.length > 0) {
+              await window.mulkCloudRequest('save_attendance', { records: attendanceLogs });
+            }
+          }
+          if (!syncRes.schools || syncRes.schools.length === 0) {
+            await window.mulkCloudRequest('save_schools', { schools: schools });
+          }
+          await cloudSyncPull({ silent: true });
+        }
+
+        updateCloudStatusUI();
+        startCloudAutoSync();
+        syncLiveEmails(false);
+        alert('🎉 Tebrikler! Google Workspace Ortak Bulut Veritabanı başarıyla bağlandı!\n\nAşağıdaki yeşil kutudan "cloud_config.js İndir" diyerek GitHub\'a yükleyebilir veya Antrenör Hızlı Linkini WhatsApp\'tan gönderebilirsiniz.');
+      } catch (err) {
+        alert('🔴 Bulut ayarları kaydedilirken hata oluştu:\n' + err.message);
+      } finally {
+        if (btn) { btn.disabled = false; btn.innerHTML = orig; }
+      }
+    }
+
+    function copyCoachQuickLink() {
+      const url = (document.getElementById('cloudApiUrlInput') && document.getElementById('cloudApiUrlInput').value.trim()) ||
+                  (typeof window.getMulkCloudState === 'function' ? window.getMulkCloudState().apiUrl : '');
+      if (!url) {
+        alert('Önce geçerli Web Uygulaması URL\'sini kaydedin.');
+        return;
+      }
+      const basePage = window.location.protocol.startsWith('http')
+        ? (window.location.origin + window.location.pathname)
+        : 'https://mulksporkulubu.com/panel.html';
+      const quickLink = basePage + '?cloud=' + encodeURIComponent(url);
+      navigator.clipboard.writeText(quickLink).then(() => {
+        alert('✓ Antrenör Hızlı Kurulum Linki kopyalandı!\n\nBu linki antrenörlerinize WhatsApp\'tan atın. Linke tıkladıklarında telefonları otomatik olarak ortak bulut veritabanına bağlanacaktır.');
+      }).catch(() => {
+        prompt('Aşağıdaki linki kopyalayıp antrenörlerinize gönderin:', quickLink);
+      });
+    }
+
+    function downloadCloudConfigFile() {
+      const url = (document.getElementById('cloudApiUrlInput') && document.getElementById('cloudApiUrlInput').value.trim()) ||
+                  (typeof window.getMulkCloudState === 'function' ? window.getMulkCloudState().apiUrl : '');
+      if (!url) {
+        alert('Önce geçerli Web Uygulaması URL\'sini kaydedin.');
+        return;
+      }
+      const cleanUrl = url.replace(/'/g, "\\'");
+      const helperScript = `/**
+ * MÜLK Spor Kulübü - Bulut Veritabanı & Çoklu Cihaz Senkronizasyon Ayarı
+ */
+window.MULK_CLOUD_CONFIG = {
+  mode: 'cloud',
+  apiUrl: '${cleanUrl}'
+};
+
+(function initMulkCloudAutoConfig() {
+  try {
+    var params = new URLSearchParams(window.location.search);
+    var cloudParam = params.get('cloud');
+    if (cloudParam) {
+      var decodedUrl = cloudParam.trim();
+      try { decodedUrl = decodeURIComponent(decodedUrl); } catch (e) {}
+      if (decodedUrl.indexOf('https://script.google.com/macros/s/') === 0) {
+        localStorage.setItem('mulk_cloud_api_url', decodedUrl);
+        localStorage.setItem('mulk_cloud_mode', 'cloud');
+      }
+      params.delete('cloud');
+      var cleanSearch = params.toString();
+      var newUrl = window.location.pathname + (cleanSearch ? '?' + cleanSearch : '') + window.location.hash;
+      if (window.history && window.history.replaceState) {
+        window.history.replaceState(null, '', newUrl);
+      }
+    }
+  } catch (e) {}
+})();
+
+window.getMulkCloudState = function() {
+  var savedUrl = '';
+  var savedMode = '';
+  try {
+    savedUrl = (localStorage.getItem('mulk_cloud_api_url') || '').trim();
+    savedMode = (localStorage.getItem('mulk_cloud_mode') || '').trim();
+  } catch (e) {}
+  var cfgUrl = (window.MULK_CLOUD_CONFIG && window.MULK_CLOUD_CONFIG.apiUrl ? window.MULK_CLOUD_CONFIG.apiUrl : '').trim();
+  var cfgMode = (window.MULK_CLOUD_CONFIG && window.MULK_CLOUD_CONFIG.mode ? window.MULK_CLOUD_CONFIG.mode : 'local').trim();
+  var finalUrl = savedUrl || cfgUrl;
+  var finalMode = savedMode || cfgMode;
+  if (cfgUrl && !savedUrl) finalMode = 'cloud';
+  var isValidUrl = finalUrl.indexOf('https://script.google.com/macros/s/') === 0;
+  var isCloudActive = (finalMode === 'cloud' && isValidUrl);
+  return { mode: isCloudActive ? 'cloud' : 'local', apiUrl: finalUrl, isCloudActive: isCloudActive };
+};
+
+window.mulkCloudRequest = async function(action, payload) {
+  var state = window.getMulkCloudState();
+  if (!state.isCloudActive || !state.apiUrl) throw new Error('CLOUD_NOT_CONFIGURED');
+  var token = '';
+  try { token = sessionStorage.getItem('mulk_cloud_token') || localStorage.getItem('mulk_cloud_token_remember') || ''; } catch (e) {}
+  var bodyObj = Object.assign({}, payload || {}, { action: action, token: token });
+  var resp = await fetch(state.apiUrl, {
+    method: 'POST',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify(bodyObj)
+  });
+  if (!resp.ok) throw new Error('HTTP_' + resp.status);
+  var data = await resp.json();
+  if (data && data.authError) throw new Error('AUTH_EXPIRED');
+  return data;
+};
+
+window.mulkSha256 = ${window.mulkSha256.toString()};
+`;
+      const blob = new Blob([helperScript], { type: 'application/javascript;charset=utf-8;' });
+      const dlUrl = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = dlUrl;
+      a.download = 'cloud_config.js';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(dlUrl);
+    }
+
     function checkAuth() {
+      updateCloudStatusUI();
       const role = getCurrentUserRole();
       if (role) {
         document.getElementById('loginScreen').style.display = 'none';
         applyRolePermissions(role);
         renderTables();
+        loadSettingsUI();
+        startCloudAutoSync();
 
         // Sayfa yenilendiğinde son bulunulan aktif sekmeyi geri yükle
         let targetTab = 'dashboard';
@@ -5035,7 +5821,7 @@ MÜLK Spor Kulübü Yönetimi`
       }
     }
 
-    function handleLogin(e) {
+    async function handleLogin(e) {
       e.preventDefault();
       let rawUser = document.getElementById('loginUsername').value.trim();
       let enteredUser = rawUser.toLowerCase()
@@ -5045,53 +5831,81 @@ MÜLK Spor Kulübü Yönetimi`
         .trim();
 
       const enteredPass = document.getElementById('loginPassword').value.trim();
+      const rememberMe = document.getElementById('rememberMe').checked;
       const errorDiv = document.getElementById('loginError');
+      const submitBtn = e.target.querySelector('button[type="submit"]');
+      const origBtnText = submitBtn ? submitBtn.innerText : 'Sisteme Giriş Yap →';
+
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerText = '🔐 Doğrulanıyor...';
+      }
 
       let authenticatedRole = null;
       let authenticatedCoachKey = null;
+      let serverToken = '';
+      let serverError = '';
 
-      // 1. Yönetici Kontrolü (Alternatifsiz: Yalnızca 'info' ve 'Mulk@2026!Ankara,Gazi')
-      const exactAdminPass = getAdminPassword();
-      const isExactAdminUser = (enteredUser === 'info');
+      const cloudState = (typeof window.getMulkCloudState === 'function') ? window.getMulkCloudState() : { isCloudActive: false };
 
-      if (isExactAdminUser && enteredPass === exactAdminPass) {
-        authenticatedRole = 'admin';
-      }
-      // 2. Branş Antrenörleri Kontrolü (futbol, voleybol, basketbol, jimnastik, okculuk, kros)
-      else {
-        let coachKey = enteredUser;
-        if (coachKey === 'okculuk' || coachKey === 'okçuluk') coachKey = 'okculuk';
-        if (coachKey === 'cimnastik') coachKey = 'jimnastik';
-
-        if (BRANCH_COACHES[coachKey]) {
-          const coach = BRANCH_COACHES[coachKey];
-          if (coach.pass.includes(enteredPass)) {
+      if (cloudState.isCloudActive && typeof window.mulkCloudRequest === 'function') {
+        try {
+          const res = await window.mulkCloudRequest('login', {
+            username: rawUser,
+            password: enteredPass,
+            remember: rememberMe
+          });
+          if (res && res.ok && res.token) {
+            authenticatedRole = res.role;
+            authenticatedCoachKey = res.coachKey || null;
+            serverToken = res.token;
+          } else {
+            serverError = (res && res.error) || 'Kullanıcı adı veya parola hatalı.';
+          }
+        } catch (err) {
+          serverError = 'Bulut sunucusuyla iletişim kurulamadı (' + err.message + ').';
+        }
+      } else {
+        // Yerel Mod (Hash Doğrulaması - HTML içinde açık parola bulundurulmaz)
+        const enteredHash = (typeof window.mulkSha256 === 'function') ? await window.mulkSha256(enteredPass) : '';
+        const exactAdminHash = getAdminPasswordHash();
+        if (enteredUser === 'info' && enteredHash && enteredHash === exactAdminHash) {
+          authenticatedRole = 'admin';
+        } else {
+          let coachKey = enteredUser;
+          if (coachKey === 'okçuluk') coachKey = 'okculuk';
+          if (coachKey === 'cimnastik') coachKey = 'jimnastik';
+          if (BRANCH_COACHES[coachKey] && enteredHash && BRANCH_COACHES[coachKey].passHashes.includes(enteredHash)) {
             authenticatedRole = 'coach';
             authenticatedCoachKey = coachKey;
           }
         }
       }
 
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.innerText = origBtnText;
+      }
+
       if (authenticatedRole) {
         sessionStorage.setItem('mulk_auth', 'true');
         sessionStorage.setItem('mulk_role', authenticatedRole);
+        if (serverToken) sessionStorage.setItem('mulk_cloud_token', serverToken);
+        if (authenticatedCoachKey) sessionStorage.setItem('mulk_coach_key', authenticatedCoachKey);
 
-        if (authenticatedCoachKey) {
-          sessionStorage.setItem('mulk_coach_key', authenticatedCoachKey);
-        }
-
-        if (document.getElementById('rememberMe').checked) {
+        if (rememberMe) {
           localStorage.setItem('mulk_auth_remember', 'true');
           localStorage.setItem('mulk_role_remember', authenticatedRole);
-          if (authenticatedCoachKey) {
-            localStorage.setItem('mulk_coach_key_remember', authenticatedCoachKey);
-          }
+          if (serverToken) localStorage.setItem('mulk_cloud_token_remember', serverToken);
+          if (authenticatedCoachKey) localStorage.setItem('mulk_coach_key_remember', authenticatedCoachKey);
         }
 
         document.getElementById('loginScreen').style.display = 'none';
         errorDiv.style.display = 'none';
         applyRolePermissions(authenticatedRole);
         renderTables();
+        loadSettingsUI();
+        startCloudAutoSync();
 
         let targetTab = 'dashboard';
         const hashTab = (window.location.hash || '').replace('#', '').trim();
@@ -5107,7 +5921,7 @@ MÜLK Spor Kulübü Yönetimi`
         switchTab(targetTab);
       } else {
         errorDiv.style.display = 'block';
-        errorDiv.innerHTML = '✕ Hatalı kullanıcı adı veya parola!<br><small style="color:#64748b;font-weight:normal;">Yönetici için: <strong>info</strong> / Parola: <strong>Mulk@2026!Ankara,Gazi</strong></small>';
+        errorDiv.innerHTML = '✕ ' + (serverError || 'Hatalı kullanıcı adı veya parola!') + '<br><small style="color:#64748b;font-weight:normal;">Lütfen kulüp yönetiminiz tarafından size tanımlanan kullanıcı adı ve parolayı kontrol ediniz.</small>';
         document.getElementById('loginPassword').value = '';
         document.getElementById('loginPassword').focus();
       }
@@ -5120,12 +5934,10 @@ MÜLK Spor Kulübü Yönetimi`
       const coach = getCurrentCoachData();
 
       if (role === 'coach' && coach) {
-        // ANTRENÖR MODU
         roleBadge.innerHTML = `${coach.icon} ${coach.title}`;
         roleBadge.style.background = 'rgba(16, 185, 129, 0.2)';
         roleBadge.style.color = '#10b981';
 
-        // Antrenör finansal verileri, CRM hattını, okulları ve ayarları GÖREMEZ (KVKK Madde 12)
         navBtns.forEach(btn => {
           const onclickAttr = btn.getAttribute('onclick') || '';
           if (onclickAttr.includes('dashboard') || onclickAttr.includes('crm') || onclickAttr.includes('mailbox') || onclickAttr.includes('schools') || onclickAttr.includes('finance') || onclickAttr.includes('kvkk') || onclickAttr.includes('settings')) {
@@ -5148,7 +5960,6 @@ MÜLK Spor Kulübü Yönetimi`
 
         switchTab('attendance');
       } else {
-        // YÖNETİCİ MODU (TAM YETKİ)
         roleBadge.innerHTML = '🛡️ info@mulksporkulubu.com (Yönetici)';
         roleBadge.style.background = 'rgba(200, 16, 46, 0.2)';
         roleBadge.style.color = '#ff8a99';
@@ -5173,10 +5984,12 @@ MÜLK Spor Kulübü Yönetimi`
 
     function handleLogout() {
       if (confirm('Sistemden güvenli çıkış yapmak istiyor musunuz?')) {
+        if (cloudSyncIntervalTimer) clearInterval(cloudSyncIntervalTimer);
         sessionStorage.clear();
         localStorage.removeItem('mulk_auth_remember');
         localStorage.removeItem('mulk_role_remember');
         localStorage.removeItem('mulk_coach_key_remember');
+        localStorage.removeItem('mulk_cloud_token_remember');
         localStorage.removeItem('mulk_active_tab');
         if (window.history && window.history.replaceState) {
           window.history.replaceState(null, '', window.location.pathname);
@@ -5199,15 +6012,43 @@ MÜLK Spor Kulübü Yönetimi`
       }
     }
 
-    function changeAdminPassword() {
+    async function changeAdminPassword() {
       const newP = document.getElementById('newAdminPassword').value.trim();
       if (!newP || newP.length < 6) {
         alert('Lütfen en az 6 karakterden oluşan güçlü bir parola giriniz.');
         return;
       }
-      localStorage.setItem('mulk_admin_pass', newP);
+
+      const cloudState = (typeof window.getMulkCloudState === 'function') ? window.getMulkCloudState() : { isCloudActive: false };
+      if (cloudState.isCloudActive && typeof window.mulkCloudRequest === 'function') {
+        try {
+          const res = await window.mulkCloudRequest('change_admin_password', { newPassword: newP });
+          if (res && res.ok) {
+            if (res.token) {
+              sessionStorage.setItem('mulk_cloud_token', res.token);
+              if (localStorage.getItem('mulk_auth_remember')) {
+                localStorage.setItem('mulk_cloud_token_remember', res.token);
+              }
+            }
+            if (typeof window.mulkSha256 === 'function') {
+              localStorage.setItem('mulk_admin_pass_hash', await window.mulkSha256(newP));
+            }
+            document.getElementById('newAdminPassword').value = '';
+            alert('✓ Yönetici parolanız ortak Bulut sunucusunda güvenli şekilde güncellendi!');
+            return;
+          }
+          throw new Error((res && res.error) || 'Sunucu parolayı güncelleyemedi.');
+        } catch (err) {
+          alert('🔴 Parola bulut sunucusunda güncellenirken hata oluştu:\n' + err.message);
+          return;
+        }
+      }
+
+      if (typeof window.mulkSha256 === 'function') {
+        localStorage.setItem('mulk_admin_pass_hash', await window.mulkSha256(newP));
+      }
       document.getElementById('newAdminPassword').value = '';
-      alert('✓ Yönetici parolanız başarıyla güncellendi! Bir sonraki girişinizde bu yeni parolayı kullanacaksınız.');
+      alert('✓ Yönetici parolanız bu cihaz için başarıyla güncellendi!');
     }
 
     // Tarih seçici başlangıç
