@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-  <script src="cloud_config.js"></script>
+  <script src="cloud_config.js?v=2.1"></script>
 
   <style>
     :root {
@@ -451,6 +451,11 @@
     }
     .search-input:focus {
       border-color: var(--primary);
+    }
+
+    body.coach-mode .coach-hide-col,
+    body.coach-mode .coach-hide-control {
+      display: none !important;
     }
 
     table.data-table {
@@ -1100,6 +1105,22 @@
       🛡️ info@mulksporkulubu.com (Yönetici)
     </div>
 
+    <!-- Yalnızca info (Yönetici) Girişinde Açılan Hızlı Hesap Geçişi -->
+    <div id="adminQuickSwitchBox" style="display:none;margin:0 14px 12px;padding:10px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.14);border-radius:10px;">
+      <label for="adminAccountSwitchSelect" style="display:block;font-size:10px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:0.6px;margin-bottom:6px;">
+        🔁 Hızlı Hesap Geçişi (Yönetici)
+      </label>
+      <select id="adminAccountSwitchSelect" onchange="switchAccountView(this.value)" style="width:100%;padding:7px 9px;border-radius:7px;background:#0f172a;color:#f8fafc;border:1px solid #334155;font-size:12px;font-weight:600;cursor:pointer;">
+        <option value="admin">🛡️ info (Yönetici - Tam Yetki)</option>
+        <option value="futbol">⚽ Futbol Antrenörü</option>
+        <option value="voleybol">🏐 Voleybol Antrenörü</option>
+        <option value="basketbol">🏀 Basketbol Antrenörü</option>
+        <option value="jimnastik">🤸 Jimnastik Antrenörü</option>
+        <option value="okculuk">🏹 Okçuluk Antrenörü</option>
+        <option value="kros">🏃 Kros Antrenörü</option>
+      </select>
+    </div>
+
     <nav class="sidebar-nav">
       <button class="nav-btn active" onclick="switchTab('dashboard')">
         <span class="icon">📊</span>
@@ -1178,6 +1199,9 @@
           <button type="button" id="cloudStatusBadge" onclick="handleCloudBadgeClick()" title="Ortak Veritabanı Senkronizasyon Durumu" style="display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:700;border:1px solid #fde68a;background:#fffbeb;color:#92400e;cursor:pointer;">
             <span id="cloudStatusDot">🟡</span>
             <span id="cloudStatusLabel">Yerel Depolama (Tek Cihaz)</span>
+          </button>
+          <button type="button" id="adminQuickReturnBtn" onclick="switchAccountView('admin')" title="Yönetici Hesabına Geri Dön" style="display:none;align-items:center;gap:5px;padding:3px 11px;border-radius:999px;font-size:11px;font-weight:700;border:1px solid #fecaca;background:#fef2f2;color:#b91c1c;cursor:pointer;">
+            🛡️ Yöneticiye Dön (info) ↩
           </button>
         </div>
         <span>MÜLK Spor Kulübü Operasyonel Yönetim Platformu</span>
@@ -1486,7 +1510,7 @@
               <select id="filterSchool" class="search-input" style="width:170px;" onchange="filterAthletesTable()">
                 <option value="">Tüm Okullar / Tesisler</option>
               </select>
-              <select id="filterBranch" class="search-input" style="width:150px;" onchange="filterAthletesTable()">
+              <select id="filterBranch" class="search-input coach-hide-control" style="width:150px;" onchange="filterAthletesTable()">
                 <option value="">Tüm Branşlar</option>
                 <option value="Voleybol">Voleybol</option>
                 <option value="Futbol">Futbol</option>
@@ -1496,7 +1520,7 @@
                 <option value="Kros">Kros & Atletizm</option>
               </select>
               <input type="text" class="search-input" id="searchAthletes" placeholder="Sporcu veya veli ara..." onkeyup="filterAthletesTable()">
-              <button class="btn btn-primary btn-sm" onclick="openModal('newAthleteModal')">+ Yeni Sporcu</button>
+              <button class="btn btn-primary btn-sm coach-hide-control" onclick="openModal('newAthleteModal')">+ Yeni Sporcu</button>
             </div>
           </div>
 
@@ -1509,9 +1533,9 @@
                 <th>Aktif Branş</th>
                 <th>Veli Ad Soyad</th>
                 <th>Telefon</th>
-                <th>Aidat Durumu</th>
-                <th>Hızlı WhatsApp</th>
-                <th>İşlem</th>
+                <th class="coach-hide-col">Aidat Durumu</th>
+                <th class="coach-hide-col">Hızlı WhatsApp</th>
+                <th class="coach-hide-col">İşlem</th>
               </tr>
             </thead>
             <tbody id="athletesTbody">
@@ -1908,6 +1932,7 @@
               <h3>Kulüp &amp; Ortak Bulut Veritabanı Yapılandırması</h3>
               <span style="font-size:12px;color:var(--muted);">Antrenör telefonları, veli QR formları ve admin paneli arası canlı senkronizasyon</span>
             </div>
+            <span class="badge badge-blue" style="font-size:11px;">Sürüm v2.1 · Bulut Motoru</span>
           </div>
           <div style="padding:24px;">
             <div class="form-group">
@@ -1946,7 +1971,7 @@
 
               <div class="form-group" style="margin-bottom:12px;">
                 <label for="cloudApiUrlInput" style="font-size:12px;">Google Apps Script Web Uygulaması URL'si *</label>
-                <input type="url" id="cloudApiUrlInput" placeholder="https://script.google.com/macros/s/.../exec" style="background:white;font-family:'JetBrains Mono',monospace;font-size:12px;">
+                <input type="url" id="cloudApiUrlInput" oninput="saveCloudUrlDraft(this.value)" placeholder="https://script.google.com/macros/s/.../exec" style="background:white;font-family:'JetBrains Mono',monospace;font-size:12px;">
               </div>
 
               <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;">
@@ -3620,12 +3645,15 @@ MÜLK Spor Kulübü Yönetimi</div>
       }
 
       if (visibleList.length === 0) {
+        const emptySub = (role === 'coach')
+          ? 'Branşınıza kulüp yönetimi tarafından sporcu eklendiğinde burada görüntülenecektir.'
+          : 'Sağ üstteki "+ Yeni Sporcu Kaydı" butonuyla veya CRM dönüşüm hattından ilk sporcunuzu ekleyebilirsiniz.';
         athletesTbody.innerHTML = `
           <tr>
-            <td colspan="9" style="text-align:center;padding:36px;color:var(--muted);">
+            <td colspan="${role === 'coach' ? 6 : 9}" style="text-align:center;padding:36px;color:var(--muted);">
               <span style="font-size:26px;display:block;margin-bottom:8px;">🏃</span>
               <strong style="color:#475569;display:block;margin-bottom:4px;">Kayıtlı Sporcu Bulunmuyor</strong>
-              <span style="font-size:12px;">Sağ üstteki "+ Yeni Sporcu Kaydı" butonuyla veya CRM dönüşüm hattından ilk sporcunuzu ekleyebilirsiniz.</span>
+              <span style="font-size:12px;">${emptySub}</span>
             </td>
           </tr>
         `;
@@ -3635,14 +3663,17 @@ MÜLK Spor Kulübü Yönetimi</div>
       visibleList.forEach(ath => {
         const tr = document.createElement('tr');
         const badgeClass = ath.status === 'Ödendi' ? 'badge-green' : (ath.status === 'Bekliyor' ? 'badge-yellow' : 'badge-red');
-        
-        const feeCell = (role === 'coach') 
-          ? '<td><small style="color:var(--muted);">Yetki Dışı</small></td>'
-          : `<td><span class="badge ${badgeClass}">${ath.status}</span></td>`;
 
-        const actionCell = (role === 'coach')
-          ? '<td><button class="btn btn-primary btn-sm" onclick="switchTab(\'attendance\')">Yoklama</button></td>'
-          : `<td><button class="btn btn-secondary btn-sm" onclick="anonymizeAthlete('${ath.id}')">KVKK İmha</button></td>`;
+        let adminOnlyCols = '';
+        if (role !== 'coach') {
+          adminOnlyCols = `
+            <td><span class="badge ${badgeClass}">${ath.status}</span></td>
+            <td>
+              <button class="btn-wa" onclick="sendDirectWhatsApp('${ath.phone}', '${ath.name}', '${ath.branch}')">💬 Mesaj</button>
+            </td>
+            <td><button class="btn btn-secondary btn-sm" onclick="anonymizeAthlete('${ath.id}')">KVKK İmha</button></td>
+          `;
+        }
 
         tr.innerHTML = `
           <td><code>${ath.id}</code></td>
@@ -3651,11 +3682,7 @@ MÜLK Spor Kulübü Yönetimi</div>
           <td><span class="badge badge-blue">${ath.branch}</span></td>
           <td>${ath.parent}</td>
           <td>${ath.phone}</td>
-          ${feeCell}
-          <td>
-            <button class="btn-wa" onclick="sendDirectWhatsApp('${ath.phone}', '${ath.name}', '${ath.branch}')">💬 Mesaj</button>
-          </td>
-          ${actionCell}
+          ${adminOnlyCols}
         `;
         athletesTbody.appendChild(tr);
       });
@@ -3917,7 +3944,7 @@ MÜLK Spor Kulübü Yönetimi</div>
           const res = await window.mulkCloudRequest('save_attendance', { records: records });
           if (res && res.ok) {
             if (Array.isArray(res.attendance)) {
-              attendanceLogs = res.attendance;
+              attendanceLogs = normalizeAttLogs(res.attendance);
               localStorage.setItem('mulk_attendance_log', JSON.stringify(attendanceLogs));
             }
             alert('✓ Yoklama ve gelişim notları Ortak Bulut Veritabanına kaydedildi! Yönetici ve yetkili cihazlar anında görüntüleyebilir.');
@@ -4066,8 +4093,14 @@ MÜLK Spor Kulübü Yönetimi</div>
       const schoolsCount = document.getElementById('schoolsCount');
       const mailboxBadge = document.getElementById('mailboxBadge');
 
+      const role = getCurrentUserRole();
+      const coach = getCurrentCoachData();
+      const athBadgeCount = (role === 'coach' && coach)
+        ? athletes.filter(a => (a.branch || '').toLowerCase().includes(coach.branch.toLowerCase())).length
+        : athletes.length;
+
       if (crmCount) crmCount.innerText = leads.length;
-      if (athletesCount) athletesCount.innerText = athletes.length;
+      if (athletesCount) athletesCount.innerText = athBadgeCount;
       if (schoolsCount) schoolsCount.innerText = schools.length;
 
       const unreadTotal = emails.filter(m => m.unread && m.folder === 'inbox').length;
@@ -4937,7 +4970,7 @@ MÜLK Spor Kulübü Yönetimi`
 
         // 0. Google Workspace Bulut Motoru (Gmail Kutusu Doğrudan Senkronizasyonu - Admin Yetkili)
         const cState = (typeof window.getMulkCloudState === 'function') ? window.getMulkCloudState() : { isCloudActive: false };
-        if (cState.isCloudActive && getCurrentUserRole() === 'admin' && typeof window.mulkCloudRequest === 'function') {
+        if (cState.isCloudActive && isPrimaryAdmin() && typeof window.mulkCloudRequest === 'function') {
           try {
             const gRes = await window.mulkCloudRequest('fetch_gmail', {});
             if (gRes && gRes.ok && Array.isArray(gRes.emails)) {
@@ -5343,13 +5376,42 @@ MÜLK Spor Kulübü Yönetimi`
       return localStorage.getItem('mulk_admin_pass_hash') || DEFAULT_ADMIN_HASH;
     }
 
+    function isPrimaryAdmin() {
+      const realRole = sessionStorage.getItem('mulk_role') || localStorage.getItem('mulk_role_remember') || null;
+      return realRole === 'admin';
+    }
+
+    function getEffectiveCoachViewKey() {
+      if (!isPrimaryAdmin()) return null;
+      const viewKey = sessionStorage.getItem('mulk_view_coach_key');
+      return (viewKey && BRANCH_COACHES[viewKey]) ? viewKey : null;
+    }
+
     function getCurrentUserRole() {
+      if (getEffectiveCoachViewKey()) return 'coach';
       return sessionStorage.getItem('mulk_role') || localStorage.getItem('mulk_role_remember') || null;
     }
 
     function getCurrentCoachData() {
+      const viewKey = getEffectiveCoachViewKey();
+      if (viewKey) return BRANCH_COACHES[viewKey];
       const coachKey = sessionStorage.getItem('mulk_coach_key') || localStorage.getItem('mulk_coach_key_remember');
       return coachKey && BRANCH_COACHES[coachKey] ? BRANCH_COACHES[coachKey] : null;
+    }
+
+    function switchAccountView(targetKey) {
+      if (!isPrimaryAdmin()) return;
+      if (!targetKey || targetKey === 'admin' || !BRANCH_COACHES[targetKey]) {
+        sessionStorage.removeItem('mulk_view_coach_key');
+        applyRolePermissions('admin');
+        renderTables();
+        switchTab('dashboard');
+      } else {
+        sessionStorage.setItem('mulk_view_coach_key', targetKey);
+        applyRolePermissions('coach');
+        renderTables();
+        switchTab('attendance');
+      }
     }
 
     // ================= BULUT VERİTABANI SENKRONİZASYON MOTORU =================
@@ -5412,12 +5474,32 @@ MÜLK Spor Kulübü Yönetimi`
     }
 
     function handleCloudBadgeClick() {
-      const role = getCurrentUserRole();
-      if (role === 'admin') {
+      if (isPrimaryAdmin() && !getEffectiveCoachViewKey()) {
         switchTab('settings');
       } else {
         manualCloudRefresh();
       }
+    }
+
+    function normalizeIsoDateStr(val) {
+      if (!val) return '';
+      const s = String(val).trim();
+      if (/^\d{4}-\d{2}-\d{2}$/.test(s)) return s;
+      const d = new Date(s);
+      if (!isNaN(d.getTime())) {
+        const y = d.getFullYear();
+        const m = String(d.getMonth() + 1).padStart(2, '0');
+        const day = String(d.getDate()).padStart(2, '0');
+        return `${y}-${m}-${day}`;
+      }
+      return s;
+    }
+
+    function normalizeAttLogs(arr) {
+      if (!Array.isArray(arr)) return [];
+      return arr.map(item => Object.assign({}, item, {
+        date: normalizeIsoDateStr(item.date)
+      }));
     }
 
     async function cloudSyncPull(options) {
@@ -5443,7 +5525,7 @@ MÜLK Spor Kulübü Yönetimi`
             localStorage.setItem('mulk_athletes', JSON.stringify(athletes));
           }
           if (Array.isArray(res.attendance)) {
-            attendanceLogs = res.attendance;
+            attendanceLogs = normalizeAttLogs(res.attendance);
             localStorage.setItem('mulk_attendance_log', JSON.stringify(attendanceLogs));
           }
           if (res.role === 'admin' && Array.isArray(res.leads)) {
@@ -5473,7 +5555,7 @@ MÜLK Spor Kulübü Yönetimi`
     async function cloudSyncPush(scope) {
       const state = (typeof window.getMulkCloudState === 'function') ? window.getMulkCloudState() : { isCloudActive: false };
       if (!state.isCloudActive) return;
-      if (getCurrentUserRole() !== 'admin') return;
+      if (!isPrimaryAdmin()) return;
 
       const hasToken = sessionStorage.getItem('mulk_cloud_token') || localStorage.getItem('mulk_cloud_token_remember');
       if (!hasToken) {
@@ -5536,10 +5618,23 @@ MÜLK Spor Kulübü Yönetimi`
       const state = (typeof window.getMulkCloudState === 'function') ? window.getMulkCloudState() : { mode: 'local', apiUrl: '' };
       const modeSel = document.getElementById('dbStorageMode');
       const urlInp = document.getElementById('cloudApiUrlInput');
-      if (modeSel) modeSel.value = state.isCloudActive ? 'cloud' : (localStorage.getItem('mulk_cloud_mode') || 'local');
-      if (urlInp) urlInp.value = state.apiUrl || '';
-      toggleCloudSettingsBox();
+      let draftMode = 'local';
+      let draftUrl = '';
+      try {
+        draftMode = localStorage.getItem('mulk_cloud_draft_mode') || localStorage.getItem('mulk_cloud_mode') || 'local';
+        draftUrl = localStorage.getItem('mulk_cloud_draft_url') || '';
+      } catch (e) {}
+      if (modeSel) modeSel.value = state.isCloudActive ? 'cloud' : draftMode;
+      if (urlInp) urlInp.value = state.apiUrl || draftUrl || '';
+      const box = document.getElementById('cloudSettingsBox');
+      if (box && modeSel) box.style.display = (modeSel.value === 'cloud') ? 'block' : 'none';
       updateCloudStatusUI();
+    }
+
+    function saveCloudUrlDraft(val) {
+      try {
+        localStorage.setItem('mulk_cloud_draft_url', (val || '').trim());
+      } catch (e) {}
     }
 
     function toggleCloudSettingsBox() {
@@ -5547,6 +5642,9 @@ MÜLK Spor Kulübü Yönetimi`
       const box = document.getElementById('cloudSettingsBox');
       if (!modeSel || !box) return;
       box.style.display = (modeSel.value === 'cloud') ? 'block' : 'none';
+      try {
+        localStorage.setItem('mulk_cloud_draft_mode', modeSel.value);
+      } catch (e) {}
     }
 
     async function openCloudSetupGuideModal() {
@@ -5591,7 +5689,10 @@ MÜLK Spor Kulübü Yönetimi`
     async function testCloudConnection() {
       const urlInp = document.getElementById('cloudApiUrlInput');
       const url = (urlInp ? urlInp.value : '').trim();
-      if (!url || !url.startsWith('https://script.google.com/macros/s/')) {
+      const isValid = (typeof window.isValidMulkCloudUrl === 'function')
+        ? window.isValidMulkCloudUrl(url)
+        : (url.startsWith('https://script.google.com/') && url.includes('/macros/s/'));
+      if (!url || !isValid) {
         alert('Lütfen geçerli bir Google Apps Script Web Uygulaması URL\'si giriniz.\nÖrnek: https://script.google.com/macros/s/.../exec');
         return;
       }
@@ -5614,6 +5715,7 @@ MÜLK Spor Kulübü Yönetimi`
 
       if (mode === 'local') {
         localStorage.setItem('mulk_cloud_mode', 'local');
+        localStorage.setItem('mulk_cloud_draft_mode', 'local');
         if (cloudSyncIntervalTimer) clearInterval(cloudSyncIntervalTimer);
         updateCloudStatusUI();
         alert('✓ Sistem Yerel Depolama moduna alındı.');
@@ -5622,8 +5724,11 @@ MÜLK Spor Kulübü Yönetimi`
 
       const urlInp = document.getElementById('cloudApiUrlInput');
       const url = (urlInp ? urlInp.value : '').trim();
-      if (!url || !url.startsWith('https://script.google.com/macros/s/')) {
-        alert('Lütfen geçerli bir Google Apps Script Web Uygulaması URL\'si giriniz.');
+      const isValid = (typeof window.isValidMulkCloudUrl === 'function')
+        ? window.isValidMulkCloudUrl(url)
+        : (url.startsWith('https://script.google.com/') && url.includes('/macros/s/'));
+      if (!url || !isValid) {
+        alert('Henüz Google Apps Script Web Uygulaması URL\'sini girmediniz!\n\nLütfen hemen yukarıdaki "📖 2 Dakikalık Kurulum Rehberi & Kodu Al" butonundan E-Tablo bağlantısını oluşturup çıkan "/exec" linkini kutucuğa yapıştırın.');
         return;
       }
 
@@ -5634,7 +5739,9 @@ MÜLK Spor Kulübü Yönetimi`
       try {
         await pingCloudUrl(url);
         localStorage.setItem('mulk_cloud_mode', 'cloud');
+        localStorage.setItem('mulk_cloud_draft_mode', 'cloud');
         localStorage.setItem('mulk_cloud_api_url', url);
+        localStorage.setItem('mulk_cloud_draft_url', url);
 
         // Oturum token'ı yoksa Yönetici parolasıyla sunucudan güvenli token al
         let token = sessionStorage.getItem('mulk_cloud_token') || localStorage.getItem('mulk_cloud_token_remember');
@@ -5719,6 +5826,8 @@ window.MULK_CLOUD_CONFIG = {
   apiUrl: '${cleanUrl}'
 };
 
+window.isValidMulkCloudUrl = ${window.isValidMulkCloudUrl.toString()};
+
 (function initMulkCloudAutoConfig() {
   try {
     var params = new URLSearchParams(window.location.search);
@@ -5726,7 +5835,7 @@ window.MULK_CLOUD_CONFIG = {
     if (cloudParam) {
       var decodedUrl = cloudParam.trim();
       try { decodedUrl = decodeURIComponent(decodedUrl); } catch (e) {}
-      if (decodedUrl.indexOf('https://script.google.com/macros/s/') === 0) {
+      if (window.isValidMulkCloudUrl(decodedUrl)) {
         localStorage.setItem('mulk_cloud_api_url', decodedUrl);
         localStorage.setItem('mulk_cloud_mode', 'cloud');
       }
@@ -5752,7 +5861,7 @@ window.getMulkCloudState = function() {
   var finalUrl = savedUrl || cfgUrl;
   var finalMode = savedMode || cfgMode;
   if (cfgUrl && !savedUrl) finalMode = 'cloud';
-  var isValidUrl = finalUrl.indexOf('https://script.google.com/macros/s/') === 0;
+  var isValidUrl = window.isValidMulkCloudUrl(finalUrl);
   var isCloudActive = (finalMode === 'cloud' && isValidUrl);
   return { mode: isCloudActive ? 'cloud' : 'local', apiUrl: finalUrl, isCloudActive: isCloudActive };
 };
@@ -5890,6 +5999,7 @@ window.mulkSha256 = ${window.mulkSha256.toString()};
       if (authenticatedRole) {
         sessionStorage.setItem('mulk_auth', 'true');
         sessionStorage.setItem('mulk_role', authenticatedRole);
+        sessionStorage.removeItem('mulk_view_coach_key');
         if (serverToken) sessionStorage.setItem('mulk_cloud_token', serverToken);
         if (authenticatedCoachKey) sessionStorage.setItem('mulk_coach_key', authenticatedCoachKey);
 
@@ -5932,9 +6042,21 @@ window.mulkSha256 = ${window.mulkSha256.toString()};
       const topbarActions = document.querySelector('.topbar-right');
       const navBtns = document.querySelectorAll('.sidebar-nav .nav-btn');
       const coach = getCurrentCoachData();
+      const isAdminReal = isPrimaryAdmin();
+      const viewCoachKey = getEffectiveCoachViewKey();
+
+      document.body.classList.toggle('coach-mode', (role === 'coach' && !!coach));
+
+      const switchBox = document.getElementById('adminQuickSwitchBox');
+      const switchSel = document.getElementById('adminAccountSwitchSelect');
+      const returnBtn = document.getElementById('adminQuickReturnBtn');
+
+      if (switchBox) switchBox.style.display = isAdminReal ? 'block' : 'none';
+      if (switchSel && isAdminReal) switchSel.value = viewCoachKey || 'admin';
+      if (returnBtn) returnBtn.style.display = (isAdminReal && viewCoachKey) ? 'inline-flex' : 'none';
 
       if (role === 'coach' && coach) {
-        roleBadge.innerHTML = `${coach.icon} ${coach.title}`;
+        roleBadge.innerHTML = `${coach.icon} ${coach.title}` + (isAdminReal ? ' (Yönetici Önizleme)' : '');
         roleBadge.style.background = 'rgba(16, 185, 129, 0.2)';
         roleBadge.style.color = '#10b981';
 
