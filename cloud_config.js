@@ -1,14 +1,9 @@
 /**
  * MÜLK Spor Kulübü - Bulut Veritabanı & Çoklu Cihaz Senkronizasyon Ayarı
- * ----------------------------------------------------------------------
- * Bu dosya index.html, kayit.html ve panel.html tarafından ortak kullanılır.
- * Kurulum sonrasında 'apiUrl' alanına Google Apps Script Web Uygulaması URL'nizi
- * yazarak GitHub Pages üzerinden tüm antrenör, veli ve yönetici cihazlarının
- * ortak veritabanında gerçek zamanlı buluşmasını sağlayabilirsiniz.
  */
 window.MULK_CLOUD_CONFIG = {
-  mode: 'local', // Bulut aktifleştiğinde 'cloud' olur
-  apiUrl: ''     // Örn: 'https://script.google.com/macros/s/AKfycb.../exec'
+  mode: 'cloud',
+  apiUrl: 'https://script.google.com/macros/s/AKfycbw4tlLF9sxl3I34Co1pcJmKULIkhiP78kOlSd6ucrUXQdb-ikbeLkP071zz1F2IM6wv/exec'
 };
 
 (function initMulkCloudAutoConfig() {
@@ -18,7 +13,6 @@ window.MULK_CLOUD_CONFIG = {
     if (cloudParam) {
       var decodedUrl = cloudParam.trim();
       try { decodedUrl = decodeURIComponent(decodedUrl); } catch (e) {}
-      // Yalnızca resmi Google Apps Script alan adını kabul et (güvenlik kuralı)
       if (decodedUrl.indexOf('https://script.google.com/macros/s/') === 0) {
         localStorage.setItem('mulk_cloud_api_url', decodedUrl);
         localStorage.setItem('mulk_cloud_mode', 'cloud');
@@ -40,49 +34,30 @@ window.getMulkCloudState = function() {
     savedUrl = (localStorage.getItem('mulk_cloud_api_url') || '').trim();
     savedMode = (localStorage.getItem('mulk_cloud_mode') || '').trim();
   } catch (e) {}
-
   var cfgUrl = (window.MULK_CLOUD_CONFIG && window.MULK_CLOUD_CONFIG.apiUrl ? window.MULK_CLOUD_CONFIG.apiUrl : '').trim();
   var cfgMode = (window.MULK_CLOUD_CONFIG && window.MULK_CLOUD_CONFIG.mode ? window.MULK_CLOUD_CONFIG.mode : 'local').trim();
-
   var finalUrl = savedUrl || cfgUrl;
   var finalMode = savedMode || cfgMode;
-  if (cfgUrl && !savedUrl) {
-    finalMode = 'cloud';
-  }
+  if (cfgUrl && !savedUrl) finalMode = 'cloud';
   var isValidUrl = finalUrl.indexOf('https://script.google.com/macros/s/') === 0;
   var isCloudActive = (finalMode === 'cloud' && isValidUrl);
-
-  return {
-    mode: isCloudActive ? 'cloud' : 'local',
-    apiUrl: finalUrl,
-    isCloudActive: isCloudActive
-  };
+  return { mode: isCloudActive ? 'cloud' : 'local', apiUrl: finalUrl, isCloudActive: isCloudActive };
 };
 
 window.mulkCloudRequest = async function(action, payload) {
   var state = window.getMulkCloudState();
-  if (!state.isCloudActive || !state.apiUrl) {
-    throw new Error('CLOUD_NOT_CONFIGURED');
-  }
+  if (!state.isCloudActive || !state.apiUrl) throw new Error('CLOUD_NOT_CONFIGURED');
   var token = '';
-  try {
-    token = sessionStorage.getItem('mulk_cloud_token') || localStorage.getItem('mulk_cloud_token_remember') || '';
-  } catch (e) {}
-
+  try { token = sessionStorage.getItem('mulk_cloud_token') || localStorage.getItem('mulk_cloud_token_remember') || ''; } catch (e) {}
   var bodyObj = Object.assign({}, payload || {}, { action: action, token: token });
   var resp = await fetch(state.apiUrl, {
     method: 'POST',
     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
     body: JSON.stringify(bodyObj)
   });
-
-  if (!resp.ok) {
-    throw new Error('HTTP_' + resp.status);
-  }
+  if (!resp.ok) throw new Error('HTTP_' + resp.status);
   var data = await resp.json();
-  if (data && data.authError) {
-    throw new Error('AUTH_EXPIRED');
-  }
+  if (data && data.authError) throw new Error('AUTH_EXPIRED');
   return data;
 };
 
