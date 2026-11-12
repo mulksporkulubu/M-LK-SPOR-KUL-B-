@@ -1,9 +1,21 @@
 /**
  * MÜLK Spor Kulübü - Bulut Veritabanı & Çoklu Cihaz Senkronizasyon Ayarı
+ * ----------------------------------------------------------------------
+ * Bu dosya index.html, kayit.html ve panel.html tarafından ortak kullanılır.
+ * Kurulum sonrasında 'apiUrl' alanına Google Apps Script Web Uygulaması URL'nizi
+ * yazarak GitHub Pages üzerinden tüm antrenör, veli ve yönetici cihazlarının
+ * ortak veritabanında gerçek zamanlı buluşmasını sağlayabilirsiniz.
  */
 window.MULK_CLOUD_CONFIG = {
-  mode: 'cloud',
-  apiUrl: 'https://script.google.com/macros/s/AKfycbw4tlLF9sxl3I34Co1pcJmKULIkhiP78kOlSd6ucrUXQdb-ikbeLkP071zz1F2IM6wv/exec'
+  mode: 'local', // Bulut aktifleştiğinde 'cloud' olur
+  apiUrl: ''     // Örn: 'https://script.google.com/macros/s/AKfycb.../exec'
+};
+
+window.isValidMulkCloudUrl = function(url) {
+  if (!url || typeof url !== 'string') return false;
+  var u = url.trim();
+  return /^https:\/\/script\.google\.com\/(?:a\/(?:macros\/[^/]+|[^/]+\/macros)\/|macros\/)s\/[^/]+\/exec/.test(u) ||
+         (u.indexOf('https://script.google.com/') === 0 && u.indexOf('/macros/s/') !== -1);
 };
 
 (function initMulkCloudAutoConfig() {
@@ -13,7 +25,8 @@ window.MULK_CLOUD_CONFIG = {
     if (cloudParam) {
       var decodedUrl = cloudParam.trim();
       try { decodedUrl = decodeURIComponent(decodedUrl); } catch (e) {}
-      if (decodedUrl.indexOf('https://script.google.com/macros/s/') === 0) {
+      // Yalnızca resmi Google Apps Script alan adını kabul et (güvenlik kuralı)
+      if (window.isValidMulkCloudUrl(decodedUrl)) {
         localStorage.setItem('mulk_cloud_api_url', decodedUrl);
         localStorage.setItem('mulk_cloud_mode', 'cloud');
       }
@@ -34,30 +47,49 @@ window.getMulkCloudState = function() {
     savedUrl = (localStorage.getItem('mulk_cloud_api_url') || '').trim();
     savedMode = (localStorage.getItem('mulk_cloud_mode') || '').trim();
   } catch (e) {}
+
   var cfgUrl = (window.MULK_CLOUD_CONFIG && window.MULK_CLOUD_CONFIG.apiUrl ? window.MULK_CLOUD_CONFIG.apiUrl : '').trim();
   var cfgMode = (window.MULK_CLOUD_CONFIG && window.MULK_CLOUD_CONFIG.mode ? window.MULK_CLOUD_CONFIG.mode : 'local').trim();
+
   var finalUrl = savedUrl || cfgUrl;
   var finalMode = savedMode || cfgMode;
-  if (cfgUrl && !savedUrl) finalMode = 'cloud';
-  var isValidUrl = finalUrl.indexOf('https://script.google.com/macros/s/') === 0;
+  if (cfgUrl && !savedUrl) {
+    finalMode = 'cloud';
+  }
+  var isValidUrl = window.isValidMulkCloudUrl(finalUrl);
   var isCloudActive = (finalMode === 'cloud' && isValidUrl);
-  return { mode: isCloudActive ? 'cloud' : 'local', apiUrl: finalUrl, isCloudActive: isCloudActive };
+
+  return {
+    mode: isCloudActive ? 'cloud' : 'local',
+    apiUrl: finalUrl,
+    isCloudActive: isCloudActive
+  };
 };
 
 window.mulkCloudRequest = async function(action, payload) {
   var state = window.getMulkCloudState();
-  if (!state.isCloudActive || !state.apiUrl) throw new Error('CLOUD_NOT_CONFIGURED');
+  if (!state.isCloudActive || !state.apiUrl) {
+    throw new Error('CLOUD_NOT_CONFIGURED');
+  }
   var token = '';
-  try { token = sessionStorage.getItem('mulk_cloud_token') || localStorage.getItem('mulk_cloud_token_remember') || ''; } catch (e) {}
+  try {
+    token = sessionStorage.getItem('mulk_cloud_token') || localStorage.getItem('mulk_cloud_token_remember') || '';
+  } catch (e) {}
+
   var bodyObj = Object.assign({}, payload || {}, { action: action, token: token });
   var resp = await fetch(state.apiUrl, {
     method: 'POST',
     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
     body: JSON.stringify(bodyObj)
   });
-  if (!resp.ok) throw new Error('HTTP_' + resp.status);
+
+  if (!resp.ok) {
+    throw new Error('HTTP_' + resp.status);
+  }
   var data = await resp.json();
-  if (data && data.authError) throw new Error('AUTH_EXPIRED');
+  if (data && data.authError) {
+    throw new Error('AUTH_EXPIRED');
+  }
   return data;
 };
 
@@ -134,3 +166,74 @@ window.mulkSha256 = async function(str) {
   }
   return result;
 };
+
+// Türkiye (+90 5XX XXX XX XX) Telefon Biçimlendirici
+window.normalizeTrPhoneDigits = function(raw) {
+  var s = String(raw || '').trim();
+  if (s === '+9' || s === '+' || s === '+90' || s === '9') return '';
+  var d = s.replace(/\D/g, '');
+  if (d.indexOf('90') === 0) {
+    d = d.slice(2);
+  }
+  while (d.indexOf('0') === 0) {
+    d = d.slice(1);
+  }
+  return d.slice(0, 10);
+};
+
+window.formatTrPhoneValue = function(raw, keepPrefixIfEmpty) {
+  var d = window.normalizeTrPhoneDigits(raw);
+  if (!d.length) return keepPrefixIfEmpty ? '+90 ' : '';
+  var parts = [
+    d.slice(0, 3),
+    d.slice(3, 6),
+    d.slice(6, 8),
+    d.slice(8, 10)
+  ].filter(Boolean);
+  return '+90 ' + parts.join(' ');
+};
+
+window.attachTrPhoneMask = function(selector) {
+  var els = document.querySelectorAll(selector);
+  els.forEach(function(el) {
+    if (el.dataset.trPhoneMasked === '1') return;
+    el.dataset.trPhoneMasked = '1';
+    el.setAttribute('maxlength', '17');
+    el.setAttribute('inputmode', 'tel');
+    if (!el.getAttribute('placeholder') || el.getAttribute('placeholder').indexOf('05') === 0) {
+      el.setAttribute('placeholder', '+90 5XX XXX XX XX');
+    }
+
+    el.addEventListener('focus', function() {
+      if (!el.value || !el.value.trim()) {
+        el.value = '+90 ';
+      } else {
+        el.value = window.formatTrPhoneValue(el.value, true);
+      }
+      setTimeout(function() {
+        try { el.setSelectionRange(el.value.length, el.value.length); } catch (e) {}
+      }, 0);
+    });
+
+    el.addEventListener('keydown', function(e) {
+      var start = el.selectionStart || 0;
+      var end = el.selectionEnd || 0;
+      if (e.key === 'Backspace' && start <= 4 && end <= 4) {
+        e.preventDefault();
+      }
+    });
+
+    el.addEventListener('input', function() {
+      var formatted = window.formatTrPhoneValue(el.value, true);
+      if (el.value !== formatted) {
+        el.value = formatted;
+      }
+    });
+
+    el.addEventListener('blur', function() {
+      el.value = window.formatTrPhoneValue(el.value, false);
+    });
+  });
+};
+
+

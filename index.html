@@ -1485,9 +1485,9 @@
         <a href="#okullar-aileler">Okullar & Aileler</a>
         <a href="#uluslararasi">Uluslararası</a>
         <a href="#sss">SSS</a>
-        <a href="#iletisim">İletişim</a>
+        <a href="kayit.html">İletişim &amp; Kayıt</a>
       </nav>
-      <a class="nav-cta" href="#on-kayit">Ön Kayıt Ol <span>↗</span></a>
+      <a class="nav-cta" href="kayit.html">Ön Kayıt Ol <span>↗</span></a>
       <button class="menu" aria-label="Menüyü aç" onclick="document.getElementById('navlinks').classList.toggle('open')">☰</button>
     </header>
 
@@ -1509,7 +1509,7 @@
               MÜLK Spor Kulübü; çocukların, gençlerin ve ailelerin spor, eğitim, kültür ve sosyal yaşamda bir araya geldiği; dostlukların geliştiği ve başarıya uzanan fırsatların oluşturulduğu güvenli bir buluşma noktasıdır.
             </p>
             <div class="hero-actions">
-              <a class="btn-primary" href="#on-kayit">Ön Kayıt Formu <span>↗</span></a>
+              <a class="btn-primary" href="kayit.html">Ön Kayıt Formu <span>↗</span></a>
               <a class="btn-secondary" href="#branslar">Branşları İncele</a>
             </div>
           </div>
@@ -1682,7 +1682,7 @@
                   <li>Seviye: <span>Temel Hareket & Gelişim</span></li>
                 </ul>
               </div>
-              <a href="#on-kayit" class="bc-btn" onclick="preselectBranch('Futbol')">Ön Talep Bildir ↗</a>
+              <a href="kayit.html?brans=Futbol" class="bc-btn">Ön Talep Bildir ↗</a>
             </article>
 
             <!-- 2. Kros Antrenmanları -->
@@ -1702,7 +1702,7 @@
                   <li>Seviye: <span>Dayanıklılık & Ritim</span></li>
                 </ul>
               </div>
-              <a href="#on-kayit" class="bc-btn" onclick="preselectBranch('Diğerleri')">Ön Talep Bildir ↗</a>
+              <a href="kayit.html?brans=Kararsizim" class="bc-btn">Ön Talep Bildir ↗</a>
             </article>
 
             <!-- 3. Branş Antrenmanları -->
@@ -1722,7 +1722,7 @@
                   <li>Seviye: <span>Branş Becerileri & Takım</span></li>
                 </ul>
               </div>
-              <a href="#on-kayit" class="bc-btn" onclick="preselectBranch('Basketbol')">Ön Talep Bildir ↗</a>
+              <a href="kayit.html?brans=Basketbol" class="bc-btn">Ön Talep Bildir ↗</a>
             </article>
 
             <!-- 4. Özel Etkinlikler -->
@@ -1742,7 +1742,7 @@
                   <li>Seviye: <span>Sosyal & Sportif Katılım</span></li>
                 </ul>
               </div>
-              <a href="#on-kayit" class="bc-btn" onclick="preselectBranch('Voleybol')">Ön Talep Bildir ↗</a>
+              <a href="kayit.html?brans=Voleybol" class="bc-btn">Ön Talep Bildir ↗</a>
             </article>
 
             <!-- 5. Gelişim Testleri -->
@@ -1762,7 +1762,7 @@
                   <li>Seviye: <span>Ölçüm & Raporlama</span></li>
                 </ul>
               </div>
-              <a href="#on-kayit" class="bc-btn" onclick="preselectBranch('Jimnastik')">Ön Talep Bildir ↗</a>
+              <a href="kayit.html?brans=Jimnastik" class="bc-btn">Ön Talep Bildir ↗</a>
             </article>
           </div>
         </div>
@@ -1809,134 +1809,6 @@
         </div>
       </section>
 
-      <!-- ================= 6. İNTERAKTİF ÖN KAYIT VE BAŞVURU FORMU ================= -->
-      <section class="reg-section" id="on-kayit">
-        <div class="wrap reg-grid">
-          <div class="reg-left">
-            <div class="eyebrow-pill" style="background:rgba(200,16,46,0.3);border-color:var(--primary);color:#ff8a99;">
-              ÖN KAYIT & BAŞVURU
-            </div>
-            <h2>MÜLK Spor Ailesine<br><span>Katılın.</span></h2>
-            <p>
-              Çocuğunuzun spora güvenle başlaması, yeteneklerini keşfetmesi ve yeni arkadaşlıklar kurması için ön kayıt formunu doldurabilirsiniz. Form doğrudan kulüp yetkililerimize ulaşır ve kayıt koordinatörümüz sizinle iletişime geçer.
-            </p>
-            <ul class="reg-badges-list">
-              <li><i>✓</i> Kesintisiz veli-antrenör bilgilendirme sistemi</li>
-              <li><i>✓</i> Maksimum 15 kişilik gelişim odaklı grup kotaları</li>
-              <li><i>✓</i> Çocuk koruma politikası ve güvenlik standartları</li>
-              <li><i>✓</i> Ankara genelinde anlaşmalı okul spor salonları</li>
-            </ul>
-          </div>
-
-          <!-- Sağ: Kayıt Formu -->
-          <div class="reg-card">
-            <h3>Ön Kayıt Formu</h3>
-            <p>Lütfen tercihlerinizi ve iletişim bilgilerinizi giriniz.</p>
-
-            <form class="contact-form" action="https://formsubmit.co/1dfd135db29b9e0647e96c657a0d788f" method="POST">
-              <input type="hidden" name="_subject" value="MÜLK SK - Yeni Ön Kayıt Başvurusu">
-              <input type="hidden" name="_template" value="table">
-              <input type="hidden" name="_next" value="https://mulksporkulubu.com/#basarili">
-              <input type="hidden" name="_autoresponse" value="Sayın Başvuru Sahibi, MÜLK Spor Kulübü ön kayıt başvuru formunu doldurduğunuz için teşekkür ederiz. Talebiniz ve bilgileriniz koordinatörlerimize ulaşmıştır. En kısa sürede sizinle iletişime geçeceğiz. MÜLK Spor Kulübü (Sicil No: 06-01-05948) | www.mulksporkulubu.com">
-
-              <div class="form-row">
-                <div class="form-group">
-                  <label>Sevdiğiniz Spor Branşı *</label>
-                  <select name="Sevdiginiz_Brans" id="form-branch" required>
-                    <option value="" disabled selected>Branş Seçiniz *</option>
-                    <option value="Voleybol">Voleybol</option>
-                    <option value="Futbol">Futbol</option>
-                    <option value="Basketbol">Basketbol</option>
-                    <option value="Okçuluk">Okçuluk</option>
-                    <option value="Jimnastik">Jimnastik</option>
-                    <option value="Diğerleri">Diğerleri</option>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label>Yaş Grubu *</label>
-                  <select name="Yas_Grubu" required>
-                    <option value="5-8">5–8 Yaş</option>
-                    <option value="9-12">9–12 Yaş</option>
-                    <option value="13-15">13–15 Yaş</option>
-                    <option value="16-18">16–18 Yaş</option>
-                    <option value="19+">19 Yaş ve Üstü</option>
-                  </select>
-                </div>
-              </div>
-
-              <div class="form-row">
-                <div class="form-group">
-                  <label>Sporcu Deneyimi *</label>
-                  <select name="Deneyim" required>
-                    <option value="Başlangıç">Başlangıç Seviyesi</option>
-                    <option value="Daha Önce Eğitim Aldı">Daha Önce Eğitim Aldı</option>
-                    <option value="Lisanslı Sporcu">Lisanslı Sporcu</option>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label>Sporcunun Adı Soyadı *</label>
-                  <input type="text" name="Ad_Soyad" placeholder="Sporcunun Adı Soyadı" required>
-                </div>
-              </div>
-
-              <div class="form-row">
-                <div class="form-group">
-                  <label>İletişime Geçilecek Veli Adı Soyadı *</label>
-                  <input type="text" name="Veli_Ad_Soyad" placeholder="Veli / Vasi Adı Soyadı" required>
-                </div>
-                <div class="form-group">
-                  <label>İletişime Geçilecek Veli Telefon Numarası *</label>
-                  <input type="tel" name="Telefon" id="form-phone" placeholder="+90 55X XXX XX XX" inputmode="tel" maxlength="17" required>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label>E-posta Adresiniz (Otomatik bilgilendirme maili için) *</label>
-                <input type="email" name="email" id="form-email" placeholder="ornek@email.com" required>
-              </div>
-
-              <!-- İletişim Tercihi -->
-              <div class="form-group">
-                <label>Sizinle Hangi Yöntemle İletişime Geçelim? *</label>
-                <div class="contact-method-options" style="display:grid;grid-template-columns:repeat(3, 1fr);gap:10px;margin-top:6px;">
-                  <label style="border:1px solid var(--line);padding:10px 12px;border-radius:8px;display:flex;align-items:center;gap:8px;font-size:12.5px;cursor:pointer;background:#fafafa;font-weight:600;transition:all 0.2s;">
-                    <input type="radio" name="Iletisim_Tercihi" value="Telefonla Arama" checked style="width:auto;height:auto;accent-color:var(--primary);cursor:pointer;">
-                    <span>📞 Telefon</span>
-                  </label>
-                  <label style="border:1px solid var(--line);padding:10px 12px;border-radius:8px;display:flex;align-items:center;gap:8px;font-size:12.5px;cursor:pointer;background:#fafafa;font-weight:600;transition:all 0.2s;">
-                    <input type="radio" name="Iletisim_Tercihi" value="WhatsApp" style="width:auto;height:auto;accent-color:var(--primary);cursor:pointer;">
-                    <span>💬 WhatsApp</span>
-                  </label>
-                  <label style="border:1px solid var(--line);padding:10px 12px;border-radius:8px;display:flex;align-items:center;gap:8px;font-size:12.5px;cursor:pointer;background:#fafafa;font-weight:600;transition:all 0.2s;">
-                    <input type="radio" name="Iletisim_Tercihi" value="E-posta" style="width:auto;height:auto;accent-color:var(--primary);cursor:pointer;">
-                    <span>✉️ E-posta</span>
-                  </label>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label>Sağlık Durumu / Okul / Özel Bilgilendirme Notları</label>
-                <input type="text" name="Ek_Notlar" placeholder="Alerji, sağlık durumu, okul veya antrenörün bilmesi gereken özel detaylar...">
-              </div>
-
-              <div class="form-group">
-                <label>Talep ve Önerileriniz</label>
-                <textarea name="Talep_ve_Oneriler" placeholder="Kulübümüzden beklentileriniz, çalışma gün/saat tercihleri veya belirtmek istediğiniz öneriler..."></textarea>
-              </div>
-
-              <div class="form-check">
-                <input type="checkbox" id="kvkk-check" required>
-                <label for="kvkk-check">
-                  MÜLK Spor Kulübü <a href="javascript:void(0)" onclick="openKvkkModal()" style="color:var(--primary);text-decoration:underline;font-weight:700;">KVKK Aydınlatma Metnini</a> okudum; ön kayıt ve bilgilendirme amacıyla iletişim kurulmasını kabul ediyorum. *
-                </label>
-              </div>
-
-              <button class="btn-submit" type="submit">Ön Kayıt Başvurusunu Gönder <span>↗</span></button>
-            </form>
-          </div>
-        </div>
-      </section>
-
       <!-- ================= 7. OKULLAR VE AİLELER BÖLÜMÜ ================= -->
       <section class="section section-alt" id="okullar-aileler">
         <div class="wrap">
@@ -1961,7 +1833,7 @@
                 <li><span class="tick">✓</span> Hedef: Çankaya, Yenimahalle, Etimesgut, Gölbaşı, Keçiören</li>
               </ul>
               <div style="margin-top:24px;">
-                <a href="#iletisim" class="btn-secondary" style="font-size:12.5px;">Okul İş Birliği İçin İletişime Geçin ↗</a>
+                <a href="kayit.html#iletisim-bilgileri" class="btn-secondary" style="font-size:12.5px;">Okul İş Birliği İçin İletişime Geçin ↗</a>
               </div>
             </div>
 
@@ -1979,7 +1851,7 @@
                 <li><span class="tick">✓</span> Aile spor günleri, kültürel buluşmalar ve geziler</li>
               </ul>
               <div style="margin-top:24px;">
-                <a href="#on-kayit" class="btn-primary" style="font-size:12.5px;">Kulübümüze Katılın ↗</a>
+                <a href="kayit.html" class="btn-primary" style="font-size:12.5px;">Kulübümüze Katılın ↗</a>
               </div>
             </div>
           </div>
@@ -2058,99 +1930,30 @@
         </div>
       </section>
 
-      <!-- ================= 10. İLETİŞİM BÖLÜMÜ ================= -->
-      <section class="section" id="iletisim">
-        <div class="wrap">
-          <div class="sec-head">
-            <div class="sec-eyebrow">İletişim & Ulaşım</div>
-            <h2 class="sec-title">Birlikte Harekete Geçelim</h2>
-            <p class="sec-lead">Branşlarımız, kayıt süreçleri veya okul salonu iş birlikleri hakkında bize dilediğiniz zaman ulaşabilirsiniz.</p>
+      <!-- ================= 10. ÖN KAYIT & İLETİŞİM YÖNLENDİRME BÖLÜMÜ ================= -->
+      <section class="reg-section" id="iletisim">
+        <div class="wrap" style="max-width:960px;text-align:center;">
+          <div class="eyebrow-pill" style="background:rgba(200,16,46,0.3);border-color:var(--primary);color:#ff8a99;margin:0 auto 14px;">
+            ÖN KAYIT, BİLGİLENDİRME &amp; İLETİŞİM
           </div>
-
-          <div class="contact-clean-grid">
-            <!-- Sol: İletişim Detayları -->
-            <div class="contact-info-card">
-              <h3 style="font-family:'Manrope',sans-serif;font-size:20px;margin:0 0 6px;">MÜLK Spor Kulübü</h3>
-              <span style="font-size:12px;color:var(--muted);font-weight:600;">Resmî Sicil No: 06-01-05948 · Ankara</span>
-
-              <div class="contact-detail-list">
-                <div class="cd-item">
-                  <div class="cd-icon">✉️</div>
-                  <div class="cd-text">
-                    <strong>Resmî E-posta</strong>
-                    <a href="mailto:info@mulksporkulubu.com">info@mulksporkulubu.com</a>
-                  </div>
-                </div>
-
-                <div class="cd-item">
-                  <div class="cd-icon">📷</div>
-                  <div class="cd-text">
-                    <strong>Instagram</strong>
-                    <a href="https://www.instagram.com/mulksporkulubu/" target="_blank" rel="noopener noreferrer">@mulksporkulubu</a>
-                  </div>
-                </div>
-
-                <div class="cd-item">
-                  <div class="cd-icon">👥</div>
-                  <div class="cd-text">
-                    <strong>Facebook</strong>
-                    <a href="https://www.facebook.com/profile.php?id=61595650091129" target="_blank" rel="noopener noreferrer">Mülk SK Resmî Sayfası</a>
-                  </div>
-                </div>
-
-                <div class="cd-item">
-                  <div class="cd-icon">▶️</div>
-                  <div class="cd-text">
-                    <strong>YouTube</strong>
-                    <a href="https://www.youtube.com/@mulksporkulubu" target="_blank" rel="noopener noreferrer">@mulksporkulubu</a>
-                  </div>
-                </div>
-
-                <div class="cd-item">
-                  <div class="cd-icon">📍</div>
-                  <div class="cd-text">
-                    <strong>Faaliyet Alanı</strong>
-                    <span>Anlaşmalı Spor Salonları ve Tesisler · Ankara</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Sağ: Hızlı Mesaj Formu -->
-            <div class="contact-info-card">
-              <h3 style="font-family:'Manrope',sans-serif;font-size:20px;margin:0 0 6px;">Bize Mesaj Gönderin</h3>
-              <p style="font-size:13px;color:var(--muted);margin:0 0 20px;">Sorularınız doğrudan kulüp yönetimimize iletilecektir.</p>
-
-              <form class="contact-form" action="https://formsubmit.co/1dfd135db29b9e0647e96c657a0d788f" method="POST">
-                <input type="hidden" name="_subject" value="MÜLK SK - Yeni İletişim & Bilgilendirme Talebi">
-                <input type="hidden" name="_template" value="table">
-                <input type="hidden" name="_next" value="https://mulksporkulubu.com/#basarili">
-                <input type="hidden" name="_autoresponse" value="Sayın Ziyaretçimiz, MÜLK Spor Kulübü iletişim formunu doldurduğunuz için teşekkür ederiz. Mesajınız kulüp yönetimimize ulaşmıştır. En kısa sürede sizinle iletişime geçeceğiz. MÜLK Spor Kulübü (Sicil No: 06-01-05948) | www.mulksporkulubu.com">
-
-                <div class="form-group">
-                  <label>Adınız Soyadınız *</label>
-                  <input type="text" name="Ad_Soyad" placeholder="Adınız Soyadınız" required>
-                </div>
-
-                <div class="form-row">
-                  <div class="form-group">
-                    <label>E-posta Adresiniz (Otomatik bilgilendirme maili için) *</label>
-                    <input type="email" name="email" id="form-msg-email" placeholder="ornek@email.com" required>
-                  </div>
-                  <div class="form-group">
-                    <label>Telefon Numaranız</label>
-                    <input type="tel" name="Telefon" id="form-msg-phone" placeholder="+90 55X XXX XX XX" inputmode="tel" maxlength="17">
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <label>Mesajınız *</label>
-                  <textarea name="Mesaj" placeholder="Hangi branş, okul veya konu hakkında bilgi almak istiyorsunuz?" required></textarea>
-                </div>
-
-                <button class="btn-primary" type="submit" style="width:100%;justify-content:center;">Mesajı Gönder <span>↗</span></button>
-              </form>
-            </div>
+          <h2 style="margin-bottom:12px;">MÜLK Spor Ailesine<br><span>Katılın.</span></h2>
+          <p style="max-width:650px;margin:0 auto 26px;color:#cbd5e1;font-size:15px;">
+            İlk ücretsiz deneme antrenmanı ön kaydınızı hemen oluşturmak ve kulübümüzün tüm resmî iletişim kanallarına ulaşmak için özel kayıt ve iletişim sayfamızı kullanabilirsiniz.
+          </p>
+          <div style="display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-bottom:26px;">
+            <a href="kayit.html" class="btn-primary" style="padding:14px 26px;font-size:15px;">
+              📝 Ön Kayıt &amp; Bilgi Formunu Aç <span>↗</span>
+            </a>
+            <a href="kayit.html#iletisim-bilgileri" class="btn-secondary" style="padding:14px 24px;font-size:14.5px;background:rgba(255,255,255,0.08);color:#fff;border-color:rgba(255,255,255,0.22);">
+              📞 İletişim Bilgilerimizi Gör ↗
+            </a>
+          </div>
+          <div style="display:flex;justify-content:center;gap:14px;flex-wrap:wrap;font-size:13px;color:#94a3b8;">
+            <span>📱 +90 545 410 40 40</span>
+            <span>·</span>
+            <span>✉️ info@mulksporkulubu.com</span>
+            <span>·</span>
+            <span>🏛️ Sicil No: 06-01-05948 · Ankara</span>
           </div>
         </div>
       </section>
@@ -2194,12 +1997,12 @@
               </ul>
             </div>
             <div class="f-col">
-              <h5>İletişim & Başvuru</h5>
+              <h5>İletişim &amp; Başvuru</h5>
               <ul>
-                <li><a href="#on-kayit">Ön Kayıt Formu</a></li>
+                <li><a href="kayit.html">Ön Kayıt &amp; Bilgi Formu</a></li>
                 <li><a href="#okullar-aileler">Okul İş Birlikleri</a></li>
                 <li><a href="#sss">Sıkça Sorulan Sorular</a></li>
-                <li><a href="#iletisim">İletişim Kanalları</a></li>
+                <li><a href="kayit.html#iletisim-bilgileri">İletişim Kanalları</a></li>
               </ul>
             </div>
           </div>
